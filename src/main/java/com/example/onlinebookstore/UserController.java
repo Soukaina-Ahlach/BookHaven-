@@ -35,6 +35,11 @@ public class UserController {
         return "index"; // This should match the name of your HTML file (e.g., "index.html").
     }
 
+    @GetMapping("/catalogue")
+    public String catalogue() {
+        return "catalogue"; // This should match the name of your HTML file (e.g., "index.html").
+    }
+
     @GetMapping("/css/{fileName:.+}")
     public ResponseEntity<Resource> serveCss(@PathVariable String fileName) {
         Resource resource = new ClassPathResource("static/css/" + fileName);
