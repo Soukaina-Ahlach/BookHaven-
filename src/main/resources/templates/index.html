@@ -28,31 +28,17 @@
                 <li><a href="#Catalogue">Catalogue</a></li>
 
             </ul>
-
-            
             <div class="cart-container">
-                <div class="fas  fa-shopping-cart" id ="cart-btn"></div>              
-                <div class="cart-info">
-                    <span class="item-count">0 items</span>
-                    <span class="total-price">$0.00</span>
-                    <button class="checkout-button" onclick="checkout()">Checkout</button>
+                <i class="fas fa-shopping-cart" id="cart-btn" onclick="showCartPopup()"></i>
+                <div class="cart-popup" id="cart-popup">
+                    <div class="cart-popup-content">
+                        <h2>Shopping Cart</h2>
+                        <p>You have no books in your cart</p>
+                        <a href="#Catalogue" onclick="hideCartPopup()">Continue reading</a>
+                        <button class="checkout-button" onclick="checkout()">Checkout</button>
+                    </div>
                 </div>
             </div>
-            <script>
-                function showCartInfo() {
-                    const cartInfo = document.querySelector('.cart-info');
-                    cartInfo.style.display = 'block';
-                }
-        
-                function hideCartInfo() {
-                    const cartInfo = document.querySelector('.cart-info');
-                    cartInfo.style.display = 'none';
-                }
-        
-                function checkout() {
-                    alert('Checkout clicked!'); 
-                }
-            </script>
         </nav>
 
         <div class="main">
@@ -64,8 +50,6 @@
                     genres, inviting you to explore the realms of knowledge, adventure, and creativity. Whether you're a
                     devoted reader or a casual book enthusiast, you'll find a haven here. Sign in and let your journey
                     through the pages of our books begin.</p>
-
-
             </div>
 
         </div>
@@ -124,6 +108,7 @@
             </div>
         </div>
     </section>
+    <div class="overlay" id="overlay"></div>
     <script>
         const loginText = document.querySelector(".title-text .login");
         const loginForm = document.querySelector("form.login");
@@ -166,8 +151,45 @@
                     console.error('Error:', error);
                 });
         });
-    </script>
-    
-</body>
 
+        let cartPopupVisible = false;
+
+        document.getElementById('cart-btn').addEventListener('click', function (event) {
+            if (cartPopupVisible) {
+                hideCartPopup();
+            } else {
+                showCartPopup(event);
+            }
+            cartPopupVisible = !cartPopupVisible;
+            event.stopPropagation();
+        });
+
+        document.addEventListener('click', function () {
+            hideCartPopup();
+        });
+
+        function showCartPopup(event) {
+            console.log('showCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '300px'; // Adjust the width as needed
+            overlay.style.display = 'block'; // Display the overlay
+            event.stopPropagation(); // Prevent the click event from propagating to the document
+        }
+
+        function hideCartPopup() {
+            console.log('hideCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '0';
+            overlay.style.display = 'none'; // Hide the overlay
+        }
+
+        function checkout() {
+            console.log('checkout() function is triggered');
+            alert('Checkout clicked!');
+        }
+
+    </script>
+</body>
 </html>
