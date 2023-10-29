@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+}
+
+label {
+    font-weight: bold;
+    display: block; /* Display labels on separate lines */
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #333; /* Add a border */
+    background-color: #f8f8f8; /* Change the background color */
+    color: #333; /* Change the text color */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus {
+    border: 1px solid #555; /* Adjust border color when focused */
+}
+
+button {
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+#result {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
