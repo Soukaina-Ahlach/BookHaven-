@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
+        <link rel="stylesheet" th:href="@{/css/catalogue.css}">
+    </head>
+    <body>
+        <div class="page-title-container">
+            <h1 class="page-title">Book Catalogue</h1>
+        </div>
+        <div class="navbar-container">
+            <header class="navbar">
+                <nav>
+                    <ul>
+                        <li><a href="#Adventure">Adventure</a></li>
+                        <li><a href="#Thriller">Thriller</a></li>
+                        <li><a href="#Romantic">Romantic</a></li>
+                        <li><a href="#Comedy">Comedy</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        <div class="section-body">
+            <div class="gallery-main" style="margin-left:25%;padding:1px 16px;height:1000px;">
+                <div class="Adventure" id="Adventure">
+                    <h2>Adventure</h2>
+                    <div class="gallery">
+                        <div class="image-holder">
+                            <a href="#">
+                                <img src="download-2.jpg" alt="img-1">
+                            </a>
+                            <div class="desc">
+                                Price : 200
+                                <br>
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <button>Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Thriller -->
+                <div class="Thriller" id="Thriller">
+                    <h2>Thriller</h2>
+                    <div class="gallery">
+                        <div class="image-holder">
+                            <a href="#">
+                                <img src="./images/th1.jfif" alt="img-1">
+                            </a>
+                            <div class="desc">
+                                Price : 120
+                                <br>
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <button>Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        <!-- Romantic -->
+                <div class="Romantic" id="Romantic">
+                    <h2>Romantic</h2>
+                    <div class="gallery">
+                        <div class="image-holder">
+                            <a href="#">
+                                <img src="./images/r1.jfif" alt="img-1">
+                            </a>
+                            <div class="desc">
+                                Price : 250
+                                <br>
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <button>Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Comedy -->
+                <div class="Comedy" id="Comedy">
+                    <h2>Comedy</h2>
+                    <div class="gallery">
+                        <div class="image-holder">
+                            <a href="#">
+                                <img src="./images/c1.jfif" alt="img-1">
+                            </a>
+                            <div class="desc">
+                                Price : 250
+                                <br>
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <button>Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn">
+                <a th:href="@{/}">Back <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </body>
+</html>
