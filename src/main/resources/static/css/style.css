@@ -300,50 +300,104 @@ form .btn input[type="submit"] {
     font-weight: 500;
     cursor: pointer;
 }
+
 /* --------------*/
-.icons  div:hover{
-        color: #A437DB;
-    }
-    .cart-container {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
+.icons  div:hover {
+    color: #A437DB;
+}
+.cart-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 
-    .cart-container #cart-btn {
-        font-size: 2rem; 
-    }
+.cart-container #cart-btn {
+    font-size: 2rem;
+}
 
-    .cart-info {
-        position: absolute;
-        display: none;
-        top: 100%;
-        left: 50%; 
-        transform: translateX(-50%); 
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 10px; 
-        padding: 20px; 
-        width: 200px; 
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        text-align: center; 
-    }
+.cart-info {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
 
-    .checkout-button {
-        display: block;
-        padding: 10px 20px; 
-        background-color: #A437DB;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.checkout-button {
+    display: block;
+    margin: 90px auto;
+    padding: 20px 40px;
+    background-color: #A437DB;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+}
 
-    .checkout-button:hover {
-        background-color: #8b3c7f;
-    }
+.checkout-button:hover {
+    background-color: #8b3c7f;
+}
 
-    .cart-container:hover .cart-info {
-        display: block;
-    }
-    
+.cart-popup {
+    position: fixed;
+    top: 120px;
+    right: 0;
+    height: 100%;
+    width: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1;
+}
+
+
+.cart-popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.cart-popup h2 {
+    font-size: 24px;
+    margin: 10px;
+}
+
+.cart-popup a {
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: #A437DB;
+    margin-bottom: 20px;
+}
+
+.cart-popup a:hover {
+    text-decoration: underline;
+}
+
+.cart-popup p {
+    margin: 20px;
+}
+
+.cart-popup button:hover {
+    background-color: #8b3c7f;
+}
+
