@@ -88,12 +88,12 @@
                     <div class="slider-tab"></div>
                 </div>
                 <div class="form-inner">
-                    <form action="#" class="login">
+                    <form action="/login" method="post" class="login" id="login-form">
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" name="loginUsername" placeholder="Username" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" name="loginPassword" placeholder="Password" required>
                         </div>
                         <div class="pass-link"><a href="#">Forgot password?</a></div>
                         <div class="field btn">
@@ -143,21 +143,27 @@
             return false;
         });
 
-        document.querySelector('.signup').addEventListener('submit', function(event) {
+        document.querySelector('#login-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
 
-            fetch('/register', {
+            fetch('/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded' // Change the Content-Type
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: new URLSearchParams(formData)
             })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the response, e.g., show a success message or error.
+                .then(response => {
+                    if (response.ok) {
+                        alert('User logged in successfully');
+                    } else {
+                        alert('Login failed. Please check your credentials.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
         });
     </script>
