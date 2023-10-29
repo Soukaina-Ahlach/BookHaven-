@@ -75,23 +75,22 @@ public class UserController {
         return ResponseEntity.ok("User registered successfully");
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(
+            @RequestParam("loginUsername") String username,
+            @RequestParam("loginPassword") String password
+    ) {
+        // Retrieve the user from the database by username
+        User user = userRepository.findByUsername(username);
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loginUser(@Valid @RequestBody User user) {
-//        Logger.debug("MOVED PAST APPLICATION");
-//        if (userRepository.existsByUsername(user.getUsername())) {
-//            return ResponseEntity.badRequest().body("Username already exists");
-//        }
-//        if (userRepository.existsByEmail(user.getEmail())) {
-//            return ResponseEntity.badRequest().body("Email already exists");
-//        }
-//
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//
-//        userRepository.save(user);
-//
-//        return ResponseEntity.ok("User registered successfully");
-//    }
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return ResponseEntity.badRequest().body("Invalid username or password");
+        }
+
+        // You can use Spring Security to set up user authentication and sessions if needed.
+
+        return ResponseEntity.ok("User logged in successfully");
+    }
 
     // Other methods
 
