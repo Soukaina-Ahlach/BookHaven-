@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Book Store</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/books.css}">
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Hc9C-sECnk--1sf4acgUD9mdbtst2W8yq1TFRGZvDc8gNjJAehXBh1jFld4co_eJf5lqrIqd--w-SErlg5I170WZdFvRB7bm7f2Yhon7KgMbvZBmMOWDgYeuWh-KX4GWFmFd2nvSDcN9lU9DKAhCCt1zYESmEayDVUg3G2LaSQA-rg52bA2OBLTDA4L9xd-y1296g_SxMJtR-U6V0AmSIAEzEDF51vYG2o1XE7zjTfiAHlf0Gygp0PYMSNDxIUDjGEurCnTjuxNR7d7EywaxftqhXzqqgRVxbVpiwZsLaZyf_cQAW_YRWHXLQEPx11CL4O5LOUam_-S8pDK2bbTalfBVZoMXuqM3F337kXEUdET0jWCzWlLRSzfioPt0eqbxkNXRR1iChf8-wZpUCiy71FzENZ5OuS46S9oFP_TbSpNuHpwjijLqvv4lvD6wOa_GEtwTodHqqm8oJ4swNxS8SxBMayhoxvL_ps00fMnVhbf9lDlUphDTu4QILcZQbavdhP4odFPfmIXGxKFK3sz5QPWOg0CMSpY8NTSBUg1aqYgvHWQ3TTulZDmvKDML18Jxb0zBd1eHpIs35MLoaS1DUp4PEYnga4OtutNlMLrwztonkzgsqZ4madETAnqENQz3Pyj_KSilmxtCcgCKlQIwsPttzxHmZMcW8iNZj2pRjk_gNI-d2mQ_ZoXhNcnZYaUXOoxG986yHbBFdzwpTBGJuJjCDpk-uQSlePkpK_4AcAm4jHAOzqbyU9yAbPzrgk0m21SwZ3fiPr7Mmz0PkrFp2EviFp2So9tAjwPTRPlXZmG1d4db5gaKiuAq9jIIOLIPo-GP5tIcu5G1xrw7ox14rsoxrMqBVNO-1WAgTo9FP8wWRMd9Lu7fRURJTcLR729GnxWKsvdL0EFjWkO7b3--3SL9LxUO1KWX61Q8gkD_pqFbhEddtdrdYmqkCyI7KHck1LPnFhyLgs7qDe-moXbS5OZYYTTTyfPAzmPU-bN4shnrz4tK4WQgeAtH2ldczHTLakXyX9CzjmfrUtAjbI3i7M1iRKjQSXzE58yKDaY-SPR7pBgrtiCGhhiciSe3EakxoLRaqwWsmp2MTqJpBuIWB5LGnz_y2hdxtjNcpxPx6q5-uhosEsJiXwkappfjdJt_VXijl0DjY8qdyd7XlhmypJ-Jubl7vvvk-A1UFN0DIqcE09Tuqo568H2XJvMDDw5fQUICsK2n5LKmuq0q0VKiYaLsk3e42dKy-LS0hJbquBhgsSja1HzjOxKy_T2TzKy7dbEXBSvAt384f49gJIQXN3efYzLmv9n9Vo3l6cdIr8WYQ-u79nTAkFrHzo_-kO_ojtOr1FAgTrvVfERB3L7IIuM8MUQjxC05vus3-cUESgGCOHUc8HSUVnyYA6FdMq_GXCd2oE3D215jnacMdvYsNy3A3HeRxWivbFnxJaveU_hUxXnVzOIbkS1Mw-eEt9cY2XguuKE_XUqIM3i-H7E1FmOvFAOVs3-G2Q2n8-T-pce1hGdSQOS-uUWJDyAZsdLPrwP-UeVVAWPjtN1TdQMguPJJMIE56RaMmaiFjoNzL8qtlOg3F0uxMoS9B5Xi-e5WxAuOf04X0H6RGoMVjzcBLqcmQA_QosctXoKtYfwi2dZSBt7Qe4Py7_CQ3SSmKlKRSmQpRWkoOZwo1wY6oRqVhA" nonce="3ace3e29992c503f15823b6fd1ff9968" charset="UTF-8"></script></head>
+<body>
+<h1>Book Store</h1>
+<form id="add-book-form">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author" required><br>
+
+    <label for="publicationDate">Publication Date:</label>
+    <input type="date" id="publicationDate" name="publicationDate"><br>
+
+    <button type="submit">Add Book</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    document.getElementById("add-book-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const publicationDate = document.getElementById("publicationDate").value;
+
+        fetch("/books", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: title,
+                author: author,
+                publicationDate: publicationDate
+            })
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("result").innerText = data;
+            });
+    });
+</script>
+</body>
+</html>
