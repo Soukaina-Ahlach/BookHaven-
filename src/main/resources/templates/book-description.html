@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
+  <link rel="stylesheet" th:href="@{/css/description.css}">
+</head>
+<body>
+<div class="description-container">
+  <h1 class="description-title" th:text="${bookTitle}"></h1>
+  <div class="description-content">
+    <div class="book-info">
+      <img th:src="${bookThumbnail}" alt="Book Cover">
+      <p th:text="${bookAuthor}"></p>
+      <p th:text="${bookDescription}"></p>
+      <!-- Add other book details here -->
+      <button> <a th:href="@{/catalogue}"> Add to Cart</a></button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
