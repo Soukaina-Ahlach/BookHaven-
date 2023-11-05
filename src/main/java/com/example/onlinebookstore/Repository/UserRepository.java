@@ -1,4 +1,4 @@
-package com.example.onlinebookstore;
+package com.example.onlinebookstore.Repository;
 
 import org.bookhaven.User;
 import org.springframework.data.jpa.repository.JpaRepository;

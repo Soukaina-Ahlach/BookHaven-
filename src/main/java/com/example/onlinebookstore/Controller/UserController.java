@@ -1,21 +1,16 @@
-package com.example.onlinebookstore;
+package com.example.onlinebookstore.Controller;
 
-import jakarta.validation.Valid;
+import com.example.onlinebookstore.Repository.UserRepository;
 
 import org.bookhaven.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.tinylog.Logger;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")

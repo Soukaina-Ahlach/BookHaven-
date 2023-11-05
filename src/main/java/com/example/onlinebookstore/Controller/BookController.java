@@ -1,5 +1,6 @@
-package com.example.onlinebookstore;
+package com.example.onlinebookstore.Controller;
 
+import com.example.onlinebookstore.Repository.BookRepository;
 import org.bookhaven.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

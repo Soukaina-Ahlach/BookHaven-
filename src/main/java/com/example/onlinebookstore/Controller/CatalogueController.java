@@ -1,5 +1,6 @@
-package com.example.onlinebookstore;
+package com.example.onlinebookstore.Controller;
 
+import com.example.onlinebookstore.GoogleBooksService;
 import org.bookhaven.GoogleBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
