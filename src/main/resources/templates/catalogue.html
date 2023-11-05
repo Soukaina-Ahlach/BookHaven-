@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
@@ -17,85 +17,171 @@
                 <nav>
                     <ul>
                         <li><a href="#Adventure">Adventure</a></li>
+                        <li><a href="#Fantasy">Fantasy</a></li>
                         <li><a href="#Thriller">Thriller</a></li>
-                        <li><a href="#Romantic">Romantic</a></li>
+                        <li><a href="#Biography">Biography</a></li>
+                        <li><a href="#Romance">Romance</a></li>
+                        <li><a href="#Cooking">Cooking</a></li>
                         <li><a href="#Comedy">Comedy</a></li>
+                        <li><a href="#History">History</a></li>
                     </ul>
                 </nav>
             </header>
         </div>
         <div class="section-body">
-            <div class="gallery-main" style="margin-left:25%;padding:1px 16px;height:1000px;">
+            <div class="gallery-main">
+                <!-- Adventure -->
                 <div class="Adventure" id="Adventure">
                     <h2>Adventure</h2>
                     <div class="gallery">
-                        <div class="image-holder">
-                            <a href="#">
-                                <img src="download-2.jpg" alt="img-1">
+                        <div class="image-holder" th:each="book : ${adventureBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
                             </a>
                             <div class="desc">
-                                Price : 200
-                                <br>
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <button>Buy</button>
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <!-- Other book details -->
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-                    <!-- Thriller -->
+
+                <!-- Fantasy -->
+                <div class="Fantasy" id="Fantasy">
+                    <h2>Fantasy</h2>
+                    <div class="gallery">
+                        <div class="image-holder" th:each="book : ${fantasyBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
+                            </a>
+                            <div class="desc">
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <!-- Other book details -->
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thriller -->
                 <div class="Thriller" id="Thriller">
                     <h2>Thriller</h2>
                     <div class="gallery">
-                        <div class="image-holder">
-                            <a href="#">
-                                <img src="./images/th1.jfif" alt="img-1">
+                        <div class="image-holder" th:each="book : ${thrillerBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
                             </a>
                             <div class="desc">
-                                Price : 120
-                                <br>
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <button>Buy</button>
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <!-- Other book details -->
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-                        <!-- Romantic -->
-                <div class="Romantic" id="Romantic">
-                    <h2>Romantic</h2>
+
+                <!-- Biography -->
+                <div class="Biography" id="Biography">
+                    <h2>Biography</h2>
                     <div class="gallery">
-                        <div class="image-holder">
-                            <a href="#">
-                                <img src="./images/r1.jfif" alt="img-1">
+                        <div class="image-holder" th:each="book : ${biographyBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
                             </a>
                             <div class="desc">
-                                Price : 250
-                                <br>
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <button>Buy</button>
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <!-- Other book details -->
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-                    <!-- Comedy -->
+
+                <!-- Romance -->
+                <div class="Romance" id="Romance">
+                    <h2>Romance</h2>
+                    <div class="gallery">
+                        <div class="image-holder" th:each="book : ${romanceBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
+                            </a>
+                            <div class="desc">
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <!-- Other book details -->
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cooking -->
+                <div class="Cooking" id="Cooking">
+                    <h2>Cooking</h2>
+                    <div class="gallery">
+                        <div class="image-holder" th:each="book : ${cookingBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
+                            </a>
+                            <div class="desc">
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comedy -->
                 <div class="Comedy" id="Comedy">
                     <h2>Comedy</h2>
                     <div class="gallery">
-                        <div class="image-holder">
-                            <a href="#">
-                                <img src="./images/c1.jfif" alt="img-1">
+                        <div class="image-holder" th:each="book : ${comedyBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
                             </a>
                             <div class="desc">
-                                Price : 250
-                                <br>
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                <button>Buy</button>
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="btn">
-                <a th:href="@{/}">Back <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+
+                <!-- History -->
+                <div class="History" id="History">
+                    <h2>History</h2>
+                    <div class="gallery">
+                        <div class="image-holder" th:each="book : ${historyBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author},
+                            description=${book.description}, thumbnail=${book.coverImageUrl})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
+                            </a>
+                            <div class="desc">
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <button><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn">
+                    <a th:href="@{/}">Back <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
             </div>
         </div>
     </body>
