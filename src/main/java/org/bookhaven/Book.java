@@ -31,6 +31,11 @@ public class Book {
 
         @Getter
         @Setter
+        @Enumerated(EnumType.STRING)
+        private Genre genre;
+
+        @Getter
+        @Setter
         @Column(name = "publication_date")
         private LocalDate publicationDate;
 
