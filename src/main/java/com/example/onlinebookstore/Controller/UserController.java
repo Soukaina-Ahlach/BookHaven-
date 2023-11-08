@@ -46,6 +46,14 @@ public class UserController {
                 .body(resource);
     }
 
+    @GetMapping("/js/{fileName:.+}")
+    public ResponseEntity<Resource> serveJs(@PathVariable String fileName) {
+        Resource resource = new ClassPathResource("static/js/" + fileName);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "text/javascript")
+                .body(resource);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(
             @RequestParam("email") String email,
