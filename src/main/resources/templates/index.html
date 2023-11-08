@@ -6,107 +6,80 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookHaven</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
 </head>
-
 <body>
+    <div class="index-page-content">
+        <section>
+            <header th:replace="~{layout::header}"></header>
+            <div class="main">
+                <div class="main_tag">
+                    <h1>WELCOME TO<br><span>BOOKHAVEN</span></h1>
 
-    <section>
-
-        <nav>
-
-            <div class="logo">
-                <img src="#" th:src="@{/images/logo.png}" />
-
+                    <p>Discover a world of literature and imagination at BookHaven. Our extensive collection spans various
+                        genres, inviting you to explore the realms of knowledge, adventure, and creativity. Whether you're a
+                        devoted reader or a casual book enthusiast, you'll find a haven here. Sign in and let your journey
+                        through the pages of our books begin.</p>
+                </div>
             </div>
-
-            <ul>
-                <li><a href="#Home">Home</a></li>
-                <li><a th:href="@{/catalogue}">Catalogue</a></li>
-            </ul>
-            <div class="cart-container">
-                <i class="fas fa-shopping-cart" id="cart-btn" onclick="showCartPopup()"></i>
-                <div class="cart-popup" id="cart-popup">
-                    <div class="cart-popup-content">
-                        <h2>Shopping Cart</h2>
-                        <p>You have no books in your cart</p>
-                        <a href="@{/catalogue}" onclick="hideCartPopup()">Continue reading</a>
-                        <button class="checkout-button" onclick="checkout()">Checkout</button>
+        </section>
+        <section>
+            <div class="wrapper">
+                <div class="title-text">
+                    <div class="title login">Log in </div>
+                    <div class="title signup">Sign up </div>
+                </div>
+                <div class="form-container">
+                    <div class="slide-controls">
+                        <input type="radio" name="slide" id="login" checked>
+                        <input type="radio" name="slide" id="signup">
+                        <label for="login" class="slide login">Login</label>
+                        <label for="signup" class="slide signup">Signup</label>
+                        <div class="slider-tab"></div>
+                    </div>
+                    <div class="form-inner">
+                        <form action="/login" method="post" class="login" id="login-form">
+                            <div class="field">
+                                <input type="text" name="loginUsername" placeholder="Username" required>
+                            </div>
+                            <div class="field">
+                                <input type="password" name="loginPassword" placeholder="Password" required>
+                            </div>
+                            <div class="pass-link"><a href="#">Forgot password?</a></div>
+                            <div class="field btn">
+                                <div class="btn-layer"></div>
+                                <input type="submit" value="Login">
+                            </div>
+                            <div class="signup-link">Not a member? <a href=" " class="signup-link">Signup now</a></div>
+                        </form>
+                        <form action="/register" method="post" class="signup">
+                            <div class="field">
+                                <input type="text" placeholder="Email Address" name="email" required>
+                            </div>
+                            <div class="field">
+                                <input type="text" placeholder="Username" name="username" required>
+                            </div>
+                            <div class="field">
+                                <input type="password" placeholder="Password" name="password" required>
+                            </div>
+                            <div class="field">
+                                <input type="password" placeholder="Confirm password" required>
+                            </div>
+                            <div class="field btn">
+                                <div class="btn-layer"></div>
+                                <input type="submit" value="Signup">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </nav>
-
-        <div class="main">
-
-            <div class="main_tag">
-                <h1>WELCOME TO<br><span>BOOKHAVEN</span></h1>
-
-                <p>Discover a world of literature and imagination at BookHaven. Our extensive collection spans various
-                    genres, inviting you to explore the realms of knowledge, adventure, and creativity. Whether you're a
-                    devoted reader or a casual book enthusiast, you'll find a haven here. Sign in and let your journey
-                    through the pages of our books begin.</p>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section>
-
-        <div class="wrapper">
-            <div class="title-text">
-                <div class="title login">Log in </div>
-                <div class="title signup">Sign up </div>
-            </div>
-            <div class="form-container">
-                <div class="slide-controls">
-                    <input type="radio" name="slide" id="login" checked>
-                    <input type="radio" name="slide" id="signup">
-                    <label for="login" class="slide login">Login</label>
-                    <label for="signup" class="slide signup">Signup</label>
-                    <div class="slider-tab"></div>
-                </div>
-                <div class="form-inner">
-                    <form action="/login" method="post" class="login" id="login-form">
-                        <div class="field">
-                            <input type="text" name="loginUsername" placeholder="Username" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" name="loginPassword" placeholder="Password" required>
-                        </div>
-                        <div class="pass-link"><a href="#">Forgot password?</a></div>
-                        <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Login">
-                        </div>
-                        <div class="signup-link">Not a member? <a href=" " class="signup-link">Signup now</a></div>
-                    </form>
-                    <form action="/register" method="post" class="signup">
-                        <div class="field">
-                            <input type="text" placeholder="Email Address" name="email" required>
-                        </div>
-                        <div class="field">
-                            <input type="text" placeholder="Username" name="username" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Confirm password" required>
-                        </div>
-                        <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Signup">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+        <section>
+            <footer th:replace="~{layout::footer}"></footer>
+        </section>
+    </div>
     <div class="overlay" id="overlay"></div>
     <script>
         const loginText = document.querySelector(".title-text .login");
@@ -151,29 +124,20 @@
                 });
         });
 
-        let cartPopupVisible = false;
-
-        document.getElementById('cart-btn').addEventListener('click', function (event) {
-            if (cartPopupVisible) {
-                hideCartPopup();
-            } else {
-                showCartPopup(event);
-            }
-            cartPopupVisible = !cartPopupVisible;
-            event.stopPropagation();
-        });
-
-        document.addEventListener('click', function () {
-            hideCartPopup();
-        });
-
-        function showCartPopup(event) {
-            console.log('showCartPopup() function is triggered');
+        function toggleCartPopup() {
             const cartPopup = document.getElementById('cart-popup');
-            const overlay = document.getElementById('overlay'); // Get the overlay element
-            cartPopup.style.width = '300px'; // Adjust the width as needed
-            overlay.style.display = 'block'; // Display the overlay
-            event.stopPropagation(); // Prevent the click event from propagating to the document
+            const overlay = document.getElementById('overlay');
+            if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
+                // Show the cart pop-up bar
+                cartPopup.style.width = '350px';
+                overlay.style.display = 'block';
+            } else {
+                // Hide the cart pop-up bar
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay'); // Get the overlay element
+                cartPopup.style.width = '0';
+                overlay.style.display = 'none';
+            }
         }
 
         function hideCartPopup() {
@@ -188,7 +152,6 @@
             console.log('checkout() function is triggered');
             alert('Checkout clicked!');
         }
-
     </script>
 </body>
 </html>
