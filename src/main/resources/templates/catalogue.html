@@ -37,7 +37,13 @@
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
                                     <!-- Other book details -->
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -59,7 +65,13 @@
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
                                     <!-- Other book details -->
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -81,7 +93,13 @@
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
                                     <!-- Other book details -->
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -103,7 +121,13 @@
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
                                     <!-- Other book details -->
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -125,7 +149,13 @@
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
                                     <!-- Other book details -->
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -146,7 +176,13 @@
                                     <h3 th:text="${book.title}"></h3>
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -167,7 +203,13 @@
                                     <h3 th:text="${book.title}"></h3>
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -188,7 +230,13 @@
                                     <h3 th:text="${book.title}"></h3>
                                     <p th:text="${book.author}"></p>
                                     <p th:text="${book.price}"></p>
-                                    <button onclick="addToCart('${book.title}', '${book.coverImageUrl}', '${book.price}')">
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -225,14 +273,29 @@
         }
 
         function addToCart(title, coverImageUrl, price) {
-            const item = { title, coverImageUrl, price };
 
+            if (localStorage.getItem('freshStart')) {
+                // Clear the cart in localStorage
+                localStorage.removeItem('cart');
+                localStorage.setItem('freshStart', 'false');
+            }
+
+            // Retrieve the existing cart items
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            cart.push(item);
+            // Check if the item is already in the cart
+            const existingItem = cart.find(item => item.title === title);
 
+            if (!existingItem) {
+                // If it's a new item, add it to the cart
+                const item = { title, coverImageUrl, price };
+                cart.push(item);
+            }
+
+            // Store the updated cart back in local storage
             localStorage.setItem('cart', JSON.stringify(cart));
 
+            // Display the cart
             displayCart();
         }
 
@@ -259,7 +322,7 @@
             }
 
             // Show the cart-popup
-            toggleCartPopup(); // Show the cart popup when updating cart content
+            showCartPopup();
         }
 
         function toggleCartPopup() {
@@ -267,7 +330,7 @@
             const overlay = document.getElementById('overlay');
             if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
                 // Show the cart pop-up bar
-                cartPopup.style.width = '350px';
+                cartPopup.style.width = '450px';
                 overlay.style.display = 'block';
             } else {
                 // Hide the cart pop-up bar
@@ -276,6 +339,14 @@
                 cartPopup.style.width = '0';
                 overlay.style.display = 'none';
             }
+        }
+
+        function showCartPopup() {
+            console.log('showCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '450px';
+            overlay.style.display = 'block'; // Hide the overlay
         }
 
         function hideCartPopup() {
