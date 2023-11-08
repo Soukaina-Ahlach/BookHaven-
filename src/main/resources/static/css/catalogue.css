@@ -1,12 +1,14 @@
-body {
+.catalogue-page-content {
     margin: 0;
+    position: relative;
+    padding: 0 0 170px;
 }
-
 /* BOOK CATALOGUE TITLE */
+
 .page-title {
     color: darkblue;
     font-size: 48px;
-    margin: 0;
+    margin: 110px 0 20px; /* Adjust the top margin to move it down */
     padding: 20px;
     text-align: center; /* Center the title */
 }
@@ -15,66 +17,60 @@ body {
 .section-body {
     margin-top: 120px;
     padding: 20px;
+    min-height: calc(100vh - 235px);
 }
 
 /* NAVBAR STYLES */
-.navbar {
-    background-color: #A437DB;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
+
+#navbar-container {
+    top: 215px;
 }
 
-.navbar ul {
+#nav-popup {
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    height: 100%;
+    background-color: #A437DB;
+    transition: 0.3s;
+    padding-top: 60px;
+    left: -250px;
+    top: 150px;
+    z-index: 1;
+}
+
+#nav-popup nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /
+    height: 100%;
+    padding-top: 20px;
+}
+
+#nav-popup ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.navbar li {
-    display: inline;
+#nav-popup li {
+    margin: 10px 0;
 }
 
-.navbar a {
+#nav-popup a {
     text-decoration: none;
-    color: white;
-    padding: 0 20px;
-}
-
-/* RIGHT-ALIGNED NAVBAR LINKS */
-
-.nav-right {
-    text-align: right;
-    float: right;
-}
-
-.nav-right li {
-    display: inline;
-    float: left;
-    padding-left: 15px;
-}
-
-.nav-right li a {
-    display: block;
-    padding: 8px;
-    text-decoration: none;
-    color: white;
-}
-
-.nav-right li ul {
-    list-style-type: none;
-    margin: 0;
+    font-size: 20px;
+    color: black;
     padding: 0;
-    overflow: hidden;
-    background-color: #333;
 }
 
-.nav-right li a:hover {
-    background-color: rgb(31, 199, 106);
-}
-
-.nav-right .active {
-    background-color: #04AA6D;
+.catalogue-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #A437DB;
+    padding: 20px;
 }
 
 /* GALLERY STYLES */
@@ -167,4 +163,10 @@ div.desc {
 ul {
     padding: 15px;
     border-radius: 10px;
+}
+
+#hamburger-menu {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
 }
