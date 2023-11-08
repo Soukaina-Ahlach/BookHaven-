@@ -18,4 +18,9 @@ class PasswordEncoderConfig {
         return new RestTemplate();
     }
 
+    @Bean
+    public BookPricing bookPricing() {
+        return new BookPricing();
+    }
+
 }
