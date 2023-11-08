@@ -93,6 +93,10 @@ public class GoogleBooksApiResponse {
             @Setter
             private ImageLinks imageLinks;
 
+            @Getter
+            @Setter
+            private double price;
+
             public static class IndustryIdentifier {
                 @Getter
                 @Setter

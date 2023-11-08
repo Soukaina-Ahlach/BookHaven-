@@ -23,6 +23,10 @@ public class GoogleBook {
 
     @Getter
     @Setter
+    private double price;
+
+    @Getter
+    @Setter
     private String genre;
 
 }
