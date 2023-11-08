@@ -1,0 +1,162 @@
+/*General styles */
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+li a {
+    color: darkslategrey;
+    text-decoration: none;
+}
+
+
+/* Header Styles */
+nav.header-nav {
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 0 10px #A437DB;
+    background: #fff;
+    position: fixed;
+    left: 0;
+    z-index: 100;
+}
+
+nav.header-nav .logo img {
+    width: 100px;
+    cursor: pointer;
+    margin: 8px 0;
+}
+
+nav.header-nav ul {
+    list-style: none;
+}
+
+nav.header-nav li {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+nav.header-nav li a {
+    text-decoration: none;
+    color: #000;
+}
+
+nav.header-nav li a:hover {
+    color: #A437DB;
+}
+
+.cart-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.cart-container #cart-btn {
+    font-size: 2rem;
+}
+
+.cart-info {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.checkout-button {
+    display: block;
+    margin: 90px auto;
+    padding: 20px 40px;
+    background-color: #A437DB;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.checkout-button:hover {
+    background-color: #8b3c7f;
+}
+
+.cart-popup {
+    position: fixed;
+    top: 120px;
+    right: 0;
+    height: 100%;
+    width: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.cart-popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.cart-popup h2 {
+    font-size: 24px;
+    margin: 10px;
+}
+
+.cart-popup a {
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: #A437DB;
+    margin-bottom: 20px;
+}
+
+.cart-popup a:hover {
+    text-decoration: underline;
+}
+
+.cart-popup p {
+    margin: 20px;
+}
+
+/* Footer Styles */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px #A437DB;
+    z-index: 99;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-block {
+    flex: 1;
+    text-align: center;
+}
+
+.sticky-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
