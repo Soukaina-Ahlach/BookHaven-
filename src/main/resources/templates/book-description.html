@@ -1,27 +1,127 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
+        <link rel="stylesheet" th:href="@{/css/layout.css}">
+        <link rel="stylesheet" th:href="@{/css/catalogue.css}">
+        <link rel="stylesheet" th:href="@{/css/description.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>Title</title>
+    </head>
+    <body>
+        <div class="description-page-content">
+            <section th:replace="~{layout::header}"></section>
+            <section class="section-body">
+                <div class="description-container">
+                    <h1 class="description-title" th:text="${bookTitle}"></h1>
+                    <div class="description-content">
+                        <div class="book-info">r
+                            <img th:src="${bookThumbnail}" alt="Book Cover">
+                            <p th:text="${bookAuthor}"></p>
+                            <p th:text="${bookDescription}"></p>
+                            <p th:text="${bookPrice}"></p>
+                            <!-- Add other book details here -->
+                            <button onclick="addToCart('[[${bookTitle}]]', '[[${bookThumbnail}]]', '[[${bookPrice}]]')">
+                                <a th:href="@{/catalogue}"> Add to Cart</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="btn">
+                    <a th:href="@{/catalogue}">Back <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </section>
+            <section th:replace="~{layout::footer}"></section>
+        </div>
+    </body>
+    <script>
+        function toggleNav() {
+            const navPopup = document.getElementById('nav-popup');
+            const navbarContainer = document.getElementById('navbar-container');
+            if (navPopup.style.width === '0px' || navPopup.style.width === '') {
+                // Show the navigation bar
+                navPopup.style.width = '250px';
+                navPopup.style.left = '0';
+                navbarContainer.style.left = '0';
+            } else {
+                // Hide the navigation bar
+                navPopup.style.width = '0';
+                navPopup.style.left = '-250px';
+                navbarContainer.style.left = '-250px';
+            }
+        }
 
-  <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
-  <link rel="stylesheet" th:href="@{/css/description.css}">
-</head>
-<body>
-<div class="description-container">
-  <h1 class="description-title" th:text="${bookTitle}"></h1>
-  <div class="description-content">
-    <div class="book-info">
-      <img th:src="${bookThumbnail}" alt="Book Cover">
-      <p th:text="${bookAuthor}"></p>
-      <p th:text="${bookDescription}"></p>
-      <!-- Add other book details here -->
-      <button> <a th:href="@{/catalogue}"> Add to Cart</a></button>
-    </div>
-  </div>
-</div>
-</body>
+        function addToCart(title, coverImageUrl, price) {
+            const item = { title, coverImageUrl, price };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            cart.push(item);
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            displayCart();
+        }
+
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>You have no books in your cart</p>';
+            } else {
+                cartItemsContainer.innerHTML = ''; // Clear previous items
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.innerHTML = `
+                <span>${index + 1}.</span>
+                <img src="${item.coverImageUrl}" alt="Book Cover">
+                <span>${item.title}</span>
+                <span>${item.price}</span>
+            `;
+
+                    cartItemsContainer.appendChild(cartItem);
+                });
+            }
+
+            toggleCartPopup();
+        }
+
+        function toggleCartPopup() {
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay');
+            if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
+                // Show the cart pop-up bar
+                cartPopup.style.width = '350px';
+                overlay.style.display = 'block';
+            } else {
+                // Hide the cart pop-up bar
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay'); // Get the overlay element
+                cartPopup.style.width = '0';
+                overlay.style.display = 'none';
+            }
+        }
+
+        function hideCartPopup() {
+            console.log('hideCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '0';
+            overlay.style.display = 'none'; // Hide the overlay
+        }
+
+        function checkout() {
+            console.log('checkout() function is triggered');
+            alert('Checkout clicked!');
+        }
+    </script>
 </html>
 

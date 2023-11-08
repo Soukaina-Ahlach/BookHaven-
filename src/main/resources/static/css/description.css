@@ -1,19 +1,23 @@
-/* description.css */
+/* DESCRIPTION PAGE STYLES */
 
-/* Center the description container */
+.description-page-content {
+    margin: 0;
+    position: relative;
+    padding: 0 0 170px;
+}
+
 .description-container {
     text-align: center;
     margin: 20px auto;
-    max-width: 600px; /* Adjust the maximum width as needed */
+    max-width: 600px;
 }
 
-/* Style the title */
 .description-title {
     color: #333;
-    font-size: 24px;
+    font-size: 30px;
+    margin: 110px 0 20px;
 }
 
-/* Style the book information section */
 .description-content {
     display: flex;
     justify-content: center;
@@ -21,21 +25,18 @@
     margin-top: 20px;
 }
 
-/* Style the book cover image */
 .book-info img {
-    max-width: 200px; /* Adjust the image size as needed */
+    max-width: 300px;
     border: 1px solid #ccc;
     border-radius: 10px;
 }
 
-/* Style book details */
 .book-info p {
-    font-size: 16px;
+    font-size: 20px;
     color: #666;
     margin: 10px 0;
 }
 
-/* Style the "Add to Cart" button */
 .book-info button {
     background-color: #A437DB;
     color: white;
