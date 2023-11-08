@@ -44,18 +44,22 @@ public class CatalogueController {
         model.addAttribute("travelBooks", travelBooks);
         model.addAttribute("scienceBooks", scienceBooks);
 
-
         return "catalogue";
     }
 
     @GetMapping("/description")
-    public String bookDescription(Model model, @RequestParam String title, @RequestParam String author,
-                                  @RequestParam String description, @RequestParam String thumbnail) {
-        model.addAttribute("bookTitle", title);
-        model.addAttribute("bookAuthor", author);
-        model.addAttribute("bookDescription", description);
-        model.addAttribute("bookThumbnail", thumbnail);
-        // Add other book details as needed
+    public String bookDescription(Model model, @RequestParam String title, @RequestParam String author) {
+        GoogleBook book = googleBooksService.getBookByTitleAndAuthor(title, author);
+
+        if (book != null) {
+            model.addAttribute("bookTitle", book.getTitle());
+            model.addAttribute("bookAuthor", book.getAuthor());
+            model.addAttribute("bookDescription", book.getDescription());
+            model.addAttribute("bookThumbnail", book.getCoverImageUrl());
+            model.addAttribute("bookPrice", book.getPrice()); // Add the book's price
+            // Add other book details as needed
+        }
+
         return "book-description";
     }
 }
