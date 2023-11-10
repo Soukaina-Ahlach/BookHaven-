@@ -5,8 +5,11 @@
     <title>Title</title>
     <link rel="stylesheet" th:type="text/css" th:href="@{/css/layout.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
+
     <header th:fragment="header">
         <nav class="header-nav">
             <div class="logo">
@@ -24,8 +27,8 @@
                         <div id="cart-items-container">
                             <!--   cart-items   -->
                         </div>
-                        <span id="total-element">Total Price: </span>
-                        <a th:href="@{/catalogue}" onclick="hideCartPopup()">Continue reading</a>
+                        <div id="total-element">Total Price: </div>
+                        <a class="checkout-a" th:href="@{/catalogue}" onclick="hideCartPopup()">Continue shopping</a>
                         <button class="checkout-button" onclick="checkout()">Checkout</button>
                     </div>
                 </div>
@@ -41,7 +44,7 @@
                         <ul>
                             <li><a href="#Adventure">Adventure</a></li>
                             <li><a href="#Fantasy">Fantasy</a></li>
-                            <li><a href="#Thriller">Thriller</a></li>
+                            <li><a href="#Fiction">Fiction</a></li>
                             <li><a href="#Biography">Biography</a></li>
                             <li><a href="#Romance">Romance</a></li>
                             <li><a href="#Cooking">Cooking</a></li>
@@ -50,8 +53,16 @@
                         </ul>
                     </nav>
                 </div>
+                <div class="search-section">
+                    <i class="fas fa-search" id="search-icon" onclick="toggleSearch()"></i>
+                    <input type="text" id="searchInput" placeholder="Search for books..." class="search-input">
+                    <button onclick="searchBooks()" class="search-button">Search</button>
+                </div>
+                </div>
             </div>
         </div>
+    <div th:fragment="search-results">
+        <div class="search-results" id="searchResults"></div>
     </div>
     <footer th:fragment="footer" class="sticky-footer">
         <div class="footer-container">
@@ -85,5 +96,4 @@
         </div>
     </footer>
 </body>
-<script th:src="@{/js/script.js}" type="text/javascript"></script>
 </html>
