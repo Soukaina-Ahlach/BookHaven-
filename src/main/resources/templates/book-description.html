@@ -19,11 +19,11 @@
                 <div class="description-container">
                     <h1 class="description-title" th:text="${bookTitle}"></h1>
                     <div class="description-content">
-                        <div class="book-info">r
+                        <div class="book-info">
                             <img th:src="${bookThumbnail}" alt="Book Cover">
                             <p th:text="${bookAuthor}"></p>
                             <p th:text="${bookDescription}"></p>
-                            <p th:text="${bookPrice}"></p>
+                            <p th:text="'$' + ${bookPrice}"></p>
                             <!-- Add other book details here -->
                             <button th:book-title="${bookTitle}"
                                     th:book-thumbnail="${bookThumbnail}"
@@ -38,6 +38,7 @@
                 </div>
             </section>
             <section>
+                <div id="overlay" class="overlay"></div>
                 <div class="btn">
                     <a th:href="@{/catalogue}">Back <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
@@ -62,25 +63,47 @@
             }
         }
 
-        function addToCart(title, coverImageUrl, price) {
-            const item = { title, coverImageUrl, price };
+        window.onload = displayCart;
 
+        function addToCart(title, coverImageUrl, price) {
+
+            if (localStorage.getItem('freshStart')) {
+                // If it's the first run, clear the cart
+                localStorage.clear();
+
+                // Set the 'freshStart' flag to true
+                localStorage.setItem('freshStart', 'true');
+            }
+
+
+            // Retrieve the existing cart items
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            cart.push(item);
+            // Check if the item is already in the cart
+            const existingItem = cart.find(item => item.title === title);
 
+            if (!existingItem) {
+                // If it's a new item, add it to the cart
+                const item = { title, coverImageUrl, price };
+                cart.push(item);
+            }
+
+            // Store the updated cart back in local storage
             localStorage.setItem('cart', JSON.stringify(cart));
 
+            // Display the cart
             displayCart();
         }
 
         function displayCart() {
             const cartItemsContainer = document.getElementById('cart-items-container');
+            const totalElement = document.getElementById('total-element');
+
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            let total = 0; // Initialize the total price
+            let totalPrice = 0;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>You have no books in your cart</p>';
+                cartItemsContainer.innerHTML = '<p>You have no books in your cart</p> ';
             } else {
                 cartItemsContainer.innerHTML = ''; // Clear previous items
                 cart.forEach((item, index) => {
@@ -89,20 +112,16 @@
                 <span>${index + 1}.</span>
                 <img src="${item.coverImageUrl}" alt="Book Cover">
                 <span>${item.title}</span>
-                <span>${item.price}</span>
-            `;
-                    total += item.price; // Add the price to the total
+                <span>$${item.price}</span>
+                `;
+                    totalPrice += parseFloat(item.price);
                     cartItemsContainer.appendChild(cartItem);
                 });
-
-                // Create an element to display the total price
-                const totalElement = document.getElementById('total-element');
-                if (totalElement) {
-                    totalElement.innerText = `Total Price: $${total.toFixed(2)}`;
-                }
-                cartItemsContainer.appendChild(totalElement);
             }
 
+            totalElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+
+            // Show the cart-popup
             showCartPopup();
         }
 
