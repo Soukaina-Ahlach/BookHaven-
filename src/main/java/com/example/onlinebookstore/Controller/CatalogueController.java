@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class CatalogueController {
 
         List<GoogleBook> romanceBooks = googleBooksService.searchBooksByGenre("romance");
         List<GoogleBook> adventureBooks = googleBooksService.searchBooksByGenre("adventure");
-        List<GoogleBook> thrillerBooks = googleBooksService.searchBooksByGenre("thriller");
+        List<GoogleBook> fictionBooks = googleBooksService.searchBooksByGenre("fiction");
         List<GoogleBook> comedyBooks = googleBooksService.searchBooksByGenre("comedy");
         List<GoogleBook> mysteryBooks = googleBooksService.searchBooksByGenre("mystery");
         List<GoogleBook> fantasyBooks = googleBooksService.searchBooksByGenre("fantasy");
@@ -34,7 +37,7 @@ public class CatalogueController {
 
         model.addAttribute("romanceBooks", romanceBooks);
         model.addAttribute("adventureBooks", adventureBooks);
-        model.addAttribute("thrillerBooks", thrillerBooks);
+        model.addAttribute("fictionBooks", fictionBooks);
         model.addAttribute("comedyBooks", comedyBooks);
         model.addAttribute("mysteryBooks", mysteryBooks);
         model.addAttribute("fantasyBooks", fantasyBooks);
@@ -62,5 +65,11 @@ public class CatalogueController {
 
         return "book-description";
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<GoogleBook>> searchBooks(@RequestParam String query) {
+        List<GoogleBook> searchResults = googleBooksService.searchBooksByQuery(query);
+        return new ResponseEntity<>(searchResults, HttpStatus.OK);
+    };
 }
 
