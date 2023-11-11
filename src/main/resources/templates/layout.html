@@ -12,8 +12,8 @@
 
     <header th:fragment="header">
         <nav class="header-nav">
-            <div class="logo">
-                <img src="#" th:src="@{/images/logo.png}" />
+            <div th:fragment="logo" class="logo">
+                <img th:src="@{/images/logo.png}" />
             </div>
             <ul>
                 <li><a href="#Home">Home</a></li>
@@ -29,7 +29,7 @@
                         </div>
                         <div id="total-element">Total Price: </div>
                         <a class="checkout-a" th:href="@{/catalogue}" onclick="hideCartPopup()">Continue shopping</a>
-                        <button class="checkout-button" onclick="checkout()">Checkout</button>
+                        <button class="checkout-button" th:href="@{/checkout}" onclick="checkout()">Checkout</button>
                     </div>
                 </div>
             </div>
