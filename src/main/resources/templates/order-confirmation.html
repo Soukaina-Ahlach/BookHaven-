@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post checkout page</title>
+    <link rel="stylesheet" th:href="@{/css/order-confirmation.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div th:replace="~{layout::logo}"></div>
+        </div>
+        <div class="invoice">
+            <h3>Your Order was Confirmed!</h3>
+            <span id="dear-customer" class="font-weight-bold d-block mt-4"></span>
+            <span>Your payment was successful, and we're pleased to inform you that your order is on its way and will be delivered soon!</span>
+            <div class="payment table-responsive">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Order Date:</span>
+                                <br>
+                                <span id="order-date"></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Order No:</span>
+                                <br>
+                                <span id="order-number"></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Payment:</span>
+                                <br>
+                                <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Shipping Address:</span>
+                                <br>
+                                <span id="shipping-address"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="product table-responsive">
+                <table class="table table-borderless">
+                    <tbody id="product-table-body">
+                    <!-- Product details will be dynamically generated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="row d-flex justify-content-end">
+                <div class="col-md-5">
+                    <table class="table table-borderless">
+                        <tbody class="totals">
+                            <tr>
+                                <td>
+                                    <span class="text-muted">Subtotal</span>
+                                </td>
+                                <td>
+                                    <span id="subtotal"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-muted">Shipping Fee</span>
+                                </td>
+                                <td>
+                                    <span id="shipping-fee"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-top border-bottom">
+                                <td>
+                                    <span class="font-weight-bold">Total</span>
+                                </td>
+                                <td>
+                                    <span class="font-weight-bold" id="total"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="font-weight-bold mb-0">Thank you for shopping with us and placing your trust in our products.</p>
+            <span>BookHaven Team</span>
+        </div>
+    </div>
+    <script>
+        function displayOrderConfirmation() {
+            const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Display order information
+            document.getElementById('order-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('order-number').innerText = generateOrderNumber();
+            document.getElementById('shipping-address').innerText = orderInfo.address + ', ' + orderInfo.city;
+            document.getElementById('dear-customer').innerText = 'Dear ' + orderInfo.fullName + ',';
+
+
+            // Display product details
+            const productTableBody = document.getElementById('product-table-body');
+            productTableBody.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td  style="width: 20%"><img src="${item.coverImageUrl}" width="90"></td>
+                <td  style="width: 60%"><span class="font-weight-bold">${item.title}</span></td>
+                <td  style="width: 20%"><div class="text-right"><span class="font-weight-bold">$${item.price}</span></div></td>
+            `;
+                productTableBody.appendChild(row);
+            });
+
+            // Display totals
+            document.getElementById('subtotal').innerText = '$' + calculateSubtotal(cart).toFixed(2);
+            document.getElementById('shipping-fee').innerText = '$3.99';
+            document.getElementById('total').innerText = '$' + calculateTotal(cart).toFixed(2);
+        }
+        console.log("window bout to be displayed")
+        window.onload = displayOrderConfirmation;
+
+        function generateOrderNumber() {
+            // Logic to generate a unique order number
+            return 'MT' + Math.floor(Math.random() * 1000000000);
+        }
+
+        function calculateSubtotal(cart) {
+            return cart.reduce((total, item) => total + parseFloat(item.price), 0);
+        }
+
+        function calculateTotal(cart) {
+            return calculateSubtotal(cart) + 3.99; // Assuming a fixed shipping fee
+        }
+
+
+    </script>
+</body>
+</html>
