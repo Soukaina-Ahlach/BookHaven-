@@ -71,5 +71,14 @@ public class CatalogueController {
         List<GoogleBook> searchResults = googleBooksService.searchBooksByQuery(query);
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     };
+    @GetMapping("/checkout")
+    public String showPaymentPage() {
+        return "payment";
+    }
+
+    @GetMapping("/checkout/order-confirmation")
+    public String showConfirmationPage() {
+        return "order-confirmation";
+    }
 }
 
