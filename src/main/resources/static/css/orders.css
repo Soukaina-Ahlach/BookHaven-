@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Poppins:ital,wght@0,100;0,300;0,400;1,200&display=swap');
+body {
+  background: -webkit-linear-gradient(right, #ad27f0, #A437DB, #9840c4, #a85dce);
+    overflow: hidden;
+  box-sizing: border-box;
+}
+
+.container {
+  background: #fff;
+  width: 900px;
+  height: 700px;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 10%;
+  box-shadow: 6px 5px 20px rgba(23, 0, 0, 0.5);
+}
+
+
+.leftbox {
+  float: left;
+  top: 5%;
+  left: 5%;
+  position: absolute;
+  width: 25%;
+  height: 700px;
+  background-image: url("image/1.png");
+  box-shadow: 3px 3px 10px #A437DB;
+  font-family: Arial, sans-serif;
+  
+}
+
+nav a {
+  list-style: none;
+  padding: 35px;
+  color: #fff;
+  font-size: 1.1em;
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  color: #A437DB;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+nav a:first-child {
+  margin-top: 7px;
+}
+
+.active {
+  color: #390354;
+  font-weight: bold;
+
+}
+
+.rightbox {
+  float: right;
+  width: 65%;
+  height: 100%;
+}
+
+.orders {
+  position: absolute;
+  width: 70%;
+}
+
+h1 {
+  font-family: 'Libre Baskerville', sans-serif;
+  color: #d589fa;
+  font-size: 1.5em;
+  margin-top: 40px;
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+
+
+
+
+
+
+nav a {
+  background: rgba(255, 255, 255, 0.5);    
+  padding: 15px 20%; 
+  margin-top: 25px;
+  padding-top: 20px;
+
+}
+
+.order-list {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    margin-top: 25px;
+    border-radius: 5px;
+    width: 70%;
+    margin: 0 auto; 
+  }
+  
+  .order-item {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 5px;
+    box-shadow: 3px 3px 10px #A437DB;
+  }
+  
+  .order-details {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    font-size: 1.1em;
+    margin: 0;
+    padding: 0;
+    text-align: left; 
+  }
+  
