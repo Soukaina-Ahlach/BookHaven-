@@ -11,147 +11,125 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="index-page-content">
-        <section>
-            <header th:replace="~{layout::header}"></header>
-            <div class="main">
-                <div class="main_tag">
-                    <h1>WELCOME TO<br><span>BOOKHAVEN</span></h1>
-
-                    <p>Discover a world of literature and imagination at BookHaven. Our extensive collection spans various
-                        genres, inviting you to explore the realms of knowledge, adventure, and creativity. Whether you're a
-                        devoted reader or a casual book enthusiast, you'll find a haven here. Sign in and let your journey
-                        through the pages of our books begin.</p>
-                </div>
+<div class="index-page-content">
+    <section>
+        <header th:replace="~{layout::header}"></header>
+        <div class="main">
+            <div class="main_tag">
+                <h1 th:if="${session['loggedIn'] != null}">
+                    WELCOME, <span th:text="${session['username']}"></span>
+                </h1>
+                <h1 th:unless="${session['loggedIn'] != null}">
+                    WELCOME TO<br><span>BOOKHAVEN</span>
+                </h1>
+                <p>THIS IS YOUR HOME PAGE</p>
             </div>
-        </section>
-        <section>
-            <div class="wrapper">
-                <div class="title-text">
-                    <div class="title login">Log in </div>
-                    <div class="title signup">Sign up </div>
-                </div>
-                <div class="form-container">
-                    <div class="slide-controls">
-                        <input type="radio" name="slide" id="login" checked>
-                        <input type="radio" name="slide" id="signup">
-                        <label for="login" class="slide login">Login</label>
-                        <label for="signup" class="slide signup">Signup</label>
-                        <div class="slider-tab"></div>
-                    </div>
-                    <div class="form-inner">
-                        <form action="/login" method="post" class="login" id="login-form">
-                            <div class="field">
-                                <input type="text" name="loginUsername" placeholder="Username" required>
-                            </div>
-                            <div class="field">
-                                <input type="password" name="loginPassword" placeholder="Password" required>
-                            </div>
-                            <div class="pass-link"><a href="#">Forgot password?</a></div>
-                            <div class="field btn">
-                                <div class="btn-layer"></div>
-                                <input type="submit" value="Login">
-                            </div>
-                            <div class="signup-link">Not a member? <a href=" " class="signup-link">Signup now</a></div>
-                        </form>
-                        <form action="/register" method="post" class="signup">
-                            <div class="field">
-                                <input type="text" placeholder="Email Address" name="email" required>
-                            </div>
-                            <div class="field">
-                                <input type="text" placeholder="Username" name="username" required>
-                            </div>
-                            <div class="field">
-                                <input type="password" placeholder="Password" name="password" required>
-                            </div>
-                            <div class="field">
-                                <input type="password" placeholder="Confirm password" required>
-                            </div>
-                            <div class="field btn">
-                                <div class="btn-layer"></div>
-                                <input type="submit" value="Signup">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <footer th:replace="~{layout::footer}"></footer>
-        </section>
-    </div>
-    <div class="overlay" id="overlay"></div>
-    <script>
-        const loginText = document.querySelector(".title-text .login");
-        const loginForm = document.querySelector("form.login");
-        const loginBtn = document.querySelector("label.login");
-        const signupBtn = document.querySelector("label.signup");
-        const signupLink = document.querySelector("form .signup-link a");
-        signupBtn.onclick = (() => {
-            loginForm.style.marginLeft = "-50%";
-            loginText.style.marginLeft = "-50%";
-        });
-        loginBtn.onclick = (() => {
-            loginForm.style.marginLeft = "0%";
-            loginText.style.marginLeft = "0%";
-        });
-        signupLink.onclick = (() => {
-            signupBtn.click();
-            return false;
-        });
+        </div>
+    </section>
 
-        document.querySelector('#login-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
+    <section>
+        <footer th:replace="~{layout::footer}"></footer>
+    </section>
+</div>
+<div class="overlay" id="overlay"></div>
+<script>
+    const loginText = document.querySelector(".title-text .login");
+    const loginForm = document.querySelector("form.login");
+    const loginBtn = document.querySelector("label.login");
+    const signupBtn = document.querySelector("label.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+    signupBtn.onclick = (() => {
+        loginForm.style.marginLeft = "-50%";
+        loginText.style.marginLeft = "-50%";
+    });
+    loginBtn.onclick = (() => {
+        loginForm.style.marginLeft = "0%";
+        loginText.style.marginLeft = "0%";
+    });
+    signupLink.onclick = (() => {
+        signupBtn.click();
+        return false;
+    });
 
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams(formData)
+    document.querySelector('#login-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(formData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('User logged in successfully');
+                } else {
+                    alert('Login failed. Please check your credentials.');
+                }
             })
-                .then(response => {
-                    if (response.ok) {
-                        alert('User logged in successfully');
-                    } else {
-                        alert('Login failed. Please check your credentials.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
 
-        function toggleCartPopup() {
-            const cartPopup = document.getElementById('cart-popup');
-            const overlay = document.getElementById('overlay');
-            if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
-                // Show the cart pop-up bar
-                cartPopup.style.width = '350px';
-                overlay.style.display = 'block';
-            } else {
-                // Hide the cart pop-up bar
-                const cartPopup = document.getElementById('cart-popup');
-                const overlay = document.getElementById('overlay'); // Get the overlay element
-                cartPopup.style.width = '0';
-                overlay.style.display = 'none';
-            }
-        }
-
-        function hideCartPopup() {
-            console.log('hideCartPopup() function is triggered');
+    function toggleCartPopup() {
+        const cartPopup = document.getElementById('cart-popup');
+        const overlay = document.getElementById('overlay');
+        if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
+            // Show the cart pop-up bar
+            cartPopup.style.width = '350px';
+            overlay.style.display = 'block';
+        } else {
+            // Hide the cart pop-up bar
             const cartPopup = document.getElementById('cart-popup');
             const overlay = document.getElementById('overlay'); // Get the overlay element
             cartPopup.style.width = '0';
-            overlay.style.display = 'none'; // Hide the overlay
+            overlay.style.display = 'none';
         }
+    }
 
-        function checkout() {
-            console.log('checkout() function is triggered');
-            alert('Checkout clicked!');
+    function hideCartPopup() {
+        console.log('hideCartPopup() function is triggered');
+        const cartPopup = document.getElementById('cart-popup');
+        const overlay = document.getElementById('overlay'); // Get the overlay element
+        cartPopup.style.width = '0';
+        overlay.style.display = 'none'; // Hide the overlay
+    }
+
+    function checkout() {
+        console.log('checkout() function is triggered');
+        alert('Checkout clicked!');
+    }
+
+    function toggleUserProfilePopup(element) {
+        const popup = document.getElementById('userProfilePopup');
+        popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+        if (popup.style.display === 'block') {
+            positionPopup(element, popup);
         }
-    </script>
+    }
+
+    function positionPopup(triggerElement, popupElement) {
+        const triggerRect = triggerElement.getBoundingClientRect();
+
+        popupElement.style.top = `${triggerRect.bottom}px`;
+        popupElement.style.left = `${triggerRect.left}px`;
+    }
+
+
+    function navigateTo(url) {
+        // Handle navigation logic, e.g., redirect to the specified URL
+        window.location.href = url;
+    }
+
+    function logout() {
+        window.location.href = '/logout';
+    }
+</script>
 </body>
 </html>
+
