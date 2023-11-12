@@ -29,7 +29,7 @@
                 <div class="gallery-main">
                     <!-- Adventure -->
                     <div class="Adventure" id="Adventure">
-                        <h2>Adventure</h2>
+                       <h2>Adventure <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('adventure')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${adventureBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -56,7 +56,7 @@
 
                     <!-- Fantasy -->
                     <div class="Fantasy" id="Fantasy">
-                        <h2>Fantasy</h2>
+                        <h2>Fantasy <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('fantasy')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${fantasyBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -83,7 +83,7 @@
 
                     <!-- Fiction -->
                     <div class="Thriller" id="Thriller">
-                        <h2>Thriller</h2>
+                        //<h2>Thriller <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('thriller')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${fictionBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -110,7 +110,7 @@
 
                     <!-- Biography -->
                     <div class="Biography" id="Biography">
-                        <h2>Biography</h2>
+                        //<h2>Biography <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('biography')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${biographyBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -137,7 +137,7 @@
 
                     <!-- Romance -->
                     <div class="Romance" id="Romance">
-                        <h2>Romance</h2>
+                        <h2>Romance <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('romance')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${romanceBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -164,7 +164,7 @@
 
                     <!-- Cooking -->
                     <div class="Cooking" id="Cooking">
-                        <h2>Cooking</h2>
+                        <h2>Cooking <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('cooking')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${cookingBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -190,7 +190,7 @@
 
                     <!-- Comedy -->
                     <div class="Comedy" id="Comedy">
-                        <h2>Comedy</h2>
+                        <h2>Comedy <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('comedy')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${comedyBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -216,7 +216,7 @@
 
                     <!-- History -->
                     <div class="History" id="History">
-                        <h2>History</h2>
+                        <h2>History <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('history')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${historyBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -427,6 +427,10 @@
                     }
                 });
             }
+        }
+        //
+        function navigateToGenre(genre) {
+            window.location.href = '/catalogue/' + genre;
         }
     </script>
 </html>
