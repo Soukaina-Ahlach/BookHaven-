@@ -9,32 +9,47 @@
 
 </head>
 <body>
-
-    <header th:fragment="header">
-        <nav class="header-nav">
-            <div th:fragment="logo" class="logo">
-                <img th:src="@{/images/logo.png}" />
-            </div>
-            <ul>
-                <li><a href="#Home">Home</a></li>
-                <li><a th:href="@{/catalogue}">Catalogue</a></li>
-            </ul>
-            <div class="cart-container">
-                <i class="fas fa-shopping-cart" id="cart-btn" onclick="toggleCartPopup()"></i>
-                <div class="cart-popup" id="cart-popup">
-                    <div class="cart-popup-content">
-                        <h2>Shopping Cart</h2>
-                        <div id="cart-items-container">
-                            <!--   cart-items   -->
-                        </div>
-                        <div id="total-element">Total Price: </div>
-                        <a class="checkout-a" th:href="@{/catalogue}" onclick="hideCartPopup()">Continue shopping</a>
-                        <button class="checkout-button" th:href="@{/checkout}" onclick="checkout()">Checkout</button>
+<header th:fragment="header">
+    <nav class="header-nav">
+        <div th:fragment="logo" class="logo">
+            <img th:href="@{/}" th:src="@{/images/logo.png}" />
+        </div>
+        <ul>
+            <li><a th:href="@{/index}">Home</a></li>
+            <li><a th:href="@{/catalogue}">Catalogue</a></li>
+        </ul>
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart" id="cart-btn" onclick="toggleCartPopup()"></i>
+            <div class="cart-popup" id="cart-popup">
+                <div class="cart-popup-content">
+                    <h2>Shopping Cart</h2>
+                    <div id="cart-items-container">
+                        <!--   cart-items   -->
                     </div>
+                    <div id="total-element">Total Price: </div>
+                    <a class="checkout-a" th:href="@{/catalogue}" onclick="hideCartPopup()">Continue shopping</a>
+                    <button class="checkout-button" th:href="@{/checkout}" onclick="checkout()">Checkout</button>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+        <div th:if="${session['loggedIn'] != null}" class="user-profile" onclick="toggleUserProfilePopup(this)">
+            <img th:src="@{/images/profile-icon.png}" alt="Profile Icon" />
+            <span th:text="${session['username']}"></span>
+        </div>
+        <div th:if="${session['loggedIn'] != null}" id="userProfilePopup" class="popup">
+            <div class="popup-content">
+                <ul>
+                    <li onclick="navigateTo('/index/my-profile')"><i class="fas fa-user"></i> My Profile</li>
+                    <li onclick="navigateTo('/index/my-orders')"><i class="fas fa-shopping-bag"></i> My Orders</li>
+                    <li onclick="navigateTo('/index/my-wishlist')"><i class="fas fa-heart"></i> My Wishlist</li>
+                    <li onclick="navigateTo('/index/settings')"><i class="fas fa-cog"></i> Settings</li>
+                    <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
     <div th:fragment="catalogue-navbar">
         <div class="catalogue-navbar-container" id="navbar-container">
             <div class="catalogue-navbar">
