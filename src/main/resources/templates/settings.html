@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order history</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/settings.css" />
+  </head>
+  <body>
+    <div class="container">
+      
+
+      <div class="leftbox">
+        <nav>
+          <a href="../../../../../../Desktop/bookhaven%20pjj/push/profile-info.html" >
+            <i class="fa fa-user"></i> Profile informations
+          </a>
+          
+          <a href="../../../../../../Downloads/orders.html" >
+            <i class="fa fa-store"></i> Orders
+          </a>
+          
+          <a href="wishlist.html">
+            <i class="fa fa-heart"></i> Wish List
+          </a>
+          <a href="#" class="active">
+            <i class="fa fa-gear"></i> Settings
+          </a>
+          <a href="index.html">
+            <i class="fa-solid fa-right-from-bracket"></i> Log Out
+          </a>
+        </nav>
+      </div>
+      <div class="rightbox">
+        <div class="settings-content">
+          <h2>Password Settings</h2>
+          <form id="passwordForm">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <br>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <br>
+            <button type="button" onclick="savePasswordChanges()">Save Changes</button>
+            <button type="button" onclick="cancelChanges()">Cancel</button>
+          </form>
+      
+          <h2>Email Settings</h2>
+          <form id="emailForm">
+            <label for="newEmail">New Email:</label>
+            <input type="email" id="newEmail" name="newEmail" required>
+            <br>
+            <button type="button" onclick="saveEmailChanges()">Save Changes</button>
+            <button type="button" onclick="cancelChanges()">Cancel</button>
+          </form>
+        </div>
+      </div>
+      <script>
+        function savePasswordChanges() {
+          var newPassword = document.getElementById("newPassword").value;
+          var confirmPassword = document.getElementById("confirmPassword").value;
+      
+          if (newPassword === confirmPassword) {
+            alert("Password changes saved!");
+          } else {
+            alert("Passwords do not match. Please try again.");
+          }
+        }
+      
+        function saveEmailChanges() {
+          var newEmail = document.getElementById("newEmail").value;
+      
+      
+          alert("Email changes saved!");
+        }
+      
+        function cancelChanges() {
+          alert("Changes canceled!");
+        }
+      </script>
+    </body>
+    </html>

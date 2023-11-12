@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profie informations</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/wishlist.css" />
+  </head>
+  <body>
+    <div class="container">
+      
+
+      <div class="leftbox">
+        <nav>
+          <a href="../../../../../../Desktop/bookhaven%20pjj/push/profile-info.html" >
+            <i class="fa fa-user"></i> Profile informations
+          </a>
+          
+          <a href="../../../../../../Downloads/orders.html">
+            <i class="fa fa-store"></i> Orders
+          </a>
+          
+          <a href="#" class="active">
+            <i class="fa fa-heart"></i> Wish List
+          </a>
+          <a href="../../../../../../Downloads/settings.html">
+            <i class="fa fa-gear"></i> Settings
+          </a>
+          <a href="index.html">
+            <i class="fa-solid fa-right-from-bracket"></i> Log Out
+          </a>
+        </nav>
+
+        </div>
+        <div class="rightbox">
+            <div class="orders">
+              <h1>Wish List</h1>
+            </div>
+            
+            <div class="wishlist-container">
+              <div class="card" id="product1">
+                <img src="images/cc4.jpg" alt="Product Image 1" />
+                <h1>Plutarch's Lives</h1>
+                <p class="price">$20</p>
+                <p>Quantity: <span id="quantity1">1</span></p>
+                <button class="remove-button" onclick="removeProduct('product1')">Remove</button>
+                <button class="increase-button" onclick="increaseQuantity('quantity1')">Increase Quantity</button>
+              </div>
+            
+              <div class="card" id="product2">
+                <img src="images/fantasy4.jpeg" alt="Product Image 2" />
+                <h1>Harry Potter and the Sorcerer's Stone</h1>
+                <p class="price">$30</p>
+                <p>Quantity: <span id="quantity2">1</span></p>
+                <button class="remove-button" onclick="removeProduct('product2')">Remove</button>
+                <button class="increase-button" onclick="increaseQuantity('quantity2')">Increase Quantity</button>
+              </div>
+              <div class="card" id="product3">
+                <img src="images/r4.jpg" alt="Product Image 1" />
+                <h1>Emma                </h1>
+                <p class="price">$20</p>
+                <p>Quantity: <span id="quantity3">1</span></p>
+                <button class="remove-button" onclick="removeProduct('product3')">Remove</button>
+                <button class="increase-button" onclick="increaseQuantity('quantity3')">Increase Quantity</button>
+              </div>
+            
+              
+              
+            </div>
+            <script>
+              function removeProduct(productId) {
+                var product = document.getElementById(productId);
+                product.remove();
+              }
+            
+              function increaseQuantity(quantityId) {
+                var quantityElement = document.getElementById(quantityId);
+                var currentQuantity = parseInt(quantityElement.innerText);
+                quantityElement.innerText = currentQuantity + 1;
+              }
+            </script>
+                        
+                 
+      
+              </div>
+            </div>
+          
+        </body>
+      </html>
+        
+              
+      

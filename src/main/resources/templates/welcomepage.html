@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/welcomepage.css}">
+</head>
+    <body>
+        <div class="welcome-page-content">
+            <section>
+                <header th:replace="~{layout::header}"></header>
+            </section>
+            <section class="main">
+                <h1>Welcome to BookHaven</h1>
+            </section>
+            <section>
+                <div class="button-container">
+                    <a th:href="@{/catalogue}" class="button"><span>Explore</span></a>
+                    <a class="button"><span>Login/Register</span></a>
+                </div>
+            </section>
+            <section class="index-body">
+                <div class="main_tag">
+                    <p> Discover a world of literature and imagination at BookHaven.<br>
+                        Our extensive collection spans various
+                        genres, inviting you to explore the realms of knowledge, adventure, and creativity.<br>
+                        Whether you're a devoted reader or a casual book enthusiast, you'll find a haven here. Sign in and let your journey
+                        through the pages of our books begin.
+                    </p>
+                </div>
+                <section>
+                    <div class="wrapper">
+                        <div class="title-text">
+                            <div class="title login">Log in </div>
+                            <div class="title signup">Sign up </div>
+                        </div>
+                        <div class="form-container">
+                            <div class="slide-controls">
+                                <input type="radio" name="slide" id="login" checked>
+                                <input type="radio" name="slide" id="signup">
+                                <label for="login" class="slide login">Login</label>
+                                <label for="signup" class="slide signup">Signup</label>
+                                <div class="slider-tab"></div>
+                            </div>
+                            <div class="form-inner">
+                                <form action="/login" method="post" class="login" id="login-form">
+                                    <div class="field">
+                                        <input type="text" name="loginUsername" placeholder="Username" required>
+                                    </div>
+                                    <div class="field">
+                                        <input type="password" name="loginPassword" placeholder="Password" required>
+                                    </div>
+                                    <div class="pass-link"><a href="#">Forgot password?</a></div>
+                                    <div class="field btn">
+                                        <div class="btn-layer"></div>
+                                        <input type="submit" value="Login">
+                                    </div>
+                                    <div class="signup-link">Not a member? <a href=" " class="signup-link">Signup now</a></div>
+                                </form>
+                                <form action="/register" method="post" class="signup" id="signup-form">
+                                    <div class="field">
+                                        <input type="email" placeholder="Email Address" name="email" required>
+                                    </div>
+                                    <div class="field">
+                                        <input type="text" placeholder="Username" name="username" required>
+                                    </div>
+                                    <div class="field">
+                                        <input type="password" placeholder="Password" name="password" required>
+                                    </div>
+                                    <div class="field">
+                                        <input type="password" placeholder="Confirm password" required>
+                                    </div>
+                                    <div class="field btn">
+                                        <div class="btn-layer"></div>
+                                        <input type="submit" value="Signup">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            <section>
+                <footer th:replace="~{layout::footer}"></footer>
+            </section>
+            <section>
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <p id="welcomeMessage"></p>
+                        <button id="start-reading" onclick="startReading()">Start Reading!</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <script>
+            const loginText = document.querySelector(".title-text .login");
+            const loginForm = document.querySelector("form.login");
+            const loginBtn = document.querySelector("label.login");
+            const signupBtn = document.querySelector("label.signup");
+            const signupLink = document.querySelector("form .signup-link a");
+            signupBtn.onclick = (() => {
+                loginForm.style.marginLeft = "-50%";
+                loginText.style.marginLeft = "-50%";
+            });
+            loginBtn.onclick = (() => {
+                loginForm.style.marginLeft = "0%";
+                loginText.style.marginLeft = "0%";
+            });
+            signupLink.onclick = (() => {
+                signupBtn.click();
+                return false;
+            });
+
+            function openModal(username) {
+                const modal = document.getElementById('myModal');
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                welcomeMessage.innerText = 'Welcome to the haven, ' + username + '!';
+                modal.style.display = 'block';
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('myModal');
+                modal.style.display = 'none';
+                window.location.href = '/index';
+            }
+
+            function startReading() {
+
+                closeModal();
+                window.location.href = '/index';
+            }
+
+            document.querySelector('#signup-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(formData),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            const username = formData.get('username');
+                            openModal(username);
+                        } else {
+                            alert('Registration failed. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            document.querySelector('#login-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(formData)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            const username = formData.get('LoginUsername')
+                            window.location.href = 'index';
+                        } else {
+                            alert('Login failed. Please check your credentials.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const loginButton = document.querySelector('.button-container .button:nth-child(2)');
+                const buttonContainer = document.querySelector('.button-container');
+                const indexBodySection = document.querySelector('.index-body');
+
+                buttonContainer.style.opacity = 1;
+                indexBodySection.style.opacity = 0;
+
+                // Handle click on Login/Register button
+                loginButton.addEventListener('click', function (event) {
+                    // Prevent the default action (e.g., following a link)
+                    event.preventDefault();
+
+                    // Hide the top part and show the index body
+                    buttonContainer.style.opacity = 0.6;
+                    indexBodySection.style.opacity = 1;
+
+                    const loginForm = document.querySelector('.wrapper'); // Assuming your form has an ID
+                    loginForm.scrollIntoView({ behavior: 'smooth' });
+                });
+
+                // Handle scroll event
+                let isScrolling = false;
+                window.addEventListener('scroll', function () {
+                    if (!isScrolling) {
+                        window.requestAnimationFrame(function () {
+                            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                            const windowHeight = window.innerHeight;
+                            const indexBodyTop = indexBodySection.offsetTop;
+
+                            // Calculate the distance from the top of the page to the index body
+                            const distanceToIndexBody = indexBodyTop - scrollTop;
+
+                            // Adjust opacity based on scroll position
+                            const opacity = 1 - (distanceToIndexBody / windowHeight);
+
+                            indexBodySection.style.opacity = Math.max(0, 1 - opacity);
+
+                            isScrolling = false;
+                        });
+                    }
+
+                    isScrolling = true;
+                });
+            });
+        </script>
+
+    </body>
+</html>
