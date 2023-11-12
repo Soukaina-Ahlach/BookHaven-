@@ -21,22 +21,31 @@ public class GoogleBooksService {
 
     @Autowired
     private BookPricing bookPricing;
+//
+public List<GoogleBook> searchBooksByGenre(String genre, int maxResults) {
+    try {
+        String apiUrl = API_BASE_URL + "?q=subject:" + genre + "&maxResults=" + maxResults;
+        ResponseEntity<GoogleBooksApiResponse> responseEntity = restTemplate.exchange(
+                apiUrl, HttpMethod.GET, null, GoogleBooksApiResponse.class);
 
-    public List<GoogleBook> searchBooksByGenre(String genre) {
-        try {
-            String apiUrl = API_BASE_URL + "?q=subject:" + genre + "&maxResults=4";
-            ResponseEntity<GoogleBooksApiResponse> responseEntity = restTemplate.exchange(
-                    apiUrl, HttpMethod.GET, null, GoogleBooksApiResponse.class);
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            GoogleBooksApiResponse apiResponse = responseEntity.getBody();
 
-            if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                GoogleBooksApiResponse apiResponse = responseEntity.getBody();
-                List<GoogleBook> books = new ArrayList<>();
+            System.out.println("API Response: " + apiResponse);
+            List<GoogleBook> books = new ArrayList<>();
 
-                if (apiResponse != null && apiResponse.getItems() != null) {
-                    for (GoogleBooksApiResponse.Item item : apiResponse.getItems()) {
-                        GoogleBook book = new GoogleBook();
+            if (apiResponse != null && apiResponse.getItems() != null) {
+                for (GoogleBooksApiResponse.Item item : apiResponse.getItems()) {
+                    GoogleBook book = new GoogleBook();
+                    try {
                         book.setTitle(item.getVolumeInfo().getTitle());
                         book.setAuthor(String.join(", ", item.getVolumeInfo().getAuthors()));
+
+                        if (item.getVolumeInfo().getImageLinks() == null || item.getVolumeInfo().getImageLinks().getThumbnail() == null) {
+                            System.err.println("Skipping book due to null ImageLinks or Thumbnail for book: " + book.getTitle());
+                            continue;
+                        }
+
                         book.setCoverImageUrl(item.getVolumeInfo().getImageLinks().getThumbnail());
                         book.setDescription(item.getVolumeInfo().getDescription());
                         book.setGenre(genre);
@@ -45,16 +54,24 @@ public class GoogleBooksService {
                         book.setPrice(price);
 
                         books.add(book);
+                    } catch (Exception e) {
+                        System.err.println("Error processing book: " + e.getMessage());
+                        e.printStackTrace();
                     }
                 }
-                return books;
             }
-        } catch (Exception e) {
-            // Handle exception
+            return books;
         }
-
-        return Collections.emptyList();
+    } catch (Exception e) {
+        System.err.println("Error processing book: " + e.getMessage());
+        e.printStackTrace();
     }
+
+    return Collections.emptyList();
+}
+
+
+    //
 
     public GoogleBook getBookByTitleAndAuthor(String title, String author) {
         try {
