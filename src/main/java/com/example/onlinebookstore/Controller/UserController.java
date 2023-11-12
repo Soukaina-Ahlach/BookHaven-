@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -26,8 +28,42 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String index() {
-        return "index"; // This should match the name of your HTML file (e.g., "index.html").
+    public String welcome() {
+        return "welcomepage";
+    }
+
+    @GetMapping("/index")
+    public String userIndex() {
+        return "index";
+    }
+
+    @GetMapping("/index/my-profile")
+    public String userProfile() {
+        return "profile-info";
+    }
+
+    @GetMapping("/index/my-orders")
+    public String userOrders() {
+        return "orders";
+    }
+
+    @GetMapping("/index/my-wishlist")
+    public String userWishList() {
+        return "wishlist";
+    }
+
+    @GetMapping("/index/settings")
+    public String userSettings() {
+        return "settings";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // Invalidate the session
+        }
+        return "redirect:/"; // Redirect to the welcome page or any other desired page
     }
 
     @GetMapping("/css/{fileName:.+}")
@@ -58,7 +94,8 @@ public class UserController {
     public ResponseEntity<String> registerUser(
             @RequestParam("email") String email,
             @RequestParam("username") String username,
-            @RequestParam("password") String password
+            @RequestParam("password") String password,
+            HttpSession session
     ) {
         User user = new User();
         user.setEmail(email);
@@ -75,13 +112,17 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
+        session.setAttribute("loggedIn", true);
+        session.setAttribute("username", username);
+
         return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(
             @RequestParam("loginUsername") String username,
-            @RequestParam("loginPassword") String password
+            @RequestParam("loginPassword") String password,
+            HttpSession session
     ) {
         // Retrieve the user from the database by username
         User user = userRepository.findByUsername(username);
@@ -90,7 +131,8 @@ public class UserController {
             return ResponseEntity.badRequest().body("Invalid username or password");
         }
 
-        // You can use Spring Security to set up user authentication and sessions if needed.
+        session.setAttribute("loggedIn", true);
+        session.setAttribute("username", username);
 
         return ResponseEntity.ok("User logged in successfully");
     }
