@@ -82,8 +82,8 @@
                     </div>
 
                     <!-- Fiction -->
-                    <div class="Thriller" id="Thriller">
-                        //<h2>Thriller <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('thriller')"></i></h2>
+                    <div class="Fiction" id="Fiction">
+                        <h2>Fiction <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('thriller')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${fictionBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">
@@ -110,7 +110,7 @@
 
                     <!-- Biography -->
                     <div class="Biography" id="Biography">
-                        //<h2>Biography <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('biography')"></i></h2>
+                        <h2>Biography <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('biography')"></i></h2>
                         <div class="gallery">
                             <div class="image-holder" th:each="book : ${biographyBooks}">
                                 <a th:href="@{/description(title=${book.title}, author=${book.author})}">

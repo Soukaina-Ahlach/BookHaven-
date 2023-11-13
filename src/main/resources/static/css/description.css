@@ -50,3 +50,56 @@
 .book-info button:hover {
     background-color: #04AA6D;
 }
+
+/* Add or update the CSS in your existing file */
+.user-profile {
+    display: flex;
+    flex-direction: column; /* Adjust the flex direction to column */
+    align-items: center;
+    text-align: center; /* Center the text within the container */
+}
+
+.user-profile img {
+    width: 30px; /* Adjust the width to your preference */
+    height: 30px; /* Adjust the height to your preference */
+    border-radius: 50%;
+    margin-bottom: 4px; /* Adjust the margin to create space between the icon and username */
+}
+
+.user-profile span {
+    font-weight: bold;
+    font-size: 14px; /* Adjust the font size to your preference */
+    color: #333; /* Adjust the color to your preference */
+}
+/*POP UP*/
+.popup {
+    display: none;
+    position: fixed;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popup ul li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center; /* Center the text */
+}
+
+.popup ul li:last-child {
+    border-bottom: none;
+}
+
+
+
+
