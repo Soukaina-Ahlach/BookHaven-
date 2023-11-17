@@ -113,6 +113,8 @@ nav.header-nav li a:hover {
 .cart-popup-content {
     padding: 20px;
     text-align: center;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .cart-popup h2 {
