@@ -21,7 +21,14 @@ public class GoogleBooksService {
 
     @Autowired
     private BookPricing bookPricing;
-//
+
+    /**
+     * Search for books by genre using the Google Books API.
+     *
+     * @param genre      The genre of books to search for.
+     * @param maxResults The maximum number of results to retrieve.
+     * @return           List of GoogleBook objects representing the books found.
+     */
 public List<GoogleBook> searchBooksByGenre(String genre, int maxResults) {
     try {
         String apiUrl = API_BASE_URL + "?q=subject:" + genre + "&maxResults=" + maxResults;
@@ -71,7 +78,13 @@ public List<GoogleBook> searchBooksByGenre(String genre, int maxResults) {
 }
 
 
-    //
+    /**
+     * Retrieve book information by title and author using the Google Books API.
+     *
+     * @param title  The title of the book to search for.
+     * @param author The author of the book to search for.
+     * @return       GoogleBook object representing the book found, or null if not found.
+     */
 
     public GoogleBook getBookByTitleAndAuthor(String title, String author) {
         try {
@@ -103,6 +116,13 @@ public List<GoogleBook> searchBooksByGenre(String genre, int maxResults) {
 
         return null; // Return null if book not found
     }
+
+    /**
+     * Search for books by a general query using the Google Books API.
+     *
+     * @param query The search query.
+     * @return      List of GoogleBook objects representing the books found.
+     */
     public List<GoogleBook> searchBooksByQuery(String query) {
         try {
             String apiUrl = API_BASE_URL + "?q=" + query + "&maxResults=4";
