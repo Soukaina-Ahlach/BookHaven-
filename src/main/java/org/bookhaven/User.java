@@ -34,5 +34,16 @@ public class User {
     @Column(unique = true)
     private String phoneNumber;
 
+    @Getter
+    @Setter
+    private String fullName;
+
+    @Getter
+    @Setter
+    private String address;
+
+    @Getter
+    @Setter
+    private String country;
 
 }
