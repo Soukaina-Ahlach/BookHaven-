@@ -87,13 +87,43 @@
         </div>
     </div>
     <script>
+        function sendOrderDetailsToServer(orderDetails) {
+            fetch('/saveOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderDetails)
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                return response.text();
+            })
+            .then(data => {
+                if (data === 'Order details saved successfully') {
+                    const orderNumber = orderDetails.orderNumber;
+                    localStorage.setItem('orderDetailsSaved', orderNumber);
+                    document.dispatchEvent(new CustomEvent('orderDetailsSaved', { detail: orderNumber }));
+                    console.log('Order details saved successfully');
+                } else {
+                    console.error('Error saving order details:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving order details', error);
+            });
+        }
+
         function displayOrderConfirmation() {
             const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+            const orderNumber = orderInfo.orderNumber || generateOrderNumber();
+
             // Display order information
             document.getElementById('order-date').innerText = new Date().toLocaleDateString();
-            document.getElementById('order-number').innerText = generateOrderNumber();
+            document.getElementById('order-number').innerText = orderNumber;
             document.getElementById('shipping-address').innerText = orderInfo.address + ', ' + orderInfo.city;
             document.getElementById('dear-customer').innerText = 'Dear ' + orderInfo.fullName + ',';
 
@@ -115,12 +145,23 @@
             document.getElementById('subtotal').innerText = '$' + calculateSubtotal(cart).toFixed(2);
             document.getElementById('shipping-fee').innerText = '$3.99';
             document.getElementById('total').innerText = '$' + calculateTotal(cart).toFixed(2);
+
+            // Create order details object
+            const orderDetails = {
+                orderNumber: orderNumber,
+                username: orderInfo.fullName,
+                itemCount: cart.length,
+                // Add any other details you want to store
+            };
+
+            sendOrderDetailsToServer(orderDetails);
         }
+
         console.log("window bout to be displayed")
         window.onload = displayOrderConfirmation;
 
         function generateOrderNumber() {
-            // Logic to generate a unique order number
+
             return 'MT' + Math.floor(Math.random() * 1000000000);
         }
 
