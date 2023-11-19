@@ -43,16 +43,20 @@
       <div class="rightbox">
         <div class="profile">
           <h1>Personal Informations</h1>
-          <h2>Full Name</h2>
-          <p>James Smith <a href="../../../../../../Downloads/settings.html"></a></p>
-          <h2>Adress</h2>
-          <p></p>
-          <h2>Country</h2>
-          <p></p>
-          <h2>Email</h2>
-          <p>example@example.com <a href = "../../../../../../Downloads/settings.html"><button class="btn">update</button></a></p>
-          <h2>Password</h2>
-          <p>******** <a href="../../../../../../Downloads/settings.html"><button class="btn">Change</button></a></p>
+            <h2>Full Name</h2>
+            <p th:text="${fullName}"> <a href="../../../../../../Downloads/settings.html"></a></p>
+            <h2>Address</h2>
+            <p th:text="${address}"></p>
+            <h2>Country</h2>
+            <p th:text="${country}"></p>
+            <h2>Email</h2>
+            <p th:text="${email}">
+              <a href = "../../../../../../Downloads/settings.html"><button class="btn">update</button></a>
+            </p>
+            <h2>Password</h2>
+            <p>********
+              <a href="../../../../../../Downloads/settings.html"><button class="btn">Change</button></a>
+            </p>
         </div>
       </div>
     </div>
