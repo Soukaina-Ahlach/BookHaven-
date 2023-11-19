@@ -22,7 +22,7 @@ public class CatalogueController {
 
     @GetMapping("/catalogue")
     public String catalogue(Model model) {
-//
+
         List<GoogleBook> romanceBooks = googleBooksService.searchBooksByGenre("romance",4);
         List<GoogleBook> adventureBooks = googleBooksService.searchBooksByGenre("adventure",4);
         List<GoogleBook> fictionBooks = googleBooksService.searchBooksByGenre("fiction",4);
@@ -35,7 +35,6 @@ public class CatalogueController {
         List<GoogleBook> travelBooks = googleBooksService.searchBooksByGenre("travel",4);
         List<GoogleBook> scienceBooks = googleBooksService.searchBooksByGenre("science",4);
 
-        //
         model.addAttribute("romanceBooks", romanceBooks);
         model.addAttribute("adventureBooks", adventureBooks);
         model.addAttribute("fictionBooks", fictionBooks);
@@ -51,7 +50,7 @@ public class CatalogueController {
         return "catalogue";
     }
 
-    //
+
     @GetMapping("/catalogue/{genre}")
     public String genreCatalogue(Model model, @PathVariable String genre) {
         List<GoogleBook> genreBooks = googleBooksService.searchBooksByGenre(genre,40);
@@ -59,9 +58,9 @@ public class CatalogueController {
         System.out.println("Number of books in genreBooks: " + genreBooks.size());
 
         model.addAttribute("genreBooks", genreBooks);
-        return "genres/" + genre;  // Assumes your genre pages are in a "genres" folder
+        return "genres/" + genre;
     }
-    //
+
 
     @GetMapping("/description")
     public String bookDescription(Model model, @RequestParam String title, @RequestParam String author) {
@@ -84,6 +83,7 @@ public class CatalogueController {
         List<GoogleBook> searchResults = googleBooksService.searchBooksByQuery(query);
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     };
+
     @GetMapping("/checkout")
     public String showPaymentPage() {
         return "payment";
