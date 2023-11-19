@@ -2,7 +2,7 @@ package com.example.onlinebookstore.Controller;
 
 import com.example.onlinebookstore.Repository.OrderDetailsRepository;
 import com.example.onlinebookstore.Repository.UserRepository;
-
+import org.springframework.ui.Model;
 import org.bookhaven.OrderDetails;
 import org.bookhaven.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +142,10 @@ public class UserController {
 
     /* INDEX PAGES */
 
+    @ModelAttribute("user")
+    public User user() {
+        return new User();
+    }
     @GetMapping("/")
     public String welcome() {
         return "welcomepage";
@@ -153,7 +157,17 @@ public class UserController {
     }
 
     @GetMapping("/index/my-profile")
-    public String userProfile() {
+    public String userProfile(Model model, HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("fullName", user.getFullName());
+        model.addAttribute("address", user.getAddress());
+        model.addAttribute("country", user.getCountry());
+        model.addAttribute("email", user.getEmail());
+
+
         return "profile-info";
     }
 
@@ -246,6 +260,22 @@ public class UserController {
         }
     }
 
-    // Other methods
+    @PostMapping("/updateProfile")
+    public String updateProfile(@ModelAttribute User updatedUser, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User currentUser = userRepository.findByUsername(username);
+
+        // Update the user's information
+        currentUser.setFullName(updatedUser.getFullName());
+        currentUser.setAddress(updatedUser.getAddress());
+        currentUser.setCountry(updatedUser.getCountry());
+
+        // Save the updated user to the database
+        userRepository.save(currentUser);
+
+        session.setAttribute("username", currentUser.getUsername());
+
+        return "redirect:/index/my-profile";
+    }
 
 }
