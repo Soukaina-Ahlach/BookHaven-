@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order Management</title>
+        <link rel="stylesheet" th:href="@{/css/order-management.css}">
+    </head>
+    <body>
+        <div class="container">
+            <h2>Order Management</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Username</th>
+                    <th>Item Count</th>
+                    <th>Created At:</th>
+                    <th>Status</th>
+                    <!-- Add more columns if needed -->
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate over order details and display them -->
+                <tr th:each="order : ${orderList}" id="order-list-item">
+                    <td th:text="${order.orderNumber}"></td>
+                    <td th:text="${order.username}"></td>
+                    <td th:text="${order.itemCount}"></td>
+                    <td th:text="${order.createdAt}"></td>
+                    <td>
+                        <div class="status-dropdown">
+                            <span class="current-status"></span>
+                            <select id="statusSelect" class="status-select">
+                                <option value="confirmed" class="confirmed">Confirmed</option>
+                                <option value="processing" class="processing">Processing</option>
+                                <option value="shipped" class="shipped">Shipped</option>
+                                <option value="delivered" class="delivered">Delivered</option>
+                            </select>
+                        </div>
+                    </td>
+                    <!-- Add more cells for additional fields -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="orderDetailsModal" class="modal">
+            <span id="closeButton" class="close">&times;</span>
+            <div id="modalContent" class="modal-content">
+                <!-- Content will be dynamically added here -->
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </body>
+    <script>
+        updateOrderManagementPage();
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedOrderNumber = localStorage.getItem('orderDetailsSaved');
+
+            if (storedOrderNumber) {
+                console.log(`Order details saved for order number: ${storedOrderNumber}`);
+                updateOrderManagementPage();
+                localStorage.removeItem('orderDetailsSaved'); // Clear the stored value
+            }
+
+            document.querySelector('.table-bordered tbody').addEventListener('change', function (event) {
+                const changedSelect = event.target.closest('.status-select');
+
+                if (changedSelect) {
+                    const selectedOption = changedSelect.options[changedSelect.selectedIndex];
+                    const selectedClass = selectedOption.className;
+
+                    // Remove previous classes
+                    changedSelect.classList.remove('confirmed', 'processing', 'shipped', 'delivered');
+
+                    // Add the selected class
+                    changedSelect.classList.add(selectedClass);
+                }
+            });
+
+            // Trigger the change event to initialize the style for existing elements
+            const existingSelects = document.querySelectorAll('.status-select');
+            existingSelects.forEach(select => {
+                const selectedOption = select.options[select.selectedIndex];
+                const selectedClass = selectedOption.className;
+
+                // Remove previous classes
+                select.classList.remove('confirmed', 'processing', 'shipped', 'delivered');
+
+                // Add the selected class
+                select.classList.add(selectedClass);
+            });
+        });
+
+        function updateOrderManagementPage() {
+            console.log("Updating Order Management Page...");
+            fetch('/getOrders')  // Create a new endpoint in your UserController to retrieve orders
+                .then(response => response.json())
+                .then(orderList => {
+                    // Update the order-management page with the latest order list
+                    const orderManagementTable = document.querySelector('.table-bordered tbody');
+                    orderManagementTable.innerHTML = '';
+                    orderList.forEach(order => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${order.orderNumber}</td>
+                        <td>${order.username}</td>
+                        <td>${order.itemCount}</td>
+                        <td>${order.createdAt}</td>
+                        <td>
+                            <div class="status-dropdown">
+                                <span class="current-status"></span>
+                                <select id="statusSelect_${order.orderNumber}" class="status-select ${order.status.toLowerCase()}">
+                                    <option value="confirmed" class="confirmed">Confirmed</option>
+                                    <option value="processing" class="processing">Processing</option>
+                                    <option value="shipped" class="shipped">Shipped</option>
+                                    <option value="delivered" class="delivered">Delivered</option>
+                                </select>
+                            </div>
+                        </td>
+                        `;
+                        orderManagementTable.appendChild(row);
+
+                        const statusSelect = row.querySelector(`#statusSelect_${order.orderNumber}`);
+                        statusSelect.value = order.status.toLowerCase();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching order details', error);
+                });
+        }
+
+        document.querySelector('.table-bordered tbody').addEventListener('click', function (event) {
+            const clickedRow = event.target.closest('tr');
+            const dropdown = event.target.closest('.status-dropdown');
+
+            if (clickedRow && !dropdown) {
+                const orderNumber = clickedRow.querySelector('td:first-child').innerText;
+                console.log(`Row clicked for order number: ${orderNumber}`);
+                showOrderDetails(orderNumber);
+            }
+        });
+
+        function toggleOverlay() {
+            console.log("OVERLAY TRIGGERED");
+            const overlay = document.querySelector('.overlay');
+            if (overlay.style.display === '' || overlay.style.display === 'none') {
+                overlay.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+            }
+        }
+        function showOrderDetails(orderNumber) {
+            const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            console.log("SHOWING ORDER DETAILS....");
+
+            const modal = document.getElementById('orderDetailsModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeButton = document.getElementById('closeButton');
+
+
+            fetch(`/getOrderDetails?orderNumber=${orderNumber}`)
+                .then(response => response.json())
+                .then(orderDetails => {
+
+                    const content = document.createElement('div');
+                    content.innerHTML = `
+                    <h2>Order Details</h2>
+                    <p>Username: ${orderDetails.username}</p>
+                    <p>Email: ${orderDetails.email}</p>
+                    <p>Phone Number: ${orderInfo.phone}</p>
+                    <p>Address: ${orderInfo.address}, ${orderInfo.city}</p>
+                    <p>Order No: ${orderNumber}</p>
+                    <h3>Ordered Items:</h3>
+                `;
+
+                    const table = document.createElement('table');
+                    table.className = 'table table-borderless';
+
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                    </tr>
+                `;
+
+                    const tbody = document.createElement('tbody');
+                    cart.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td><img src="${item.coverImageUrl}" width="90"></td>
+                        <td>${item.title}</td>
+                        <td>$${item.price}</td>
+                    `;
+                        tbody.appendChild(row);
+                    });
+
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+
+                    content.appendChild(table);
+
+                    const orderSummaryContainer = document.createElement('div');
+                    orderSummaryContainer.className = 'order-summary';
+
+                    const shippingElement = document.createElement('p');
+                    shippingElement.textContent = 'Shipping fee: $3.99';
+                    orderSummaryContainer.appendChild(shippingElement);
+
+                    const totalElement = document.createElement('p');
+                    const totalPrice = cart.reduce((acc, item) => acc + parseFloat(item.price), 0);
+                    totalElement.textContent = `Total: $${(totalPrice + 3.99).toFixed(2)}`;
+                    orderSummaryContainer.appendChild(totalElement);
+
+                    content.appendChild(orderSummaryContainer);
+
+                    // Set the content
+                    modalContent.innerHTML = '';
+                    modalContent.appendChild(content);
+
+                    modal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching order details', error);
+                });
+
+            // Close modal when close button is clicked
+            closeButton.onclick = function () {
+                modal.style.display = 'none';
+                toggleOverlay();
+            };
+
+            toggleOverlay();
+        }
+
+        document.querySelector('.table-bordered tbody').addEventListener('change', function (event) {
+            const changedSelect = event.target.closest('.status-select');
+
+            if (changedSelect) {
+                const orderNumber = changedSelect.closest('tr').querySelector('td:first-child').innerText;
+                const newStatus = changedSelect.value;
+
+                event.stopPropagation();
+                // Send a request to update the status
+                updateOrderStatus(orderNumber, newStatus);
+            }
+        });
+
+        function updateOrderStatus(orderNumber, newStatus) {
+            fetch(`/updateOrderStatus?orderNumber=${orderNumber}&status=${newStatus}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(`Order status updated successfully: ${data}`);
+                })
+                .catch(error => {
+                    console.error('Error updating order status', error);
+                });
+        }
+
+    </script>
+</html>
