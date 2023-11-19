@@ -61,6 +61,25 @@
             <button type="button" onclick="saveEmailChanges()">Save Changes</button>
             <button type="button" onclick="cancelChanges()">Cancel</button>
           </form>
+
+          <h2>Information Settings</h2>
+          <form id="informationForm" action="/updateProfile" method="post">
+            <label for="newFullName">New Full Name:</label>
+            <input type="text" id="newFullName" name="fullName" required>
+            <br>
+
+            <label for="newAddress">New Address:</label>
+            <input type="text" id="newAddress" name="address" required>
+            <br>
+
+            <label for="newCountry">New Country:</label>
+            <input type="text" id="newCountry" name="country" required>
+            <br>
+
+            <button type="submit">Save Changes</button>
+            <button type="button" onclick="cancelChanges()">Cancel</button>
+
+          </form>
         </div>
       </div>
       <script>
