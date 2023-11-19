@@ -15,11 +15,22 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
+    /**
+     * Retrieve a list of all books in the bookstore.
+     *
+     * @return List of Book objects representing the available books.
+     */
     @GetMapping
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
+    /**
+     * Add a new book to the bookstore's inventory.
+     *
+     * @param book  The Book object representing the book to be added. Provided in the request body.
+     * @return      ResponseEntity indicating the success or failure of the book addition.
+     */
     @PostMapping
     public ResponseEntity<String> addBook(@RequestBody Book book) {
         if (bookRepository.findByTitle(book.getTitle()).isEmpty()) {
