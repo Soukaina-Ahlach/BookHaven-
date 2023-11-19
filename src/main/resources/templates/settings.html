@@ -20,21 +20,21 @@
 
       <div class="leftbox">
         <nav>
-          <a href="../../../../../../Desktop/bookhaven%20pjj/push/profile-info.html" >
+          <a onclick="navigateTo('/index/my-profile')">
             <i class="fa fa-user"></i> Profile informations
           </a>
           
-          <a href="../../../../../../Downloads/orders.html" >
+          <a onclick="navigateTo('/index/my-orders')">
             <i class="fa fa-store"></i> Orders
           </a>
           
-          <a href="wishlist.html">
+          <a onclick="navigateTo('/index/my-wishlist')">
             <i class="fa fa-heart"></i> Wish List
           </a>
           <a href="#" class="active">
             <i class="fa fa-gear"></i> Settings
           </a>
-          <a href="index.html">
+          <a onclick="logout()">
             <i class="fa-solid fa-right-from-bracket"></i> Log Out
           </a>
         </nav>
@@ -103,6 +103,10 @@
       
         function cancelChanges() {
           alert("Changes canceled!");
+        }
+
+        function navigateTo(url) {
+          window.location.href = url;
         }
       </script>
     </body>

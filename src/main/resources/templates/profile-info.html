@@ -24,17 +24,17 @@
             <i class="fa fa-user"></i> Profile informations
           </a>
           
-          <a href="../../../../../../Downloads/orders.html">
+          <a onclick="navigateTo('/index/my-orders')">
             <i class="fa fa-store"></i> Orders
           </a>
           
-          <a href="../../../../../../Downloads/wishlist.html">
+          <a onclick="navigateTo('/index/my-wishlist')">
             <i class="fa fa-heart"></i> Wish List
           </a>
-          <a href="../../../../../../Downloads/settings.html">
+          <a onclick="navigateTo('/index/settings')">
             <i class="fa fa-gear"></i> Settings
           </a>
-          <a href="index.html">
+          <a onclick="logout()">
             <i class="fa-solid fa-right-from-bracket"></i> Log Out
           </a>
         </nav>
@@ -60,7 +60,11 @@
         </div>
       </div>
     </div>
-
+    <script>
+      function navigateTo(url) {
+        window.location.href = url;
+      }
+    </script>
     
   </body>
 </html>
