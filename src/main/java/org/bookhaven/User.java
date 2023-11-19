@@ -29,5 +29,10 @@ public class User {
     @Setter
     private String password;
 
+    @Getter
+    @Setter
+    @Column(unique = true)
+    private String phoneNumber;
+
 
 }
