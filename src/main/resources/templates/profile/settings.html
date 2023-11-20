@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order history</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+        <link rel="stylesheet" href="/css/settings.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="leftbox">
+                <nav>
+                    <a onclick="navigateTo('/index/my-profile')">
+                        <i class="fa fa-user"></i> Profile Information
+                    </a>
+                    <a onclick="navigateTo('/index/my-orders')">
+                        <i class="fa fa-store"></i> Orders
+                    </a>
+                    <a onclick="navigateTo('/index/my-wishlist')">
+                        <i class="fa fa-heart"></i> Wish List
+                    </a>
+                    <a href="#" class="active">
+                        <i class="fa fa-gear"></i> Settings
+                    </a>
+                    <a onclick="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                    </a>
+                </nav>
+            </div>
+
+            <div class="rightbox">
+                <div class="settings-content">
+
+                    <h2>Password Settings</h2>
+                    <form id="passwordForm" action="/updatePassword" method="post">
+                        <label for="currentPassword">Current Password:</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+
+                        <br>
+
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+
+                        <br>
+
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                        <br>
+
+                        <button type="button" onclick="savePasswordChanges()">Save Changes</button>
+                        <button type="button" onclick="cancelChanges()">Cancel</button>
+                    </form>
+
+                    <h2>Email Settings</h2>
+                    <form id="emailForm" action="/updateEmail" method="post">
+                        <label for="newEmail">New Email:</label>
+                        <input type="email" id="newEmail" name="newEmail" required>
+
+                        <br>
+
+                        <button type="submit">Save Changes</button>
+                        <button type="button" onclick="cancelChanges()">Cancel</button>
+                    </form>
+
+                    <h2>Information Settings</h2>
+                    <form id="informationForm" action="/updateProfile" method="post">
+                        <label for="newFullName">New Full Name:</label>
+                        <input type="text" id="newFullName" name="fullName">
+
+                        <br>
+
+                        <label for="newAddress">New Address:</label>
+                        <input type="text" id="newAddress" name="address">
+
+                        <br>
+
+                        <label for="newCountry">New Country:</label>
+                        <input type="text" id="newCountry" name="country">
+
+                        <br>
+
+                        <label for="newPhoneNumber">New Phone No:</label>
+                        <input type="text" id="newPhoneNumber" name="phoneNumber">
+
+                        <br>
+
+                        <button type="submit">Save Changes</button>
+                        <button type="button" onclick="cancelChanges()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            function savePasswordChanges() {
+                const newPassword = document.getElementById("newPassword").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword === confirmPassword) {
+
+                    document.getElementById("passwordForm").submit();
+                } else {
+
+                    alert("Passwords do not match. Please try again.");
+                }
+            }
+      
+            function cancelChanges() {
+                alert("Changes canceled!");
+            }
+
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
+      </script>
+    </body>
+    </html>
