@@ -1,238 +1,267 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romantic Books</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/css/genres.css}" rel="stylesheet" type="text/css">
-</head>
-<body id="genres-body">
-<div class="genre-page-content">
-    <section>
-        <header th:replace="~{layout::header}"></header>
-    </section>
-    <section>
-        <div th:replace="~{layout::catalogue-navbar}"></div>
-    </section>
-    <section>
-        <div th:replace="~{layout::search-results}"></div>
-    </section>
-    <div class="gallery-main">
-        <!-- Romance -->
-        <div class="Fiction" id="Fiction">
-            <h2 class="genres-h2">Fiction</h2>
-            <div class="gallery">
-                <div class="image-holder" th:each="book : ${genreBooks}">
-                    <a th:href="@{/description(title=${book.title}, author=${book.author})}">
-                        <img th:src="${book.coverImageUrl}" alt="book cover">
-                    </a>
-                    <div class="desc">
-                        <h3 th:text="${book.title}"></h3>
-                        <p th:text="${book.author}"></p>
-                        <p th:text="'$' + ${book.price}"></p>
-                        <button
-                                th:book-title="${book.title}"
-                                th:book-thumbnail="${book.coverImageUrl}"
-                                th:book-price="${book.price}"
-                                onclick="addToCart(this.getAttribute('book-title'),
-                                                                this.getAttribute('book-thumbnail'),
-                                                                this.getAttribute('book-price'));">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        </button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Romantic Books</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+        <link th:href="@{/css/genres.css}" rel="stylesheet" type="text/css">
+    </head>
+    <body id="genres-body">
+        <div class="genre-page-content">
+            <section>
+                <header th:replace="~{layout::header}"></header>
+            </section>
+            <section>
+                <div th:replace="~{layout::catalogue-navbar}"></div>
+            </section>
+            <section>
+                <div th:replace="~{layout::search-results}"></div>
+            </section>
+            <section class="section-body">
+            <div class="gallery-main">
+                <!-- Romance -->
+                <div class="Fiction" id="Fiction">
+                    <h2 class="genres-h2">Fiction</h2>
+                    <div class="gallery">
+                        <div class="image-holder" th:each="book : ${genreBooks}">
+                            <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                <img th:src="${book.coverImageUrl}" alt="book cover">
+                            </a>
+                            <div class="desc">
+                                <h3 th:text="${book.title}"></h3>
+                                <p th:text="${book.author}"></p>
+                                <p th:text="'$' + ${book.price}"></p>
+                                <button
+                                        th:book-title="${book.title}"
+                                        th:book-thumbnail="${book.coverImageUrl}"
+                                        th:book-price="${book.price}"
+                                        onclick="addToCart(this.getAttribute('book-title'),
+                                                                        this.getAttribute('book-thumbnail'),
+                                                                        this.getAttribute('book-price'));">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            </section>
+            <section>
+                <div id="overlay" class="overlay"></div>
+                <div class="btn">
+                    <a th:href="@{/catalogue/fiction}">Back <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </section>
+            <section>
+                <footer th:replace="~{layout::footer}"></footer>
+            </section>
         </div>
-    </div>
-    <section>
-        <div class="btn">
-            <a th:href="@{/catalogue}">Back <i class="fa fa-arrow-right"></i></a>
-        </div>
-    </section>
-    <section>
-        <footer th:replace="~{layout::footer}"></footer>
-    </section>
-</div>
-<script>
-    function toggleNav() {
-        const navPopup = document.getElementById('nav-popup');
-        const navbarContainer = document.getElementById('navbar-container');
-        if (navPopup.style.width === '0px' || navPopup.style.width === '') {
-            // Show the navigation bar
-            navPopup.style.width = '250px';
-            navPopup.style.left = '0';
-            navbarContainer.style.left = '0';
-        } else {
-            // Hide the navigation bar
-            navPopup.style.width = '0';
-            navPopup.style.left = '-250px';
-            navbarContainer.style.left = '-250px';
-        }
-    }
-
-    function toggleSearch() {
-        const searchInput = document.getElementById('searchInput');
-
-        if (searchInput.style.display === '' || searchInput.style.display === 'none') {
-            searchInput.style.display = 'block';
-        } else {
-            searchInput.style.display = 'none';
-        }
-    }
-
-    window.onload = displayCart;
-
-    function addToCart(title, coverImageUrl, price) {
-
-        if (localStorage.getItem('freshStart')) {
-            // If it's the first run, clear the cart
-            localStorage.clear();
-
-            // Set the 'freshStart' flag to true
-            localStorage.setItem('freshStart', 'true');
-        }
-
-        // Retrieve the existing cart items
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Check if the item is already in the cart
-        const existingItem = cart.find(item => item.title === title);
-
-        if (!existingItem) {
-            // If it's a new item, add it to the cart
-            const item = { title, coverImageUrl, price };
-            cart.push(item);
-        }
-
-        // Store the updated cart back in local storage
-        localStorage.setItem('cart', JSON.stringify(cart));
-
-        // Display the cart
-        displayCart();
-    }
-
-    function displayCart() {
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const totalElement = document.getElementById('total-element');
-
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let totalPrice = 0;
-
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p>You have no books in your cart</p> ';
-        } else {
-            cartItemsContainer.innerHTML = ''; // Clear previous items
-            cart.forEach((item, index) => {
-                const cartItem = document.createElement('div');
-                cartItem.innerHTML = `
-                <span>${index + 1}.</span>
-                <img src="${item.coverImageUrl}" alt="Book Cover">
-                <span>${item.title}</span>
-                <span>$${item.price}</span>
-                `;
-                totalPrice += parseFloat(item.price);
-                cartItemsContainer.appendChild(cartItem);
-            });
-        }
-
-        totalElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
-
-        // Show the cart-popup
-        showCartPopup();
-    }
-
-    function toggleCartPopup() {
-        const cartPopup = document.getElementById('cart-popup');
-        const overlay = document.getElementById('overlay');
-        if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
-            // Show the cart pop-up bar
-            cartPopup.style.width = '450px';
-            overlay.style.display = 'block';
-        } else {
-            // Hide the cart pop-up bar
-            const cartPopup = document.getElementById('cart-popup');
-            const overlay = document.getElementById('overlay'); // Get the overlay element
-            cartPopup.style.width = '0';
-            overlay.style.display = 'none';
-        }
-    }
-
-    function showCartPopup() {
-        console.log('showCartPopup() function is triggered');
-        const cartPopup = document.getElementById('cart-popup');
-        const overlay = document.getElementById('overlay'); // Get the overlay element
-        cartPopup.style.width = '450px';
-        overlay.style.display = 'block'; // Hide the overlay
-    }
-
-    function hideCartPopup() {
-        console.log('hideCartPopup() function is triggered');
-        const cartPopup = document.getElementById('cart-popup');
-        const overlay = document.getElementById('overlay'); // Get the overlay element
-        cartPopup.style.width = '0';
-        overlay.style.display = 'none'; // Hide the overlay
-    }
-
-    function checkout() {
-        console.log('checkout() function is triggered');
-        window.location.href = '/checkout';
-    }
-
-    function searchBooks() {
-        const catalogueSection = document.querySelector('.section-body');
-        const searchInput = document.getElementById('searchInput').value;
-
-        $.ajax({
-            url: 'https://www.googleapis.com/books/v1/volumes',
-            method: 'GET',
-            data: { q: searchInput, maxResults: 40},
-            success: function (data) {
-                catalogueSection.style.display = 'none';
-                displaySearchResults(data);
-            },
-            error: function (error) {
-                console.error('Error searching for books:', error);
+        <script>
+            function toggleNav() {
+                const navPopup = document.getElementById('nav-popup');
+                const navbarContainer = document.getElementById('navbar-container');
+                if (navPopup.style.width === '0px' || navPopup.style.width === '') {
+                    // Show the navigation bar
+                    navPopup.style.width = '250px';
+                    navPopup.style.left = '0';
+                    navbarContainer.style.left = '0';
+                } else {
+                    // Hide the navigation bar
+                    navPopup.style.width = '0';
+                    navPopup.style.left = '-250px';
+                    navbarContainer.style.left = '-250px';
+                }
             }
-        });
-    }
 
-    function displaySearchResults(results) {
-        const searchResultsContainer = document.querySelector('.search-results');
-        console.log('Results:', results);
+            function toggleSearch() {
+                const searchInput = document.getElementById('searchInput');
 
-        if (results.items && results.items.length === 0) {
-            searchResultsContainer.innerHTML = '<p>No results found</p>';
-        } else if (results.items) {
-            searchResultsContainer.innerHTML = '';
+                if (searchInput.style.display === '' || searchInput.style.display === 'none') {
+                    searchInput.style.display = 'block';
+                } else {
+                    searchInput.style.display = 'none';
+                }
+            }
 
-            results.items.forEach((item) => {
-                if (item.accessInfo.viewability !== 'NO_PAGES' && item.volumeInfo.authors) {
-                    const resultBlock = document.createElement('div');
-                    resultBlock.classList.add('search-result');
-                    searchResultsContainer.appendChild(resultBlock);
+            window.onload = displayCart;
 
-                    const thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : '/images/book-cover-coming-soon.png';
-                    const authors = Array.isArray(item.volumeInfo.authors) ? item.volumeInfo.authors.join(', ') : item.volumeInfo.authors;
-                    const pubDate = item.volumeInfo.publishedDate ? item.volumeInfo.publishedDate : 'Unknown published date'
+            function addToCart(title, coverImageUrl, price) {
 
-                    resultBlock.innerHTML = `
-                        <img src="${thumbnail}" alt="Book Cover">
-                        <h3>${item.volumeInfo.title}</h3>
-                        <p id="authors">${authors}</p>
-                        <p>${pubDate}</p>
+                if (localStorage.getItem('freshStart')) {
+                    // If it's the first run, clear the cart
+                    localStorage.clear();
+
+                    // Set the 'freshStart' flag to true
+                    localStorage.setItem('freshStart', 'true');
+                }
+
+                // Retrieve the existing cart items
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Check if the item is already in the cart
+                const existingItem = cart.find(item => item.title === title);
+
+                if (!existingItem) {
+                    // If it's a new item, add it to the cart
+                    const item = { title, coverImageUrl, price };
+                    cart.push(item);
+                }
+
+                // Store the updated cart back in local storage
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Display the cart
+                displayCart();
+            }
+
+            function displayCart() {
+                const cartItemsContainer = document.getElementById('cart-items-container');
+                const totalElement = document.getElementById('total-element');
+
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                let totalPrice = 0;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p>You have no books in your cart</p> ';
+                } else {
+                    cartItemsContainer.innerHTML = ''; // Clear previous items
+                    cart.forEach((item, index) => {
+                        const cartItem = document.createElement('div');
+                        cartItem.innerHTML = `
+                        <span>${index + 1}.</span>
+                        <img src="${item.coverImageUrl}" alt="Book Cover">
+                        <span>${item.title}</span>
+                        <span>$${item.price}</span>
                         `;
-
-                    resultBlock.addEventListener('click', function () {
-                        window.location.href = `/description?title=${item.volumeInfo.title}&author=${item.volumeInfo.authors.join(', ')}`;
+                        totalPrice += parseFloat(item.price);
+                        cartItemsContainer.appendChild(cartItem);
                     });
                 }
-            });
-        }
-    }
-</script>
-</body>
+
+                totalElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+
+                // Show the cart-popup
+                showCartPopup();
+            }
+
+            function toggleCartPopup() {
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay');
+                if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
+                    // Show the cart pop-up bar
+                    cartPopup.style.width = '450px';
+                    overlay.style.display = 'block';
+                } else {
+                    // Hide the cart pop-up bar
+                    const cartPopup = document.getElementById('cart-popup');
+                    const overlay = document.getElementById('overlay'); // Get the overlay element
+                    cartPopup.style.width = '0';
+                    overlay.style.display = 'none';
+                }
+            }
+
+            function showCartPopup() {
+                console.log('showCartPopup() function is triggered');
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay'); // Get the overlay element
+                cartPopup.style.width = '450px';
+                overlay.style.display = 'block'; // Hide the overlay
+            }
+
+            function hideCartPopup() {
+                console.log('hideCartPopup() function is triggered');
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay'); // Get the overlay element
+                cartPopup.style.width = '0';
+                overlay.style.display = 'none'; // Hide the overlay
+            }
+
+            function checkout() {
+                console.log('checkout() function is triggered');
+                window.location.href = '/checkout';
+            }
+
+            function searchBooks() {
+                const catalogueSection = document.querySelector('.section-body');
+                const searchInput = document.getElementById('searchInput').value;
+
+                $.ajax({
+                    url: 'https://www.googleapis.com/books/v1/volumes',
+                    method: 'GET',
+                    data: { q: searchInput, maxResults: 40},
+                    success: function (data) {
+                        catalogueSection.style.display = 'none';
+                        displaySearchResults(data);
+                    },
+                    error: function (error) {
+                        console.error('Error searching for books:', error);
+                    }
+                });
+            }
+
+            function displaySearchResults(results) {
+                const searchResultsContainer = document.querySelector('.search-results');
+                console.log('Results:', results);
+
+                if (results.items && results.items.length === 0) {
+                    searchResultsContainer.innerHTML = '<p>No results found</p>';
+                } else if (results.items) {
+                    searchResultsContainer.innerHTML = '';
+
+                    results.items.forEach((item) => {
+                        if (item.accessInfo.viewability !== 'NO_PAGES' && item.volumeInfo.authors) {
+                            const resultBlock = document.createElement('div');
+                            resultBlock.classList.add('search-result');
+                            searchResultsContainer.appendChild(resultBlock);
+
+                            const thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : '/images/book-cover-coming-soon.png';
+                            const authors = Array.isArray(item.volumeInfo.authors) ? item.volumeInfo.authors.join(', ') : item.volumeInfo.authors;
+                            const pubDate = item.volumeInfo.publishedDate ? item.volumeInfo.publishedDate : 'Unknown published date'
+
+                            resultBlock.innerHTML = `
+                                <img src="${thumbnail}" alt="Book Cover">
+                                <h3>${item.volumeInfo.title}</h3>
+                                <p id="authors">${authors}</p>
+                                <p>${pubDate}</p>
+                                `;
+
+                            resultBlock.addEventListener('click', function () {
+                                window.location.href = `/description?title=${item.volumeInfo.title}&author=${item.volumeInfo.authors.join(', ')}`;
+                            });
+                        }
+                    });
+                }
+            }
+
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+
+            function navigateTo(url) {
+                // Handle navigation logic, e.g., redirect to the specified URL
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
+        </script>
+    </body>
 </html>
