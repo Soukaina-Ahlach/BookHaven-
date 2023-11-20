@@ -234,17 +234,22 @@ public class UserController {
 
             if (username == null) {
                 username = "GUEST";
-                orderDetails.setUsername(username);
             }
-            else {
-                User user = userRepository.findByUsername(username);
 
-                orderDetails.setUsername(username);
+            orderDetails.setUsername(username);
+            orderDetails.setCreatedAt(LocalDateTime.now());
+
+            if (username.equals("GUEST")) {
+                // For non-logged-in users (guests), set email and phone directly from orderDetails
+                orderDetails.setEmail(orderDetails.getEmail());
+                orderDetails.setPhoneNumber(orderDetails.getPhoneNumber());
+
+            } else {
+                // If the user is logged in, retrieve user details
+                User user = userRepository.findByUsername(username);
                 orderDetails.setEmail(user.getEmail());
                 orderDetails.setPhoneNumber(user.getPhoneNumber());
             }
-            orderDetails.setCreatedAt(LocalDateTime.now());
-
             orderDetailsRepository.save(orderDetails);
             return ResponseEntity.ok("Order details saved successfully");
         } catch (Exception e) {
