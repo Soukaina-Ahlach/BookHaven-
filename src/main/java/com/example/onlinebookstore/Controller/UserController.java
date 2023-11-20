@@ -231,17 +231,24 @@ public class UserController {
 
         try {
             String username = (String) session.getAttribute("username");
-            User user = userRepository.findByUsername(username);
 
-            orderDetails.setUsername(username);
-            orderDetails.setEmail(user.getEmail());
-            orderDetails.setPhoneNumber(user.getPhoneNumber());
+            if (username == null) {
+                username = "GUEST";
+                orderDetails.setUsername(username);
+            }
+            else {
+                User user = userRepository.findByUsername(username);
+
+                orderDetails.setUsername(username);
+                orderDetails.setEmail(user.getEmail());
+                orderDetails.setPhoneNumber(user.getPhoneNumber());
+            }
             orderDetails.setCreatedAt(LocalDateTime.now());
-            // You can use the OrderDetailsRepository to save the order details
+
             orderDetailsRepository.save(orderDetails);
             return ResponseEntity.ok("Order details saved successfully");
         } catch (Exception e) {
-            // Handle exceptions appropriately (e.g., log the error)
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving order details");
         }
 
