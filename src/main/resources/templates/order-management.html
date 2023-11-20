@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                 <!-- Iterate over order details and display them -->
-                <tr th:each="order : ${orderList}" id="order-list-item">
+                <tr th:each="order : ${orderList}" class="order-list-item">
                     <td th:text="${order.orderNumber}"></td>
                     <td th:text="${order.username}"></td>
                     <td th:text="${order.itemCount}"></td>
@@ -151,26 +151,29 @@
         }
         function showOrderDetails(orderNumber) {
             const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
             console.log("SHOWING ORDER DETAILS....");
 
             const modal = document.getElementById('orderDetailsModal');
             const modalContent = document.getElementById('modalContent');
             const closeButton = document.getElementById('closeButton');
 
+            Promise.all([
+                fetch(`/getOrderDetails?orderNumber=${orderNumber}`)
+                    .then(response => response.json()),
+                Promise.resolve(JSON.parse(localStorage.getItem('orderHistory')) || [])
+            ])
+            .then(([orderDetails, orderHistory]) => {
+                console.log('Order History:', orderHistory);
+                const orderDetail = orderHistory.find(order => order.orderNumber === orderNumber);
 
-            fetch(`/getOrderDetails?orderNumber=${orderNumber}`)
-                .then(response => response.json())
-                .then(orderDetails => {
-
+                if (orderDetail) {
                     const content = document.createElement('div');
                     content.innerHTML = `
                     <h2>Order Details</h2>
                     <p>Username: ${orderDetails.username}</p>
                     <p>Email: ${orderDetails.email}</p>
-                    <p>Phone Number: ${orderInfo.phone}</p>
-                    <p>Address: ${orderInfo.address}, ${orderInfo.city}</p>
+                    <p>Phone Number: ${orderDetail.phone}</p>
+                    <p>Address: ${orderDetail.address}, ${orderDetail.city}</p>
                     <p>Order No: ${orderNumber}</p>
                     <h3>Ordered Items:</h3>
                 `;
@@ -188,7 +191,7 @@
                 `;
 
                     const tbody = document.createElement('tbody');
-                    cart.forEach(item => {
+                    orderDetail.items.forEach(item => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                         <td><img src="${item.coverImageUrl}" width="90"></td>
@@ -211,21 +214,25 @@
                     orderSummaryContainer.appendChild(shippingElement);
 
                     const totalElement = document.createElement('p');
-                    const totalPrice = cart.reduce((acc, item) => acc + parseFloat(item.price), 0);
+                    const totalPrice = orderDetail.items.reduce((acc, item) => acc + parseFloat(item.price), 0);
                     totalElement.textContent = `Total: $${(totalPrice + 3.99).toFixed(2)}`;
                     orderSummaryContainer.appendChild(totalElement);
 
                     content.appendChild(orderSummaryContainer);
 
-                    // Set the content
                     modalContent.innerHTML = '';
                     modalContent.appendChild(content);
 
                     modal.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error fetching order details', error);
-                });
+
+                }
+                else {
+                    console.error(`Order details not found for order number: ${orderNumber}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching order details', error);
+            });
 
             // Close modal when close button is clicked
             closeButton.onclick = function () {
