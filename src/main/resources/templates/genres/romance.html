@@ -6,7 +6,7 @@
         <title>Romantic Books</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
         <link th:href="@{/css/genres.css}" rel="stylesheet" type="text/css">
     </head>
@@ -21,36 +21,39 @@
             <section>
                 <div th:replace="~{layout::search-results}"></div>
             </section>
-            <div class="gallery-main">
-                <!-- Romance -->
-                <div class="Romance" id="Romance">
-                    <h2 class="genres-h2">Romance</h2>
-                    <div class="gallery">
-                        <div class="image-holder" th:each="book : ${genreBooks}">
-                            <a th:href="@{/description(title=${book.title}, author=${book.author})}">
-                                <img th:src="${book.coverImageUrl}" alt="book cover">
-                            </a>
-                            <div class="desc">
-                                <h3 th:text="${book.title}"></h3>
-                                <p th:text="${book.author}"></p>
-                                <p th:text="'$' + ${book.price}"></p>
-                                <button
-                                        th:book-title="${book.title}"
-                                        th:book-thumbnail="${book.coverImageUrl}"
-                                        th:book-price="${book.price}"
-                                        onclick="addToCart(this.getAttribute('book-title'),
+            <section class="section-body">
+                <div class="gallery-main">
+                    <!-- Romance -->
+                    <div class="Romance" id="Romance">
+                        <h2 class="genres-h2">Romance</h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${genreBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
                                                                 this.getAttribute('book-thumbnail'),
                                                                 this.getAttribute('book-price'));">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                </button>
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
             <section>
+                <div id="overlay" class="overlay"></div>
                 <div class="btn">
-                    <a th:href="@{/catalogue}">Back <i class="fa fa-arrow-right"></i></a>
+                    <a th:href="@{/catalogue/romance}">Back <i class="fa fa-arrow-right"></i></a>
                 </div>
             </section>
             <section>
@@ -232,6 +235,32 @@
                         }
                     });
                 }
+            }
+
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+
+            function navigateTo(url) {
+                // Handle navigation logic, e.g., redirect to the specified URL
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
             }
         </script>
     </body>
