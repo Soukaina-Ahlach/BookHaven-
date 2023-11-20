@@ -104,6 +104,7 @@
                 if (data === 'Order details saved successfully') {
                     const orderNumber = orderDetails.orderNumber;
                     localStorage.setItem('orderDetailsSaved', orderNumber);
+                    moveCartToOrderHistory(orderDetails);
                     document.dispatchEvent(new CustomEvent('orderDetailsSaved', { detail: orderNumber }));
                     console.log('Order details saved successfully');
                 } else {
@@ -114,6 +115,32 @@
                 console.error('Error saving order details', error);
             });
         }
+
+        function moveCartToOrderHistory(orderDetails) {
+
+            // Retrieve the existing order history
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+            // Retrieve the current cart items
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderNumber = orderDetails.orderNumber;
+
+            // Save the cart items to the order history
+            orderHistory.push({
+                orderNumber,
+                items: cart,
+                address: orderDetails.address,
+                city: orderDetails.city,
+                phone: orderDetails.phone,
+            });
+
+            // Clear the current cart
+            localStorage.removeItem('cart');
+
+            // Store the updated order history back in local storage
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+        }
+
 
         function displayOrderConfirmation() {
             const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
@@ -151,6 +178,9 @@
                 orderNumber: orderNumber,
                 username: orderInfo.fullName,
                 itemCount: cart.length,
+                address: orderInfo.address,
+                city: orderInfo.city,
+                phone: orderInfo.phone,
                 // Add any other details you want to store
             };
 
