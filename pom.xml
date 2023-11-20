@@ -103,6 +103,11 @@
 			<artifactId>struts-core</artifactId>
 			<version>1.3.8</version>
 		</dependency>
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>24.4.0-beta.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
