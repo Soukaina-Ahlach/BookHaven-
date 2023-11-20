@@ -36,11 +36,11 @@ thead {
     color: #fff; /* White text color for headers */
 }
 
-tbody tr#order-list-item:nth-child(even) {
+tbody tr:nth-child(even) {
     background-color: #f9f9f9; /* Alternate row background color */
 }
 
-tbody tr#order-list-item:hover{
+body > div.container > table > tbody > tr:hover{
     cursor: pointer;
     background-color: #999999;
 }
