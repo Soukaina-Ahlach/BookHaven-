@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile Information</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+        <link rel="stylesheet" th:href="@{/css/profile-info.css}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="leftbox">
+                <nav>
+                    <a href="#" class="active">
+                        <i class="fa fa-user"></i> Profile Information
+                    </a>
+                    <a onclick="navigateTo('/index/my-orders')">
+                        <i class="fa fa-store"></i> Orders
+                    </a>
+                    <a onclick="navigateTo('/index/my-wishlist')">
+                        <i class="fa fa-heart"></i> Wish List
+                    </a>
+                    <a onclick="navigateTo('/index/settings')">
+                        <i class="fa fa-gear"></i> Settings
+                    </a>
+                    <a onclick="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                    </a>
+                </nav>
+            </div>
+            <div class="rightbox">
+                <div class="profile">
+                    <h1>Personal Information</h1>
+
+                    <h2>Full Name</h2>
+                    <p>
+                        <span th:text="${fullName}"></span>
+                        <a th:if="${fullName != null and fullName != ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Update</button>
+                        </a>
+                        <a th:if="${fullName == null or fullName == ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Set</button>
+                        </a>
+                    </p>
+
+                    <h2>Address</h2>
+                    <p>
+                        <span th:text="${address}"></span>
+                        <a th:if="${address != null and address != ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Update</button>
+                        </a>
+                        <a th:if="${address == null or address == ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Set</button>
+                        </a>
+                    </p>
+
+                    <h2>Country</h2>
+                    <p>
+                        <span th:text="${country}"></span>
+                        <a th:if="${country != null and country != ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Update</button>
+                        </a>
+                        <a th:if="${country == null or country == ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Set</button>
+                        </a>
+                    </p>
+
+                    <h2>Phone No</h2>
+                    <p>
+                        <span th:text="${phoneNumber}"></span>
+                        <a th:if="${phoneNumber != null and phoneNumber != ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Update</button>
+                        </a>
+                        <a th:if="${phoneNumber == null or phoneNumber == ''}" th:href="@{/index/settings#informationForm}">
+                            <button class="btn">Set</button>
+                        </a>
+                    </p>
+
+                    <h2>Email</h2>
+                    <p>
+                        <span th:text="${email}"></span>
+                        <a th:href="@{/index/settings#emailForm}">
+                            <button class="btn">Update</button>
+                        </a>
+                    </p>
+
+                    <h2>Password</h2>
+                    <p> ********
+                        <a th:href="@{/index/settings#passwordForm}">
+                            <button class="btn">Change</button>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div class="home-button">
+                <button class="btn" onclick="navigateTo('/index')">HOME</button>
+            </div>
+        </div>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function logout() {
+            window.location.href = '/logout';
+        }
+    </script>
+    </body>
+</html>
