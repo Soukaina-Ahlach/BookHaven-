@@ -11,14 +11,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.time.LocalDateTime;
@@ -166,24 +165,25 @@ public class UserController {
         model.addAttribute("address", user.getAddress());
         model.addAttribute("country", user.getCountry());
         model.addAttribute("email", user.getEmail());
+        model.addAttribute("phoneNumber", user.getPhoneNumber());
 
 
-        return "profile-info";
+        return "profile/profile-info";
     }
 
     @GetMapping("/index/my-orders")
     public String userOrders() {
-        return "orders";
+        return "profile/orders";
     }
 
     @GetMapping("/index/my-wishlist")
     public String userWishList() {
-        return "wishlist";
+        return "profile/wishlist";
     }
 
     @GetMapping("/index/settings")
     public String userSettings() {
-        return "settings";
+        return "profile/settings";
     }
 
     /* ORDER-MANAGEMENT */
@@ -216,11 +216,11 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<OrderDetails> getOrderDetails(@RequestParam String orderNumber) {
         try {
-            // Retrieve order details by order number
+
             OrderDetails orderDetails = orderDetailsRepository.findByOrderNumber(orderNumber);
             return ResponseEntity.ok(orderDetails);
         } catch (Exception e) {
-            // Handle exceptions appropriately (e.g., log the error)
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -277,17 +277,71 @@ public class UserController {
         String username = (String) session.getAttribute("username");
         User currentUser = userRepository.findByUsername(username);
 
-        // Update the user's information
-        currentUser.setFullName(updatedUser.getFullName());
-        currentUser.setAddress(updatedUser.getAddress());
-        currentUser.setCountry(updatedUser.getCountry());
 
-        // Save the updated user to the database
+        if (updatedUser.getFullName() != null && !updatedUser.getFullName().isEmpty()) {
+            currentUser.setFullName(updatedUser.getFullName());
+        }
+
+        if (updatedUser.getAddress() != null && !updatedUser.getAddress().isEmpty()) {
+            currentUser.setAddress(updatedUser.getAddress());
+        }
+
+        if (updatedUser.getCountry() != null && !updatedUser.getCountry().isEmpty()) {
+            currentUser.setCountry(updatedUser.getCountry());
+        }
+
+        if (updatedUser.getPhoneNumber() != null && !updatedUser.getPhoneNumber().isEmpty()) {
+            currentUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
+
         userRepository.save(currentUser);
 
         session.setAttribute("username", currentUser.getUsername());
 
         return "redirect:/index/my-profile";
     }
+
+    @PostMapping("/updateEmail")
+    public String updateEmail(
+            @RequestParam("newEmail") String newEmail,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        String username = (String) session.getAttribute("username");
+        User currentUser = userRepository.findByUsername(username);
+
+        // Check if the new email is not empty
+        if (newEmail != null && !newEmail.isEmpty()) {
+            currentUser.setEmail(newEmail);
+            userRepository.save(currentUser);
+            redirectAttributes.addFlashAttribute("successMessage", "Email updated successfully");
+            return "redirect:/index/my-profile";
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "New email cannot be empty");
+            return "redirect:/index/settings#emailForm";
+        }
+    }
+    @PostMapping("/updatePassword")
+    public String updatePassword(
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword,
+            HttpSession session,
+            RedirectAttributes redirectAttributes
+    ) {
+        String username = (String) session.getAttribute("username");
+        User currentUser = userRepository.findByUsername(username);
+
+        if (passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
+
+            currentUser.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(currentUser);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully");
+            return "redirect:/index/my-profile";
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Current password is incorrect");
+            return "redirect:/index/settings#passwordForm";
+        }
+    }
+
 
 }
