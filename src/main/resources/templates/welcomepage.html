@@ -129,7 +129,6 @@
             }
 
             function startReading() {
-
                 closeModal();
                 window.location.href = '/index';
             }
@@ -229,6 +228,32 @@
                     isScrolling = true;
                 });
             });
+
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+
+            function navigateTo(url) {
+                // Handle navigation logic, e.g., redirect to the specified URL
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
         </script>
 
     </body>
