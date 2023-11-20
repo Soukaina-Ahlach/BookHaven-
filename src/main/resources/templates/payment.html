@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title> Payment Page</title>
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" th:href="@{/css/payment.css}">
 
 </head>
@@ -13,7 +14,7 @@
 <section id="section1">
     <div class="container">
         <h2>Checkout</h2>
-        <form name = "myForm" action="" onsubmit="return validateForm()" method="post" required>
+        <form name = "myForm" onsubmit="return validateForm()" method="post" required>
             <div class="row">
                 <div class="col">
                     <h3 class="title">Shipping Address</h3>
@@ -64,89 +65,71 @@
                         <div id="total-element"></div>
                     </div>
                 </div>
-                <input type="submit" value="Continue to payment information" class="submit-btn" onclick="return validateAndShowSection('section2')">
+                <button type="submit" class="submit-btn" onclick="validateAndInitiateStripe(event)">Continue to Payment Information </button>
             </div>
-        </form>
-    </div>
-</section>
-<section id="section2" style="display: none;">
-    <div class="container">
-        <h2>Card Information</h2>
-        <form id="section2Form" name="myForm2" onsubmit="return validateForm2()">
-            <div class="inputBox">
-                <label th:for="cardNumber">Card Number:</label>
-                <input type="tel" th:id="cardNumber" th:placeholder="'**** **** **** ****'"
-                       oninput="formatCardNumber(this)" pattern="^\d{4} \d{4} \d{4} \d{4}$" required>
-            </div>
-            <div class="inputBox">
-                <label th:for="cardName">Cardholder Name:</label>
-                <input type="text" th:id="cardName" th:placeholder="'John Doe'" pattern="^[A-Za-z]+ [A-Za-z]+$" required>
-            </div>
-            <div class="flex">
-                <div class="inputBox">
-                    <label th:for="expDate">Expiration Date:</label>
-                    <input type="text" th:id="expDate" th:placeholder="'MM/YYYY'"
-                           oninput="formatExpirationDate(this)" pattern="^(0[1-9]|1[0-2])\/\d{4}$" required>
-                </div>
-                <div class="inputBox">
-                    <label th:for="cvv">CVV:</label>
-                    <input type="tel" th:id="cvv" th:placeholder="'123'"
-                           oninput="limitCvvLength(this)" pattern="^\d{3}$" required>
-                </div>
-            </div>
-
-            <h3 class="title">Cards We Accept</h3>
-            <div class="cards-accepted">
-                <img th:src="@{/images/cards.png}" alt="Visa Card, Mastercard, Maestro, Amex">
-            </div>
-            <button type="submit" class="submit-btn" onclick="validateAndPayNow()">Pay now</button>
         </form>
     </div>
 </section>
 <script>
-    function formatCardNumber(input) {
 
-        let value = input.value.replace(/\D/g, '').substring(0, 16);
+    function validateAndInitiateStripe(event) {
+        event.preventDefault();
+        if (validateForm()) {
+            saveOrderInfo();
+            console.log("ALL VALID, MOVING ON");
+            initiateStripeCheckout();
+        }
+    }
+    function initiateStripeCheckout() {
+        // Fetch the total amount from your existing order summary
+        const totalAmount = calculateTotalAmount(); // Replace with your logic
 
-        value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-
-        input.value = value;
+        // Use Stripe.js to create a Checkout Session
+        fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                totalAmount: totalAmount,
+            }),
+        })
+            .then(response => response.json())
+            .then(session => {
+                console.log('Received Session Data:', session);
+                // Redirect to Stripe Checkout
+                if (session.id) {
+                    const stripe = Stripe('pk_test_51OEGlYKi6mRLMJ9OyYIOalqBTfGs7n57EkPZvV32lCA5irkQO6o2ZEAqWdqkoQSYQFzlAbAZqPbtxhMQorcymnyW002VZaNNAy');
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                } else {
+                    console.error('Invalid session data received:', session);
+                    alert('Error during checkout initiation. Please try again.');
+                }
+            })
+            .then(result => {
+                if (result.error) {
+                    // Handle errors during checkout initiation
+                    console.error(result.error.message);
+                    alert('Error during checkout initiation. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error during checkout initiation. Please try again.');
+            });
     }
 
-    function formatExpirationDate(input) {
-        let value = input.value.replace(/\D/g, '').substring(0, 6);
+    function calculateTotalAmount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let totalPrice = 3.99;
 
-        // Add a slash after the user enters 2 digits for the month
-        if (value.length > 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2);
+        if (cart.length > 0) {
+            cart.forEach(item => {
+                totalPrice += parseFloat(item.price);
+            });
         }
 
-        // Validate month (1-12) and year (2023-2030)
-        const month = parseInt(value.substring(0, 2), 10);
-        const year = parseInt(value.substring(3, 7), 10);
-        const currentYear = new Date().getFullYear();
-
-        if (month < 1 || month > 12 || year < currentYear || year > currentYear + 10) {
-            input.setCustomValidity('Invalid expiration date');
-        }
-        // Update the input value
-        input.value = value;
-    }
-
-
-    function limitCvvLength(input) {
-
-        input.value = input.value.substring(0, 3);
-    }
-
-    function showSection(sectionId) {
-        // Hide all sections
-        document.getElementById('section1').style.display = 'none';
-        document.getElementById('section2').style.display = 'none';
-
-        // Show the selected section
-        console.log('showing section ' + sectionId)
-        document.getElementById(sectionId).style.display = 'block';
+        return totalPrice * 100; // Convert to cents for Stripe
     }
 
     function displayOrderSummary() {
@@ -199,38 +182,6 @@
         return true;
     }
 
-    function validateForm2() {
-        const fieldsToValidate = [
-            { name: "cardNumber", message: "Card Number must be filled out" },
-            { name: "cardName", message: "Cardholder Name must be filled out" },
-            { name: "expDate", message: "Expiration Date must be filled out" },
-            { name: "cvv", message: "CVV must be filled out" }
-        ];
-
-        for (let i = 0; i < fieldsToValidate.length; i++) {
-            const field = document.forms["myForm2"][fieldsToValidate[i].name].value;
-            if (field === "" || field === null) {
-                console.log(field + ' was not filled');
-                alert(fieldsToValidate[i].message);
-                return false;
-            }
-        }
-
-
-        console.log('all filled');
-        return true;
-    }
-
-
-    function validateAndShowSection(sectionId) {
-        if (validateForm()) {
-            saveOrderInfo();
-            showSection(sectionId);
-        }
-
-        return false;
-    }
-
     function saveOrderInfo() {
         const orderInfo = {
             fullName: document.getElementById('fname').value,
@@ -243,23 +194,6 @@
         localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
     }
 
-    function payNow() {
-        // You may want to perform any additional payment processing logic here.
-        // For simplicity, let's assume the payment is successful.
-        // Now, navigate to the order confirmation page (order-confirmation.html).
-        console.log("pay now 2")
-        window.location.href = '/checkout/order-confirmation';
-    }
-
-    function validateAndPayNow() {
-        console.log("validate and pay now")
-        if (validateForm2()) {
-            console.log("pay now")
-            payNow();
-        }
-
-        return false;
-    }
 
 </script>
 </body>
