@@ -1,18 +1,28 @@
 package com.example.onlinebookstore.Controller;
 
 import com.example.onlinebookstore.GoogleBooksService;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Price;
+import com.stripe.model.Product;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.PriceCreateParams;
+import com.stripe.param.ProductCreateParams;
+import com.stripe.param.checkout.*;
+
+
 import org.bookhaven.GoogleBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CatalogueController {
@@ -84,6 +94,8 @@ public class CatalogueController {
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     };
 
+    /* CHECKOUT */
+
     @GetMapping("/checkout")
     public String showPaymentPage() {
         return "payment";
@@ -92,6 +104,63 @@ public class CatalogueController {
     @GetMapping("/checkout/order-confirmation")
     public String showConfirmationPage() {
         return "order-confirmation";
+    }
+
+    @GetMapping("/checkout/cancel")
+    public String showCancelPage() {
+        return "cancel";
+    }
+
+    @PostMapping("/create-checkout-session")
+    @ResponseBody
+    public Map<String, String> createCheckoutSession(@RequestBody Map<String, Object> payload) {
+        try {
+            Stripe.apiKey = "sk_test_51OEGlYKi6mRLMJ9OOc33oKWCgPd8VmQr4HLBeDiYhUZgXVAMF0J6jEhPfjlvTiZLaW0vD62fZdlT4rcFwl5YZeaD006HIVyBI8";
+
+            Long totalAmount = ((Number) payload.get("totalAmount")).longValue();
+
+            ProductCreateParams productParams = ProductCreateParams.builder()
+                    .setName("Cart_Books")
+                    .setDescription("This product represents all of the books in the user's shopping cart")
+                    .build();
+
+            Product product = Product.create(productParams);
+
+            PriceCreateParams priceParams = PriceCreateParams.builder()
+                    .setCurrency("usd")
+                    .setProduct(product.getId())
+                    .setUnitAmount(totalAmount)
+                    .build();
+
+            Price price = Price.create(priceParams);
+
+            // Create a Checkout session
+            SessionCreateParams.Builder builder = new SessionCreateParams.Builder();
+            builder.setMode(SessionCreateParams.Mode.PAYMENT);
+            builder.setSuccessUrl("http://localhost:8080/checkout/order-confirmation");
+            builder.setCancelUrl("http://localhost:8080/checkout/cancel");
+            builder.addLineItem(
+                    SessionCreateParams.LineItem.builder()
+                            .setPrice(price.getId())
+                            .setQuantity(1L)
+                            .build()
+            );
+
+            Session session = Session.create(builder.build());
+
+            System.out.println("Stripe Checkout Session ID: " + session.getId());
+            // Return the session ID to the client
+            Map<String, String> response = new HashMap<>();
+            response.put("id", session.getId());
+            return response;
+
+        } catch (StripeException e) {
+            // Handle StripeException
+            e.printStackTrace();
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error during session creation. Please try again.");
+            return errorResponse;
+        }
     }
 }
 
