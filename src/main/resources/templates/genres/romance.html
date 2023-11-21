@@ -132,11 +132,12 @@
                     cart.forEach((item, index) => {
                         const cartItem = document.createElement('div');
                         cartItem.innerHTML = `
-                <span>${index + 1}.</span>
-                <img src="${item.coverImageUrl}" alt="Book Cover">
-                <span>${item.title}</span>
-                <span>$${item.price}</span>
-                `;
+                        <span>${index + 1}.</span>
+                        <img src="${item.coverImageUrl}" alt="Book Cover">
+                        <span>${item.title}</span>
+                        <span>$${item.price}</span>
+                        <span class="cancel-button" onclick="removeFromCart(${index})">X</span>
+                    `;
                         totalPrice += parseFloat(item.price);
                         cartItemsContainer.appendChild(cartItem);
                     });
@@ -147,6 +148,14 @@
                 // Show the cart-popup
                 showCartPopup();
             }
+
+            function removeFromCart(index) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                displayCart();
+            }
+
 
             function toggleCartPopup() {
                 const cartPopup = document.getElementById('cart-popup');
