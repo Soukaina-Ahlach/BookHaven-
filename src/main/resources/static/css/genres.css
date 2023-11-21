@@ -232,6 +232,12 @@ div.desc {
     flex: 1;
 }
 
+.cancel-button {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+}
+
 #total-element {
     margin-top: 15px;
     font-weight: bold;
