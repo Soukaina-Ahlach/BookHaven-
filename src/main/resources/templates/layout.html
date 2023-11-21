@@ -12,7 +12,9 @@
 <header th:fragment="header">
     <nav class="header-nav">
         <div th:fragment="logo" class="logo">
-            <img th:href="@{/}" th:src="@{/images/logo.png}" />
+            <a th:href="@{/}">
+                <img th:href="@{/}" th:src="@{/images/logo.png}" />
+            </a>
         </div>
         <ul>
             <li><a th:href="@{/index}">Home</a></li>
