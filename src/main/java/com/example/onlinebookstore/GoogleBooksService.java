@@ -37,8 +37,6 @@ public List<GoogleBook> searchBooksByGenre(String genre, int maxResults) {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             GoogleBooksApiResponse apiResponse = responseEntity.getBody();
-
-            System.out.println("API Response: " + apiResponse);
             List<GoogleBook> books = new ArrayList<>();
 
             if (apiResponse != null && apiResponse.getItems() != null) {
