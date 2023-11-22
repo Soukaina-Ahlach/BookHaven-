@@ -24,7 +24,15 @@
                             <p th:text="${bookAuthor}"></p>
                             <p th:text="${bookDescription}"></p>
                             <p th:text="'$' + ${bookPrice}"></p>
-                            <!-- Add other book details here -->
+                            <button class="wishlist-button"
+                                    th:book-title="${bookTitle}"
+                                    th:book-thumbnail="${bookThumbnail}"
+                                    th:book-price="${bookPrice}"
+                                    onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                <i class="fas fa-heart" aria-hidden="true"></i>
+                            </button>
                             <button th:book-title="${bookTitle}"
                                     th:book-thumbnail="${bookThumbnail}"
                                     th:book-price="${bookPrice}"
@@ -64,6 +72,33 @@
         }
 
         window.onload = displayCart;
+
+        function addToWishlist(title, coverImageUrl, price) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (!wishlist.includes(title)) {
+                const wishItem = {title, coverImageUrl, price};
+                wishlist.push(wishItem);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                showNotification('Added to wishlist!')
+                console.log("Book saved to wishlist!");
+
+            } else {
+                alert('This book is already in your wishlist.');
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 2500);
+        }
 
         function addToCart(title, coverImageUrl, price) {
 
