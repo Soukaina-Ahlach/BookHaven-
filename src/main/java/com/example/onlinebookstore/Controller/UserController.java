@@ -139,6 +139,11 @@ public class UserController {
         return "unauthorised";
     }
 
+    @GetMapping("/notloggedin")
+    public String notloggedin() {
+        return "notloggedin";
+    }
+
     /* INDEX PAGES */
 
     @ModelAttribute("user")
@@ -158,32 +163,59 @@ public class UserController {
     @GetMapping("/index/my-profile")
     public String userProfile(Model model, HttpSession session) {
 
+        Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
         String username = (String) session.getAttribute("username");
-        User user = userRepository.findByUsername(username);
+        if (loggedIn != null && loggedIn) {
+            User user = userRepository.findByUsername(username);
 
-        model.addAttribute("fullName", user.getFullName());
-        model.addAttribute("address", user.getAddress());
-        model.addAttribute("country", user.getCountry());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("phoneNumber", user.getPhoneNumber());
+            model.addAttribute("fullName", user.getFullName());
+            model.addAttribute("address", user.getAddress());
+            model.addAttribute("country", user.getCountry());
+            model.addAttribute("email", user.getEmail());
+            model.addAttribute("phoneNumber", user.getPhoneNumber());
+
+            return "profile/profile-info";
+        } else {
+            return "redirect:/notloggedin";
+        }
 
 
-        return "profile/profile-info";
     }
 
     @GetMapping("/index/my-orders")
-    public String userOrders() {
-        return "profile/orders";
+    public String userOrders(HttpSession session) {
+
+        Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
+        if (loggedIn != null && loggedIn) {
+            System.out.println("SHOWING ORDER HISTORY PAGE");
+            return "profile/orders";
+        } else {
+            return "redirect:/notloggedin";
+        }
     }
 
     @GetMapping("/index/my-wishlist")
-    public String userWishList() {
-        return "profile/wishlist";
+    public String userWishList(HttpSession session) {
+
+        Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
+        if (loggedIn != null && loggedIn) {
+            System.out.println("SHOWING WISHLIST PAGE");
+            return "profile/wishlist";
+        } else {
+            return "redirect:/notloggedin";
+        }
     }
 
     @GetMapping("/index/settings")
-    public String userSettings() {
-        return "profile/settings";
+    public String userSettings(HttpSession session) {
+
+        Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
+        if (loggedIn != null && loggedIn) {
+            System.out.println("SHOWING SETTINGS PAGE");
+            return "profile/settings";
+        } else {
+            return "redirect:/notloggedin";
+        }
     }
 
     /* ORDER-MANAGEMENT */
