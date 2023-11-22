@@ -1,29 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Poppins:ital,wght@0,100;0,300;0,400;1,200&display=swap');
 body {
   background: -webkit-linear-gradient(right, #ad27f0, #A437DB, #9840c4, #a85dce);
-    overflow: hidden;
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
 .container {
   background: #fff;
   width: 900px;
   height: 700px;
-  margin: 0 auto;
   position: relative;
-  margin-top: 10%;
+  margin: 10% auto 80px;
   box-shadow: 6px 5px 20px rgba(23, 0, 0, 0.5);
+  min-height: 400px;
+  overflow-y: auto;
 }
 
 
 .leftbox {
+  margin-top: 30px;
   float: left;
   top: 5%;
   left: 5%;
   position: absolute;
   width: 25%;
-  height: 700px;
-  background-image: url("image/1.png");
+  height: 470px;
   box-shadow: 3px 3px 10px #A437DB;
   font-family: Arial, sans-serif;
   
@@ -67,36 +68,50 @@ h2 {
     margin-top: 40px;
     margin-bottom: 35px;
     
-  }
-  .settings-content {
-    position: absolute;
-    width: 70%;
-  }
-  nav a {
-    background: rgba(255, 255, 255, 0.5);    
-    padding: 15px 20%; 
-    margin-top: 25px;
-    padding-top: 20px;
+}
+.settings-content {
+  position: absolute;
+  width: 70%;
+}
+nav a {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 15px 20%;
+  margin-top: 25px;
+  padding-top: 20px;
+
+}
+active {
+  color: #390354;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.7);
+}
   
-  }
-  active {
-    color: #390354;
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.7);
-  }
   
+button {
+  background-color: #A437DB;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
   
-  button {
-    background-color: #A437DB;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  button:hover {
-    background-color: #9840c4;
-  }
+button:hover {
+  background-color: #9840c4;
+}
+
+.home-button {
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+
+.home-button button {
+  font-size: 20px;
+  padding: 15px 30px;
+  display: block;
+  margin-left: 700px;
+}
