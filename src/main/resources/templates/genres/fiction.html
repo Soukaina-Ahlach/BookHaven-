@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Romantic Books</title>
+        <title>Fiction Books</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -35,6 +35,15 @@
                                 <h3 th:text="${book.title}"></h3>
                                 <p th:text="${book.author}"></p>
                                 <p th:text="'$' + ${book.price}"></p>
+                                <button class="wishlist-button"
+                                        th:book-title="${book.title}"
+                                        th:book-thumbnail="${book.coverImageUrl}"
+                                        th:book-price="${book.price}"
+                                        onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                    <i class="fas fa-heart" aria-hidden="true"></i>
+                                </button>
                                 <button
                                         th:book-title="${book.title}"
                                         th:book-thumbnail="${book.coverImageUrl}"
@@ -88,6 +97,33 @@
             }
 
             window.onload = displayCart;
+
+            function addToWishlist(title, coverImageUrl, price) {
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+                if (!wishlist.includes(title)) {
+                    const wishItem = {title, coverImageUrl, price};
+                    wishlist.push(wishItem);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    showNotification('Added to wishlist!')
+                    console.log("Book saved to wishlist!");
+
+                } else {
+                    alert('This book is already in your wishlist.');
+                }
+            }
+
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 2500);
+            }
 
             function addToCart(title, coverImageUrl, price) {
 
