@@ -85,8 +85,19 @@
             <p class="font-weight-bold mb-0">Thank you for shopping with us and placing your trust in our products.</p>
             <span>BookHaven Team</span>
         </div>
+        <div id="redirectModal" class="modal">
+            <div class="modal-content">
+                <p>Redirecting to home page in a few seconds...</p>
+            </div>
+        </div>
     </div>
     <script>
+        function redirectToHomePage() {
+            setTimeout(function () {
+                window.location.href = '/index';
+            }, 6000);
+        }
+
         function sendOrderDetailsToServer(orderDetails) {
             fetch('/saveOrder', {
                 method: 'POST',
@@ -211,7 +222,10 @@
         }
 
         console.log("window bout to be displayed")
-        window.onload = displayOrderConfirmation;
+        window.onload = function () {
+            displayOrderConfirmation();
+            redirectToHomePage();
+        };
 
         function generateOrderNumber() {
 
