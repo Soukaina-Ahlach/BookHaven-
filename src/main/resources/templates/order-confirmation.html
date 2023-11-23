@@ -105,6 +105,7 @@
                     const orderNumber = orderDetails.orderNumber;
                     localStorage.setItem('orderDetailsSaved', orderNumber);
                     moveCartToOrderHistory(orderDetails);
+                    sendSmsNotification(orderDetails.phone);
                     document.dispatchEvent(new CustomEvent('orderDetailsSaved', { detail: orderNumber }));
                     console.log('Order details saved successfully');
                 } else {
@@ -141,6 +142,28 @@
             localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
         }
 
+        function sendSmsNotification(phoneNumber) {
+            fetch('/send-sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phoneNumber: phoneNumber,
+                }),
+            })
+                .then(response => {
+                    console.log('SMS notification response status:', response.status);
+                    console.log('SMS notification response headers:', response.headers);
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('SMS notification response:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending SMS notification:', error);
+                });
+        }
 
         function displayOrderConfirmation() {
             const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
