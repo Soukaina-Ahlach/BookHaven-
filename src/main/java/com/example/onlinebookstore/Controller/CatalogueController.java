@@ -9,6 +9,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.PriceCreateParams;
 import com.stripe.param.ProductCreateParams;
 import com.stripe.param.checkout.*;
+import com.example.onlinebookstore.TwilioService;
 
 
 import org.bookhaven.GoogleBook;
@@ -30,6 +31,11 @@ public class CatalogueController {
     @Autowired
     private GoogleBooksService googleBooksService;
 
+    private final TwilioService twilioService;
+
+    public CatalogueController(TwilioService twilioService) {
+        this.twilioService = twilioService;
+    }
     @GetMapping("/catalogue")
     public String catalogue(Model model) {
 
@@ -160,6 +166,20 @@ public class CatalogueController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Error during session creation. Please try again.");
             return errorResponse;
+        }
+
+    }
+    @PostMapping("/send-sms")
+    public ResponseEntity<String> sendSms(@RequestBody Map<String, String> payload) {
+        String phoneNumber = payload.get("phoneNumber");
+
+        try {
+            twilioService.sendSms(phoneNumber,
+                    "Your order with BookHaven has been confirmed. Thank you for shopping with us!");
+            return new ResponseEntity<>("SMS notification sent successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error sending SMS notification", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
