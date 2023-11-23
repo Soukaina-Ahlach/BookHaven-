@@ -125,6 +125,21 @@
                 }, 2500);
             }
 
+            function showSubscribeNotification(message) {
+                const inputValue = document.getElementById('subscribe-input').value.trim();
+
+                if (inputValue !== '') {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.textContent = message;
+
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 2500);
+                }
+            }
             function addToCart(title, coverImageUrl, price) {
 
                 if (localStorage.getItem('freshStart')) {
