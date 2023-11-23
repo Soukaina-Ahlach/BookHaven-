@@ -61,4 +61,17 @@ body {
     font-size: 13px;
 }
 
+#redirectModal {
+    position: fixed;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: peru;
+    color: black;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
 
