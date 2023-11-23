@@ -91,13 +91,47 @@
                         <button type="submit">Save Changes</button>
                         <button type="button" onclick="cancelChanges()">Cancel</button>
                     </form>
+                    <button id="deleteAccountBtn" onclick="showDeleteAccountModal()" style="background-color: red">Delete Account</button>
                 </div>
             </div>
             <div class="home-button">
+                <div id="deleteAccountModal" class="modal" style="display: none">
+                    <div class="modal-content">
+                        <p>Are you sure you want to delete your account?</p>
+                        <button onclick="deleteAccount()" style="background-color: red">Delete Now</button>
+                        <button onclick="cancelDelete()">Cancel</button>
+                    </div>
+                </div>
                 <button class="btn" onclick="navigateTo('/index')">HOME</button>
             </div>
         </div>
         <script>
+
+            function showDeleteAccountModal() {
+                const modal = document.getElementById("deleteAccountModal");
+                modal.style.display = "block";
+            }
+
+            function deleteAccount() {
+                fetch('/deleteAccount', {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/';
+                        } else {
+                            console.error('Error deleting account');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            function cancelDelete() {
+                const modal = document.getElementById("deleteAccountModal");
+                modal.style.display = "none";
+            }
             function savePasswordChanges() {
                 const newPassword = document.getElementById("newPassword").value;
                 const confirmPassword = document.getElementById("confirmPassword").value;
