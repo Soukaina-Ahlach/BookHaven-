@@ -375,5 +375,27 @@ public class UserController {
         }
     }
 
+    @PostMapping("/deleteAccount")
+    public ResponseEntity<String> deleteAccount(HttpSession session, RedirectAttributes redirectAttributes) {
+        String username = (String) session.getAttribute("username");
+
+        if (username == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            userRepository.delete(user);
+
+            session.invalidate();
+
+            return ResponseEntity.ok("Account deleted successfully");
+        } else {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
+    }
+
 
 }
