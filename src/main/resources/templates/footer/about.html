@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About us</title>
+        <link rel="stylesheet" th:href="@{/css/layout.css}">
+        <link rel="stylesheet" th:href="@{/css/about.css}">
+    </head>
+    <body>
+        <div class="about-page-content">
+            <section th:replace="~{layout::header}"></section>
+            <div class="about-section">
+                <div class="inner-container">
+                    <h1>About Us</h1>
+                    <div class="text">
+                        <p>
+                            BookHaven is an immersive online bookstore that caters to the literary needs and passions of book enthusiasts worldwide.
+                            Our virtual shelves house a diverse collection of books spanning various genres,
+                            from timeless classics to contemporary bestsellers, ensuring there's something for every reader.
+                        </p>
+                    </div>
+
+                    <div class="text">
+                        <p>
+                            At BookHaven, we believe in the magic of storytelling and aim to create a haven where book lovers can explore,
+                            discover, and indulge in their love for reading. Our user-friendly platform offers an intuitive browsing experience,
+                            allowing customers to effortlessly search for their favorite titles or explore new reads based on interests, themes, or authors.
+                        </p>
+                    </div>
+
+                    <div class="text">
+                        <p>
+                            We take pride in curating a thoughtfully selected library,
+                            featuring not only popular titles but also niche and independent works,
+                            fostering a space for literary exploration and discovery. Whether you're seeking the latest releases,
+                            literary masterpieces, or hidden gems, BookHaven is your gateway to an extensive world of books.
+                        </p>
+                    </div>
+
+                    <div class="text">
+                        <p>
+                            With a commitment to exceptional customer service, we strive to provide a seamless shopping experience,
+                            offering convenient shipping options and personalized recommendations.
+                            Additionally, BookHaven supports community engagement through book clubs, author spotlights, and reader discussions,
+                            fostering a vibrant online community of book aficionados.
+                        </p>
+                    </div>
+
+                    <div class="text">
+                        <p>
+                            Join us at BookHaven and embark on a journey through the boundless realm of literature,
+                            where every page turned unveils new adventures, knowledge, and inspiration.
+                            Welcome to your haven for all things books.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <section th:replace="~{layout::footer}"></section>
+        </div>
+        <script>
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
+
+            function showSubscribeNotification(message) {
+                const inputValue = document.getElementById('subscribe-input').value.trim();
+
+                if (inputValue !== '') {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.textContent = message;
+
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 2500);
+                }
+            }
+        </script>
+    </body>
+</html>
