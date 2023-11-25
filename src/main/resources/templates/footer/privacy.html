@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Privacy Policy</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/privacy.css}">
+    </head>
+    <body>
+        <div class="privacy-page-content">
+            <section th:replace="~{layout::header}"></section>
+            <div class="wrapper flex_align_justify">
+                <div class="terms_service">
+                    <div class="tc_item tc_head flex_align_justify">
+                        <div class="icon flex_align_justify">
+                            <ion-icon name="terminal-outline"></ion-icon>
+                        </div>
+                        <div class="text">
+                            <h2>Privacy Policy</h2>
+                            <p>Last updated on 24th November 2023</p>
+                        </div>
+                    </div>
+                    <div class="tc_item tc_body">
+                        <ol>
+                            <li>
+                                <h3>Privacy Policy</h3>
+                                <p>This Privacy Policy describes how BookHaven collects, uses,
+                                    and protects the personal information you provide on our website.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Information Collection and Use</h3>
+                                <p>We collect personal information, such as your name, email address, shipping address,
+                                    and payment details when you make a purchase or create an account on BookHaven.
+                                    We may also collect information about your browsing activities on our site using cookies and similar technologies.
+                                    The information collected is used to process orders, personalize your experience,
+                                    communicate with you, and improve our services.
+                                    We do not sell or rent your personal information to third parties without your consent, except as required by law.
+                                </p>
+                            <li>
+                                <h3>Security</h3>
+                                <p>BookHaven takes reasonable precautions to protect your information.
+                                    We use encryption and secure server protocols to safeguard your data against unauthorized access,
+                                    alteration, disclosure, or destruction.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Data Retention</h3>
+                                <p>We will retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy
+                                    unless a longer retention period is required or permitted by law.
+                                    You may request the deletion of your account and personal information at any time.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Cookies
+                                </h3>
+                                <p>We use cookies and similar tracking technologies to enhance your browsing experience on BookHaven.
+                                    You can manage cookie preferences through your browser settings.
+                                </p>
+                            </li>
+
+                            <li>
+                                <h3>Updates to this Privacy Policy</h3>
+                                <p> BookHaven may update this Privacy Policy from time to time.
+                                    We will notify you of any changes by posting the new Privacy Policy on this page.
+                                </p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <section th:replace="~{layout::footer}"></section>
+        </div>
+        <script>
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
+
+            function showSubscribeNotification(message) {
+                const inputValue = document.getElementById('subscribe-input').value.trim();
+
+                if (inputValue !== '') {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.textContent = message;
+
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 2500);
+                }
+            }
+        </script>
+    </body>
+</html>
