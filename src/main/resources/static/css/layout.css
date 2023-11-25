@@ -140,8 +140,6 @@ nav.header-nav li a:hover {
 
 /* Footer Styles */
 .footer-container {
-    display: flex;
-    justify-content: space-between;
     background: #fff;
     padding: 20px;
     box-shadow: 0 0 10px #A437DB;
@@ -149,6 +147,11 @@ nav.header-nav li a:hover {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.footer-top-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .footer-block {
@@ -160,5 +163,79 @@ nav.header-nav li a:hover {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.box {
+    list-style: none;
+    padding: 0;
+}
+
+.box li {
+    margin-bottom: 10px;
+}
+
+.input-box {
+    display: flex;
+}
+
+.input-box input {
+    margin-right: 10px;
+}
+
+.subscribe-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #f4f4f4;
+    padding: 5px;
+}
+
+.subscribe-text {
+    margin-right: 20px;
+    line-height: 1.6;
+}
+
+#subscribe-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#subscribe-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#subscribe-button:hover {
+    background-color: #45a049;
+}
+.bottom-details {
+    text-align: center;
+    background: #f4f4f4;
+    padding: 10px 0;
+}
+
+.copyright_text {
+    font-size: 12px;
+    color: #555;
+}
+
+.notification {
+    position: fixed;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: lightgreen;
+    color: black;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
 }
 
