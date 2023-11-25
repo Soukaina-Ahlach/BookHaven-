@@ -43,19 +43,15 @@
         <div class="orders">
           <h1>Orders History</h1>
           <div class="order-list">
-            <div class="order-item">
+
+            <div th:if="${not #lists.isEmpty(userOrders)}" th:each="order : ${userOrders}" class="order-item">
               <div class="order-details">
-                <p><strong>Order ID:</strong> 12345</p>
-                <p><strong>Date:</strong> January 1, 2023</p>
-                <p><strong>Total:</strong> $50.00</p>
+                <p><strong>Order ID:</strong> <span th:text="${order.orderNumber}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${order.createdAt}"></span></p>
               </div>
             </div>
-            <div class="order-item">
-              <div class="order-details">
-                <p><strong>Order ID:</strong> 67890</p>
-                <p><strong>Date:</strong> February 15, 2023</p>
-                <p><strong>Total:</strong> $75.00</p>
-              </div>
+            <div th:if="${#lists.isEmpty(userOrders)}">
+              <p>No orders found.</p>
             </div>
           </div>
         </div>
