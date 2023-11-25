@@ -183,11 +183,23 @@ public class UserController {
     }
 
     @GetMapping("/index/my-orders")
-    public String userOrders(HttpSession session) {
+    public String userOrders(Model model, HttpSession session) {
 
         Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
         if (loggedIn != null && loggedIn) {
-            System.out.println("SHOWING ORDER HISTORY PAGE");
+            String username = (String) session.getAttribute("username");
+            User user = userRepository.findByUsername(username);
+
+            System.out.println("Current Username: " + user.getUsername());
+
+            List<OrderDetails> userOrders = orderDetailsRepository.findByUsername(username);
+            System.out.println("User Orders: " + userOrders);
+
+            for (OrderDetails order : userOrders) {
+                System.out.println("Order ID: " + order.getOrderNumber());
+            }
+
+            model.addAttribute("userOrders", userOrders);
             return "profile/orders";
         } else {
             return "redirect:/notloggedin";
