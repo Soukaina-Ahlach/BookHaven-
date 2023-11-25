@@ -71,7 +71,7 @@ body{
 
 .about-section{
     background-size: 55%;
-    background: #fdfdfd url(static/images/logo.png) no-repeat left;
+    background: #fdfdfd url(../images/logo.png) no-repeat left;
     overflow: hidden;
     padding: 100px 0;
 }

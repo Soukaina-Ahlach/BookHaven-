@@ -1,70 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order history</title>
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-    />
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order history</title>
 
-    <link rel="stylesheet" href="/css/orders.css" />
-  </head>
-  <body>
-    <div class="container">
-
-
-      <div class="leftbox">
-        <nav>
-          <a onclick="navigateTo('/index/my-profile')" >
-            <i class="fa fa-user"></i> Profile informations
-          </a>
-
-          <a href="#" class="active">
-            <i class="fa fa-store"></i> Orders
-          </a>
-
-          <a onclick="navigateTo('/index/my-wishlist')">
-            <i class="fa fa-heart"></i> Wish List
-          </a>
-          <a onclick="navigateTo('/index/settings')">
-            <i class="fa fa-gear"></i> Settings
-          </a>
-          <a onclick="logout()">
-            <i class="fa-solid fa-right-from-bracket"></i> Log Out
-          </a>
-        </nav>
-      </div>
-
-      <div class="rightbox">
-        <div class="orders">
-          <h1>Orders History</h1>
-          <div class="order-list">
-
-            <div th:if="${not #lists.isEmpty(userOrders)}" th:each="order : ${userOrders}" class="order-item">
-              <div class="order-details">
-                <p><strong>Order ID:</strong> <span th:text="${order.orderNumber}"></span></p>
-                <p><strong>Date:</strong> <span th:text="${order.createdAt}"></span></p>
-              </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+        <link rel="stylesheet" href="/css/orders.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="leftbox">
+                <nav>
+                    <a onclick="navigateTo('/index/my-profile')" >
+                        <i class="fa fa-user"></i> Profile informations
+                    </a>
+                    <a href="#" class="active">
+                        <i class="fa fa-store"></i> Orders
+                    </a>
+                    <a onclick="navigateTo('/index/my-wishlist')">
+                        <i class="fa fa-heart"></i> Wish List
+                    </a>
+                    <a onclick="navigateTo('/index/settings')">
+                        <i class="fa fa-gear"></i> Settings
+                    </a>
+                    <a onclick="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                    </a>
+                </nav>
             </div>
-            <div th:if="${#lists.isEmpty(userOrders)}">
-              <p>No orders found.</p>
+            <div class="rightbox">
+                <div class="orders">
+                    <h1>Orders History</h1>
+                    <div class="order-list">
+                        <div th:if="${not #lists.isEmpty(userOrders)}" th:each="order : ${userOrders}" class="order-item">
+                            <div class="order-details">
+                                <p><strong>Order ID:</strong> <span th:text="${order.orderNumber}"></span></p>
+                                <p><strong>Date:</strong> <span th:text="${order.createdAt}"></span></p></div>
+                        </div>
+                        <div th:if="${#lists.isEmpty(userOrders)}">
+                            <p>No orders found.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="home-button">
+                <button class="btn" onclick="navigateTo('/index')">HOME</button>
+            </div>
         </div>
-      </div>
-    </div>
-      <script>
-        function navigateTo(url) {
-          window.location.href = url;
-        }
+        <script>
+          function navigateTo(url) {
+            window.location.href = url;
+          }
 
-        function logout() {
-          window.location.href = '/logout';
-        }
-      </script>
-  </body>
+          function logout() {
+            window.location.href = '/logout';
+          }
+        </script>
+    </body>
 </html>

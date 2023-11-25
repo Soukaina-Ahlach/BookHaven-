@@ -1,29 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Poppins:ital,wght@0,100;0,300;0,400;1,200&display=swap');
 body {
   background: -webkit-linear-gradient(right, #ad27f0, #A437DB, #9840c4, #a85dce);
-    overflow: hidden;
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
 .container {
   background: #fff;
   width: 900px;
   height: 700px;
-  margin: 0 auto;
   position: relative;
-  margin-top: 10%;
+  margin: 10% auto 80px;
   box-shadow: 6px 5px 20px rgba(23, 0, 0, 0.5);
+  min-height: 400px;
+  overflow-y: auto;
+  padding-bottom: 50px;
 }
 
 
 .leftbox {
+  margin-top: 30px;
   float: left;
   top: 5%;
   left: 5%;
   position: absolute;
   width: 25%;
-  height: 700px;
-  background-image: url("image/1.png");
+  height: 470px;
   box-shadow: 3px 3px 10px #A437DB;
   font-family: Arial, sans-serif;
   
@@ -57,7 +59,8 @@ nav a:first-child {
 .rightbox {
   float: right;
   width: 65%;
-  height: 100%;
+  min-height: 100%;
+  padding-bottom: 50px;
 }
 
 .orders {
@@ -74,17 +77,10 @@ h1 {
   text-align: center;
 }
 
-
-
-
-
-
-
 nav a {
-  background: rgba(255, 255, 255, 0.5);    
-  padding: 15px 20%; 
+  background: rgba(255, 255, 255, 0.5);
   margin-top: 25px;
-  padding-top: 20px;
+  padding: 20px 20% 15px;
 
 }
 
@@ -95,22 +91,42 @@ nav a {
     border-radius: 5px;
     width: 70%;
     margin: 0 auto; 
-  }
+}
   
-  .order-item {
-    background: #fff;
-    border: 1px solid #ccc;
-    margin: 10px 0;
-    padding: 5px;
-    box-shadow: 3px 3px 10px #A437DB;
-  }
-  
-  .order-details {
-    font-family: 'Poppins', sans-serif;
-    color: #333;
-    font-size: 1.1em;
-    margin: 0;
-    padding: 0;
-    text-align: left; 
-  }
-  
+.order-item {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 5px;
+  box-shadow: 3px 3px 10px #A437DB;
+}
+
+.order-details {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  font-size: 1.1em;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.home-button {
+  position: relative;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #A437DB;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn:hover {
+  background-color: #390354;
+}

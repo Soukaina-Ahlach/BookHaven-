@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -190,15 +191,9 @@ public class UserController {
             String username = (String) session.getAttribute("username");
             User user = userRepository.findByUsername(username);
 
-            System.out.println("Current Username: " + user.getUsername());
-
             List<OrderDetails> userOrders = orderDetailsRepository.findByUsername(username);
-            System.out.println("User Orders: " + userOrders);
 
-            for (OrderDetails order : userOrders) {
-                System.out.println("Order ID: " + order.getOrderNumber());
-            }
-
+            userOrders.sort(Comparator.comparing(OrderDetails::getCreatedAt).reversed());
             model.addAttribute("userOrders", userOrders);
             return "profile/orders";
         } else {
