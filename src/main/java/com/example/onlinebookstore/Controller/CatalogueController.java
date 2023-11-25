@@ -36,6 +36,13 @@ public class CatalogueController {
     public CatalogueController(TwilioService twilioService) {
         this.twilioService = twilioService;
     }
+
+    /**
+     * Display the main catalog page with books categorized by genres.
+     *
+     * @param model Model for rendering data to the view.
+     * @return String representing the view name.
+     */
     @GetMapping("/catalogue")
     public String catalogue(Model model) {
 
@@ -67,6 +74,13 @@ public class CatalogueController {
     }
 
 
+    /**
+     * Display the catalog page for a specific genre.
+     *
+     * @param model Model for rendering data to the view.
+     * @param genre Genre for which to display the catalog.
+     * @return String representing the view name.
+     */
     @GetMapping("/catalogue/{genre}")
     public String genreCatalogue(Model model, @PathVariable String genre) {
         List<GoogleBook> genreBooks = googleBooksService.searchBooksByGenre(genre,40);
@@ -78,6 +92,14 @@ public class CatalogueController {
     }
 
 
+    /**
+     * Display the book description page for a specific book.
+     *
+     * @param model Model for rendering data to the view.
+     * @param title Title of the book.
+     * @param author Author of the book.
+     * @return String representing the view name.
+     */
     @GetMapping("/description")
     public String bookDescription(Model model, @RequestParam String title, @RequestParam String author) {
         GoogleBook book = googleBooksService.getBookByTitleAndAuthor(title, author);
@@ -94,6 +116,12 @@ public class CatalogueController {
         return "book-description";
     }
 
+    /**
+     * Search books based on a query string.
+     *
+     * @param query Query string for searching books.
+     * @return ResponseEntity containing the search results or an error response.
+     */
     @GetMapping("/search")
     public ResponseEntity<List<GoogleBook>> searchBooks(@RequestParam String query) {
         List<GoogleBook> searchResults = googleBooksService.searchBooksByQuery(query);
@@ -102,21 +130,42 @@ public class CatalogueController {
 
     /* CHECKOUT */
 
+    /**
+     * Display the checkout page for making a payment.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/checkout")
     public String showPaymentPage() {
         return "payment";
     }
 
+    /**
+     * Display the order confirmation page after a successful payment.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/checkout/order-confirmation")
     public String showConfirmationPage() {
         return "order-confirmation";
     }
 
+    /**
+     * Display the cancellation page if the user cancels the payment.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/checkout/cancel")
     public String showCancelPage() {
         return "cancel";
     }
 
+    /**
+     * Create a checkout session for making a payment.
+     *
+     * @param payload Payload containing payment information.
+     * @return Map containing the session ID or an error response.
+     */
     @PostMapping("/create-checkout-session")
     @ResponseBody
     public Map<String, String> createCheckoutSession(@RequestBody Map<String, Object> payload) {
@@ -169,6 +218,13 @@ public class CatalogueController {
         }
 
     }
+
+    /**
+     * Send an SMS notification with order details.
+     *
+     * @param payload Payload containing the phone number.
+     * @return ResponseEntity indicating the success or failure of sending the SMS notification.
+     */
     @PostMapping("/send-sms")
     public ResponseEntity<String> sendSms(@RequestBody Map<String, String> payload) {
         String phoneNumber = payload.get("phoneNumber");

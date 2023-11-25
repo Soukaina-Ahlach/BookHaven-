@@ -47,12 +47,25 @@ public class UserController {
         allowedUsers.add("soukaina");
     }
 
+    /**
+     * Constructor for UserController.
+     *
+     * @param userRepository          Repository for managing user data.
+     * @param orderDetailsRepository  Repository for managing order details.
+     * @param passwordEncoder         Encoder for encrypting and verifying passwords.
+     */
     public UserController(UserRepository userRepository, OrderDetailsRepository orderDetailsRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.orderDetailsRepository = orderDetailsRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Serve CSS files from the static resources.
+     *
+     * @param fileName The name of the CSS file.
+     * @return ResponseEntity with the CSS file as a resource.
+     */
     @GetMapping("/css/{fileName:.+}")
     public ResponseEntity<Resource> serveCss(@PathVariable String fileName) {
         Resource resource = new ClassPathResource("static/css/" + fileName);
@@ -61,6 +74,12 @@ public class UserController {
                 .body(resource);
     }
 
+    /**
+     * Serve image files from the static resources.
+     *
+     * @param fileName The name of the image file.
+     * @return ResponseEntity with the image file as a resource.
+     */
     @GetMapping("/images/{fileName:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String fileName) {
         Resource resource = new ClassPathResource("static/images/" + fileName);
@@ -69,6 +88,12 @@ public class UserController {
                 .body(resource);
     }
 
+    /**
+     * Serve JavaScript files from the static resources.
+     *
+     * @param fileName The name of the JavaScript file.
+     * @return ResponseEntity with the JavaScript file as a resource.
+     */
     @GetMapping("/js/{fileName:.+}")
     public ResponseEntity<Resource> serveJs(@PathVariable String fileName) {
         Resource resource = new ClassPathResource("static/js/" + fileName);
@@ -79,6 +104,15 @@ public class UserController {
 
     /* REGISTRATION,LOGIN AND AUTHORISATION */
 
+    /**
+     * Handle user registration.
+     *
+     * @param email    User's email address.
+     * @param username User's chosen username.
+     * @param password User's chosen password.
+     * @param session  HttpSession for managing user sessions.
+     * @return ResponseEntity indicating the success or failure of the registration.
+     */
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(
             @RequestParam("email") String email,
@@ -107,6 +141,14 @@ public class UserController {
         return ResponseEntity.ok("User registered successfully");
     }
 
+    /**
+     * Handle user login.
+     *
+     * @param username User's username for login.
+     * @param password User's password for login.
+     * @param session  HttpSession for managing user sessions.
+     * @return ResponseEntity indicating the success or failure of the login.
+     */
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(
             @RequestParam("loginUsername") String username,
@@ -126,6 +168,12 @@ public class UserController {
         return ResponseEntity.ok("User logged in successfully");
     }
 
+    /**
+     * Handle user logout.
+     *
+     * @param request HttpServletRequest for handling the session.
+     * @return String representing the redirect URL after logout.
+     */
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -135,6 +183,11 @@ public class UserController {
         return "redirect:/"; // Redirect to the welcome page or any other desired page
     }
 
+    /**
+     * Display the unauthorized page.
+     *
+     * @return The unauthorised page view name.
+     */
     @GetMapping("/unauthorised")
     public String unauthorised() {
         return "unauthorised";
@@ -147,20 +200,45 @@ public class UserController {
 
     /* INDEX PAGES */
 
+    /**
+     * Model attribute method to provide a User instance to views.
+     *
+     * @return A new User instance.
+     */
     @ModelAttribute("user")
     public User user() {
         return new User();
     }
+
+    /**
+     * Display the welcome page.
+     *
+     * @return The welcome page view name.
+     */
     @GetMapping("/")
     public String welcome() {
         return "welcomepage";
     }
 
+
+    /**
+     * Display the user index page.
+     *
+     * @return The user index page view name.
+     */
     @GetMapping("/index")
     public String userIndex() {
         return "index";
     }
 
+
+    /**
+     * Display the user profile page.
+     *
+     * @param model   Model for adding attributes.
+     * @param session HttpSession for retrieving user information.
+     * @return The user profile page view name.
+     */
     @GetMapping("/index/my-profile")
     public String userProfile(Model model, HttpSession session) {
 
@@ -183,6 +261,14 @@ public class UserController {
 
     }
 
+
+    /**
+     * Display the user orders page.
+     *
+     * @param model   Model for adding attributes.
+     * @param session HttpSession for retrieving user information.
+     * @return The user orders page view name.
+     */
     @GetMapping("/index/my-orders")
     public String userOrders(Model model, HttpSession session) {
 
@@ -201,6 +287,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Display the user wishlist page.
+     *
+     * @return The user wishlist page view name.
+     */
     @GetMapping("/index/my-wishlist")
     public String userWishList(HttpSession session) {
 
@@ -213,6 +304,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Display the user settings page.
+     *
+     * @return The user settings page view name.
+     */
     @GetMapping("/index/settings")
     public String userSettings(HttpSession session) {
 
@@ -225,21 +321,41 @@ public class UserController {
         }
     }
 
+    /**
+     * Display the shipping and delivery information page.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/shipping-and-delivery")
     public String shippingAndDelivery() {
         return "footer/shipping";
     }
 
+    /**
+     * Display the about us information page.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/about-us")
     public String aboutUs() {
         return "footer/about";
     }
 
+    /**
+     * Display the privacy policy page.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/privacy-policy")
     public String privacyPolicy() {
         return "footer/privacy";
     }
 
+    /**
+     * Display the terms of use page.
+     *
+     * @return String representing the view name.
+     */
     @GetMapping("/terms-of-use")
     public String termsOfUse() {
         return "footer/terms";
@@ -247,6 +363,13 @@ public class UserController {
 
     /* ORDER-MANAGEMENT */
 
+    /**
+     * Display the order management page.
+     *
+     * @param model   Model for adding attributes.
+     * @param session HttpSession for checking user roles.
+     * @return The order management page view name.
+     */
     @GetMapping("/order-management")
     public String orderManagement(Model model, HttpSession session) {
         Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
@@ -262,6 +385,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Get a list of all orders.
+     *
+     * @return List of OrderDetails representing all orders.
+     */
     @GetMapping("/getOrders")
     @ResponseBody
     public List<OrderDetails> getOrders() {
@@ -271,6 +399,12 @@ public class UserController {
         return orderDetailsList;
     }
 
+    /**
+     * Retrieve order details by order number.
+     *
+     * @param orderNumber Order number to identify the order.
+     * @return ResponseEntity containing the order details or an error response.
+     */
     @GetMapping("/getOrderDetails")
     @ResponseBody
     public ResponseEntity<OrderDetails> getOrderDetails(@RequestParam String orderNumber) {
@@ -284,6 +418,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Save order details to the database.
+     *
+     * @param orderDetails OrderDetails object containing order information.
+     * @param session      HttpSession for managing user sessions.
+     * @return ResponseEntity indicating the success or failure of saving order details.
+     */
     @PostMapping( "/saveOrder")
     @ResponseBody
     public ResponseEntity<String> saveOrderDetails(@RequestBody OrderDetails orderDetails, HttpSession session) {
@@ -318,6 +459,13 @@ public class UserController {
 
     }
 
+    /**
+     * Update the status of an order.
+     *
+     * @param orderNumber Order number to identify the order.
+     * @param status      New status for the order.
+     * @return ResponseEntity indicating the success or failure of updating the order status.
+     */
     @PutMapping("/updateOrderStatus")
     public ResponseEntity<String> updateOrderStatus(@RequestParam String orderNumber, @RequestParam String status) {
 
@@ -331,6 +479,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Update user profile information.
+     *
+     * @param updatedUser User object containing updated user information.
+     * @param session     HttpSession for managing user sessions.
+     * @return String representing the redirect URL after updating the profile.
+     */
     @PostMapping("/updateProfile")
     public String updateProfile(@ModelAttribute User updatedUser, HttpSession session) {
         String username = (String) session.getAttribute("username");
@@ -360,6 +515,14 @@ public class UserController {
         return "redirect:/index/my-profile";
     }
 
+    /**
+     * Update user email address.
+     *
+     * @param newEmail           New email address for the user.
+     * @param session            HttpSession for managing user sessions.
+     * @param redirectAttributes RedirectAttributes for adding flash attributes.
+     * @return String representing the redirect URL after updating the email.
+     */
     @PostMapping("/updateEmail")
     public String updateEmail(
             @RequestParam("newEmail") String newEmail,
@@ -379,6 +542,16 @@ public class UserController {
             return "redirect:/index/settings#emailForm";
         }
     }
+
+    /**
+     * Update user password.
+     *
+     * @param currentPassword     Current password for verification.
+     * @param newPassword         New password for the user.
+     * @param session             HttpSession for managing user sessions.
+     * @param redirectAttributes  RedirectAttributes for adding flash attributes.
+     * @return String representing the redirect URL after updating the password.
+     */
     @PostMapping("/updatePassword")
     public String updatePassword(
             @RequestParam("currentPassword") String currentPassword,
@@ -402,6 +575,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Delete user account.
+     *
+     * @param session            HttpSession for managing user sessions.
+     * @param redirectAttributes RedirectAttributes for adding flash attributes.
+     * @return ResponseEntity indicating the success or failure of deleting the account.
+     */
     @PostMapping("/deleteAccount")
     public ResponseEntity<String> deleteAccount(HttpSession session, RedirectAttributes redirectAttributes) {
         String username = (String) session.getAttribute("username");
