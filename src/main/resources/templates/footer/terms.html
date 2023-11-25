@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Terms of Service</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/terms.css}">
+    </head>
+    <body>
+        <div class="terms-page-content">
+            <section th:replace="~{layout::header}"></section>
+            <div class="wrapper flex_align_justify">
+                <div class="terms_service">
+                    <div class="tc_item tc_head flex_align_justify">
+                        <div class="icon flex_align_justify">
+                            <ion-icon name="terminal-outline"></ion-icon>
+                        </div>
+                        <div class="text">
+                            <h2>TERMS OF SERVICE</h2>
+                            <p>Last updated on 27 November 2023 </p>
+                        </div>
+                    </div>
+                    <div class="tc_item tc_body">
+                        <ol>
+                            <li>
+                                <h3>Terms of use</h3>
+                                <p>Welcome to BookHaven!
+                                    By accessing and using our website, you agree to abide by the following terms and conditions.
+                                    Your use of the site is subject to your acceptance of and compliance with these terms.
+                                    Please read them carefully before using BookHaven.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Intellectual property rights</h3>
+                                <p>All content on BookHaven,
+                                    including but not limited to text, graphics, logos, images, audio clips, digital downloads,
+                                    and data compilations, is the property of BookHaven or its content suppliers and is protected by international copyright laws.
+                                    Users are not permitted to reproduce, distribute, display, or create derivative works of any content found on BookHaven without explicit permission.
+                                </p>
+                            <li>
+                                <h3>Prohibited activities</h3>
+                                <p>Users of BookHaven are prohibited from engaging in activities that include but are not limited to:
+
+                                    Violating any applicable laws or regulations.
+                                    Uploading or transmitting viruses or any other malicious code.
+                                    Attempting to gain unauthorized access to our systems or user accounts.
+                                    Engaging in any activity that disrupts, interferes with, or harms the functionality of BookHaven or its users.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Termination clause</h3>
+                                <p>BookHaven reserves the right to terminate or suspend access to its services immediately,
+                                    without prior notice or liability, for any reason whatsoever,
+                                    including without limitation if you breach these terms.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Governing law</h3>
+                                <p>These terms and conditions are governed by and construed in accordance with the laws of Hungary.
+                                    You agree that any legal action or proceeding between BookHaven and you for any purpose concerning these terms
+                                    or the parties' obligations shall be brought exclusively in a court of competent jurisdiction located in Hungary.
+                                </p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <section th:replace="~{layout::footer}"></section>
+        </div>
+        <script>
+            function toggleUserProfilePopup(element) {
+                const popup = document.getElementById('userProfilePopup');
+                popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+                if (popup.style.display === 'block') {
+                    positionPopup(element, popup);
+                }
+            }
+
+            function positionPopup(triggerElement, popupElement) {
+                const triggerRect = triggerElement.getBoundingClientRect();
+
+                popupElement.style.top = `${triggerRect.bottom}px`;
+                popupElement.style.left = `${triggerRect.left}px`;
+            }
+
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+
+            function logout() {
+                window.location.href = '/logout';
+            }
+
+            function showSubscribeNotification(message) {
+                const inputValue = document.getElementById('subscribe-input').value.trim();
+
+                if (inputValue !== '') {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.textContent = message;
+
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 2500);
+                }
+            }
+        </script>
+    </body>
+</html>
