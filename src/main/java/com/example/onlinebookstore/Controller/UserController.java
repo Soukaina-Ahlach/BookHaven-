@@ -218,6 +218,26 @@ public class UserController {
         }
     }
 
+    @GetMapping("/shipping-and-delivery")
+    public String shippingAndDelivery() {
+        return "footer/shipping";
+    }
+
+    @GetMapping("/about-us")
+    public String aboutUs() {
+        return "footer/about";
+    }
+
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy() {
+        return "footer/privacy";
+    }
+
+    @GetMapping("/terms-of-use")
+    public String termsOfUse() {
+        return "footer/terms";
+    }
+
     /* ORDER-MANAGEMENT */
 
     @GetMapping("/order-management")
