@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, String>{
 
     OrderDetails findByOrderNumber(String orderNumber);
+    List<OrderDetails> findByUsername(String username);
 }
