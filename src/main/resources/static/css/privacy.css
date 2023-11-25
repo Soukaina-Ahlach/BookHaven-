@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+:root {
+  --bg-clr: #A437DB;
+  --white: #fff;
+  --primary-text-clr: #212121;
+  --secondary-text-clr: #8c8c8c;
+  --bg-hvr: #A437DB;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+body{
+  background: var(--bg-clr);
+  font-size: 12px;
+}
+
+/* HEADER/FOOTER */
+.privacy-page-content {
+  margin: 0;
+  position: relative;
+  padding: 0 0 170px;
+}
+
+/* Add or update the CSS in your existing file */
+.user-profile {
+  display: flex;
+  flex-direction: column; /* Adjust the flex direction to column */
+  align-items: center;
+  text-align: center; /* Center the text within the container */
+}
+
+.user-profile img {
+  width: 30px; /* Adjust the width to your preference */
+  height: 30px; /* Adjust the height to your preference */
+  border-radius: 50%;
+  margin-bottom: 4px; /* Adjust the margin to create space between the icon and username */
+}
+
+.user-profile span {
+  font-weight: bold;
+  font-size: 14px; /* Adjust the font size to your preference */
+  color: #333; /* Adjust the color to your preference */
+}
+/*POP UP*/
+.popup {
+  display: none;
+  position: fixed;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.popup-content {
+  padding: 20px;
+}
+
+.popup ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup ul li {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center; /* Center the text */
+}
+
+.popup ul li:last-child {
+  border-bottom: none;
+}
+
+.flex_align_justify{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex_align{
+  display: flex;
+  align-items: center;
+}
+
+.wrapper{
+  min-height: 100vh;
+  padding: 0 20px;
+}
+
+.terms_service{
+  width: 500px;
+  max-width: 100%;
+  height: 450px;
+  background: var(--white);
+  border-radius: 3px;
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+  margin-top: 60px;
+}
+
+.terms_service .tc_item{
+  padding: 20px 40px;
+}
+
+.terms_service .tc_head{
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  height: 90px;
+}
+
+.terms_service .tc_head .icon{
+  width: 50px;
+  height: 50px;
+  background: var(--bg-clr);
+  margin-right: 20px;
+  border-radius: 50%;
+  font-size: 18px;
+  color: var(--white);
+}
+
+.terms_service .tc_body{
+  height: calc(100% - 170px);
+  overflow: auto;
+  padding-right: 20px;
+}
+
+.terms_service .tc_body ol li{
+  margin-bottom: 15px;
+}
+
+.terms_service .tc_body ol li h3{
+  margin-bottom: 5px;
+}
+
+.terms_service .tc_foot{
+  box-shadow: 0 -1px 2px rgba(0,0,0,0.15);
+  justify-content: space-between;
+  height: 80px;
+}
+
+.terms_service .tc_foot button{
+  width: 100%;
+  border: 1px solid var(--bg-clr);
+  padding: 10px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.terms_service .tc_foot button.decline_btn{
+  margin-right: 20px;
+  background: var(--white);
+  color: var(--bg-clr);
+}
+
+.terms_service .tc_foot button.accept_btn{
+  background: var(--bg-clr);
+  color: var(--white);
+}
+
+.terms_service .tc_foot button.decline_btn:hover{
+  background: var(--bg-clr);
+  color: var(--white);
+}
+
+.terms_service .tc_foot button.accept_btn:hover{
+  background: var(--bg-hvr);
+  color: var(--white);
+}
