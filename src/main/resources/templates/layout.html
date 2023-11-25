@@ -81,36 +81,48 @@
     <div th:fragment="search-results">
         <div class="search-results" id="searchResults"></div>
     </div>
-    <footer th:fragment="footer" class="sticky-footer">
-        <div class="footer-container">
+<footer th:fragment="footer" class="sticky-footer">
+    <div class="footer-container">
+        <div class="footer-top-container">
             <div class="footer-block" id="quick-help">
                 <h3>QUICK HELP</h3>
                 <ul>
-                    <li><a href="#">Order Status</a></li>
-                    <li><a href="#">Shipping & Delivery</a></li>
-                    <li><a href="#">Returns</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a th:href="@{/index/my-orders}">Order Status</a></li>
+                    <li><a th:href="@{/shipping-and-delivery}">Shipping & Delivery</a></li>
+                    <li><a th:href="@{/shipping-and-delivery#returns}">Returns</a></li>
                 </ul>
             </div>
-            <div class="footer-block" id="shop-by-language">
-                <h3>SHOP BY LANGUAGE</h3>
-                <ul>
-                    <li><a href="#">English Books</a></li>
-                    <li><a href="#">Spanish Books</a></li>
-                    <li><a href="#">French Books</a></li>
-                    <li><a href="#">German Books</a></li>
-                </ul>
-            </div>
-
             <div class="footer-block" id="company-info">
                 <h3>COMPANY INFO</h3>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a th:href="@{/about-us}">About Us</a></li>
+                    <li><a th:href="@{/terms-of-use}">Terms of Use</a></li>
+                    <li><a th:href="@{/privacy-policy}">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-block" id="contact-info">
+                <h3>CONTACT INFORMATION</h3>
+                <ul class="box">
+                    <li><a href="#">4028 Debrecen, Kassai út 26</a></li>
+                    <li><a href="#">(06 52) 512 900</a></li>
+                    <li><a href="#">support@bookhaven.com</a></li>
                 </ul>
             </div>
         </div>
-    </footer>
+        <div class="subscribe-container">
+            <span class="subscribe-text">Subscribe to our newsletter for daily updates</span>
+            <ul class="box input-box">
+                <li><input type="text" placeholder="Enter your email" id="subscribe-input"></li>
+                <li><input type="button" value="Subscribe" id="subscribe-button" onclick="showSubscribeNotification('Subscribed successfully!')"></li>
+            </ul>
+        </div>
+        <div class="bottom-details">
+            <div class="bottom_text">
+                <span class="copyright_text">Copyright &#169; 2023 <a href="#">BookHaven</a>. All rights reserved</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
