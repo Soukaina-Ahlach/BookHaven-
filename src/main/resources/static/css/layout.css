@@ -205,7 +205,7 @@ nav.header-nav li a:hover {
 
 #subscribe-button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #A437DB;
     color: white;
     border: none;
     border-radius: 5px;
@@ -213,7 +213,7 @@ nav.header-nav li a:hover {
 }
 
 #subscribe-button:hover {
-    background-color: #45a049;
+    background-color: #A437DB;
 }
 .bottom-details {
     text-align: center;
@@ -231,7 +231,7 @@ nav.header-nav li a:hover {
     top: 300px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: lightgreen;
+    background-color: #A437DB;
     color: black;
     padding: 8px;
     border-radius: 4px;
