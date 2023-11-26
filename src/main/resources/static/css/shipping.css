@@ -87,6 +87,7 @@ body{
 .wrapper{
   min-height: 100vh;
   padding: 0 20px;
+  margin:70px;
 }
 
 .tc_wrap{
