@@ -2,6 +2,9 @@
     margin: 0;
     position: relative;
     padding: 0 0 170px;
+    background-image: url(../images/bg.png);
+    background-size: cover;
+    background-position: center;
 }
 /* BOOK CATALOGUE TITLE */
 
@@ -30,13 +33,13 @@
     width: 0;
     overflow: hidden;
     position: absolute;
-    height: 100%;
-    background-color: #A437DB;
+    background-color: #c777f2;
     transition: 0.3s;
     padding-top: 60px;
     left: -250px;
-    top: 150px;
+    top: 130px;
     z-index: 1;
+    padding-top:0;
 }
 
 #nav-popup nav {
@@ -69,7 +72,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #A437DB;
+    background-color: #c777f2;
     padding: 20px;
 }
 
@@ -98,7 +101,7 @@
 
 .image-holder img {
     max-width: 100%;
-    height: auto;
+    height: 150px;
 }
 
 .image-holder:hover {
@@ -157,7 +160,8 @@ div.desc {
 }
 
 .btn:hover {
-    background-color: rgb(31, 199, 106);
+    background-color: #A437DB;
+
 }
 
 .image-holder, img {
@@ -238,7 +242,8 @@ ul {
 }
 
 .search-button:hover {
-    background-color: rgb(31, 199, 106);
+    background-color: #A437DB;
+
 }
 
 /* CART STYLES */
@@ -285,7 +290,8 @@ ul {
 
 .cancel-button {
     cursor: pointer;
-    color: red;
+    background-color: #A437DB;
+
     margin-left: 10px;
 }
 
@@ -311,11 +317,11 @@ a.checkout-a {
 }
 
 .checkout-button {
-    background-color: #4CAF50;
+    background-color: #A437DB;
 }
 
 .checkout-a:hover, .checkout-button:hover {
-    background-color: rgb(31, 199, 106);
+    background-color: #c47fe7;
 }
 
 /* Add or update the CSS in your existing file */
@@ -372,7 +378,7 @@ a.checkout-a {
     top: 300px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: lightgreen;
+    background-color: #A437DB;
     color: black;
     padding: 8px;
     border-radius: 4px;
